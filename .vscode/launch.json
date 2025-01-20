@@ -2,6 +2,12 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "command": "npm start",
+            "name": "Run npm start",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
             "name": "Docker: Python - Fastapi",
             "type": "docker",
             "request": "launch",
@@ -9,12 +15,17 @@
             "python": {
                 "pathMappings": [
                     {
-                        "localRoot": "${ai-dev-assistant}",
+                        "localRoot": "${workspaceFolder}",
                         "remoteRoot": "/app"
                     }
                 ],
-                "projectType": "fastapi"
+                "projectType": "fastapi",
+                "module": "uvicorn",
+                "args": [
+                    "app.main:app",
+                    "--reload"
+                ]    
             }
         }
-    ]
+   ]
 }
