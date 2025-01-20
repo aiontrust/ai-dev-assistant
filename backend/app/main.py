@@ -1,5 +1,8 @@
 from fastapi import FastAPI
 from app.api.endpoints import example
+import sys
+print(sys.path)
+
 
 # Initialize FastAPI app
 app = FastAPI()
