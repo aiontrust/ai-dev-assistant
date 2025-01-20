@@ -11,6 +11,9 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
+# Add the application and backend directories to the PYTHONPATH environment variable
+ENV PYTHONPATH=/app:/app/backend
+
 # Install pip requirements
 COPY requirements.txt /app
 RUN pip install --no-cache-dir --upgrade pip && \
