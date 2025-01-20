@@ -1,6 +1,6 @@
 from fastapi import APIRouter, WebSocket, HTTPException
 from fastapi.responses import HTMLResponse
-from app.models import GPTRequest
+from app.models.example_model import GPTRequest
 import openai
 
 # Initialize FastAPI router
