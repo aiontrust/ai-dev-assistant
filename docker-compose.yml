@@ -21,7 +21,7 @@ services:
     build:
       context: ./frontend
     ports:
-      - "8000:8000"
+      - "3000:3000"
     command: [ "npm", "start" ]
     volumes:
       - ./frontend:/app
