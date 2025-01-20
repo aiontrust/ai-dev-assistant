@@ -1,5 +1,8 @@
 {
   "python.pythonPath": "venv/bin/python",
   "editor.formatOnSave": true,
-  "files.autoSave": "afterDelay"
+  "files.autoSave": "afterDelay",
+  "python.analysis.extraPaths": [
+    "./backend"
+  ]
 }
