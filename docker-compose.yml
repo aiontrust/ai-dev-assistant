@@ -16,6 +16,15 @@ services:
       - ./backend:/app
     depends_on:
       - frontend
+  
+  python-executor:
+    image: python:3.9
+    volumes:
+      - ./backend:/app
+  cpp-executor:
+    image: gcc:latest
+    volumes:
+      - ./backend:/app
 
   frontend:
     build:
