@@ -1,5 +1,6 @@
 from fastapi import APIRouter, UploadFile, File
-from app.services.speech_to_text import convert_audio_to_text
+from services.speech_to_text import convert_audio_to_text
+import os
 
 router = APIRouter()
 
