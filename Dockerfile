@@ -1,27 +1,21 @@
 # Stage 1: Build the frontend
-FROM node:14-alpine as frontend-build
+FROM node:14-alpine AS FRONTEND-BUILD
 
 WORKDIR /app/frontend
 
+# Copy package.json and install dependencies
 COPY frontend/package*.json ./
 RUN npm install
 
-COPY frontend ./
+# Copy the rest of the frontend files and build the app
+COPY frontend/ ./
 RUN npm build
 
 # Stage 2: Build the backend
 FROM python:3.9-slim
 
-# Keeps Python from generating .pyc files in the container
-ENV PYTHONDONTWRITEBYTECODE=1
-
-# Turns off buffering for easier container logging
-ENV PYTHONUNBUFFERED=1
-
+# Set the working directory
 WORKDIR /app
-
-# Add the application and backend directories to the PYTHONPATH environment variable
-ENV PYTHONPATH=/app:/app/backend
 
 # Copy the backend requirements and install dependencies
 COPY backend/requirements.txt /app/backend/
@@ -32,7 +26,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
 COPY backend/ /app/backend
 
 # Copy the built frontend from the previous stage
-COPY --from=frontend-build /app/frontend/dist /app/backend/app/static
+COPY --from=FRONTEND-BUILD /app/frontend/build /app/backend/app/static
 
 # Expose the backend port
 EXPOSE 8000
