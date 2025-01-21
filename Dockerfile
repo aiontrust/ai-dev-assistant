@@ -7,7 +7,7 @@ COPY frontend/package*.json ./
 RUN npm install
 
 COPY frontend ./
-RUN npm run build
+RUN npm build
 
 # Stage 2: Build the backend
 FROM python:3.9-slim
