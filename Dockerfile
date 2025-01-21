@@ -1,4 +1,15 @@
-# Use the official Python image as the base image
+# Stage 1: Build the frontend
+FROM node:14-alpine as frontend-build
+
+WORKDIR /app/frontend
+
+COPY frontend/package*.json ./
+RUN npm install
+
+COPY frontend ./
+RUN npm run build
+
+# Stage 2: Build the backend
 FROM python:3.9-slim
 
 # Set the working directory
@@ -12,15 +23,8 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy the backend code
 COPY backend /app/backend
 
-# Copy the frontend code
-COPY frontend /app/frontend
-
-# Build the frontend
-WORKDIR /app/frontend
-RUN npm install && npm run build
-
-# Set the working directory back to the backend
-WORKDIR /app/backend
+# Copy the built frontend from the previous stage
+COPY --from=frontend-build /app/frontend/build /app/backend/app/static
 
 # Expose the backend port
 EXPOSE 8000
