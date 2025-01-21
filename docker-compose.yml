@@ -16,11 +16,13 @@ services:
       - ./backend:/app
     depends_on:
       - frontend
-  
+      - postgres
+
   python-executor:
     image: python:3.9
     volumes:
       - ./backend:/app
+
   cpp-executor:
     image: gcc:latest
     volumes:
@@ -29,8 +31,25 @@ services:
   frontend:
     build:
       context: ./frontend
+      dockerfile: ./Dockerfile
     ports:
-      - "3000:3000"
+      - 80:80
     command: [ "npm", "start" ]
     volumes:
       - ./frontend:/app
+
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: code_exec_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
