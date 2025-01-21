@@ -4,3 +4,5 @@ uvicorn
 pydantic
 openai
 google-cloud-speech
+psycopg2-binary  # PostgreSQL driver
+sqlalchemy       # ORM for PostgreSQL
