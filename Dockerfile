@@ -1,5 +1,5 @@
 # Stage 1: Build the frontend
-FROM node:14-alpine AS FRONTEND-BUILD
+FROM node:14-alpine AS frontend-build
 
 WORKDIR /app/frontend
 
@@ -26,7 +26,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
 COPY backend/ /app/backend
 
 # Copy the built frontend from the previous stage
-COPY --from=FRONTEND-BUILD /app/frontend/build /app/backend/app/static
+COPY --from=frontend-build /app/frontend/frontend/build /app/backend/app/static
 
 # Expose the backend port
 EXPOSE 8000
