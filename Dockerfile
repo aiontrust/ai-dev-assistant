@@ -9,7 +9,7 @@ RUN npm install
 
 # Copy the rest of the frontend files and build the app
 COPY frontend/ ./
-RUN npm build
+RUN npm run build
 
 # Stage 2: Build the backend
 FROM python:alpine
