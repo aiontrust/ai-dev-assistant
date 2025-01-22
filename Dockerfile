@@ -26,7 +26,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
 COPY backend/ /app/backend
 
 # Copy the built frontend from the previous stage
-COPY --from=frontend-build /app/frontend/frontend/build /app/backend/app/static
+COPY --from=frontend-build /app/frontend/build /app/backend/app/static
 
 # Expose the backend port
 EXPOSE 8000
