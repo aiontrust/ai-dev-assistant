@@ -17,7 +17,7 @@ jobs:
           username: ${{ vars.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PAT }}
       - name: Validate Docker Hub credentials
-        run: echo "$DOCKER_PAT" | docker login -u "$DOCKER_USER" --password-stdin
+        run: echo "${{ secrets.DOCKER_PAT }}" | docker login -u "${{ vars.DOCKER_USER }}" --password-stdin
       - name: Ensure Docker repository exists
         run: |
           if ! docker pull ${{ vars.DOCKER_USER }}/ai-dev-assistant:latest; then
