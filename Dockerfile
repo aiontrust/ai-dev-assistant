@@ -17,6 +17,13 @@ FROM python:alpine
 # Set the working directory
 WORKDIR /app
 
+# Install system dependencies for building Python packages
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    g++ \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copy the backend requirements and install dependencies
 COPY backend/requirements.txt /app/backend/
 RUN pip install --no-cache-dir --upgrade pip --root-user-action=ignore && \
