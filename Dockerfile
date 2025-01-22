@@ -25,8 +25,9 @@ g++ \
 
 # Copy the backend requirements and install dependencies
 COPY backend/requirements.txt /app/backend/
-RUN pip install --no-cache-dir --upgrade pip --root-user-action=ignore && \
-    pip install --no-cache-dir -r backend/requirements.txt --root-user-action=ignore
+RUN ls -l /app/backend/requirements.txt && \
+    pip install --no-cache-dir --upgrade pip --root-user-action=ignore && \
+    pip install --no-cache-dir -r /app/backend/requirements.txt --root-user-action=ignore
 
 # Copy the backend code
 COPY backend/ /app/backend
