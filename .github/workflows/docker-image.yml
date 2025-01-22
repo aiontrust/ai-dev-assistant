@@ -16,6 +16,14 @@ jobs:
         with:
           username: ${{ vars.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PAT }}
+      - name: Validate Docker Hub credentials
+        run: echo "$DOCKER_PAT" | docker login -u "$DOCKER_USER" --password-stdin
+      - name: Ensure Docker repository exists
+        run: |
+          if ! docker pull ${{ vars.DOCKER_USER }}/ai-dev-assistant:latest; then
+            echo "Repository does not exist. Please create it on Docker Hub."
+            exit 1
+          fi
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
