@@ -13,7 +13,7 @@ RUN npm install
 COPY . .
 
 # Build the React application
-RUN npm run build
+RUN npm build
 
 # Use the official Nginx image to serve the built application
 FROM nginx:alpine
