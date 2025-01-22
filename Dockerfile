@@ -18,11 +18,10 @@ FROM python:alpine
 WORKDIR /app
 
 # Install system dependencies for building Python packages
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    g++ \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk update && apk add --no-cache \
+build-base \
+g++ \
+&& rm -rf /var/cache/apk/*
 
 # Copy the backend requirements and install dependencies
 COPY backend/requirements.txt /app/backend/
