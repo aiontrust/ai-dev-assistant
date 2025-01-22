@@ -7,6 +7,9 @@ WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm install
 
+# Set the necessary permissions for node_modules
+RUN chmod -R 755 /app/frontend/node_modules
+
 # Copy the rest of the frontend files and build the app
 COPY frontend/ ./
 RUN npm run build
