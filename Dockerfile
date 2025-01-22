@@ -12,6 +12,7 @@ RUN chmod -R 755 /app/frontend/node_modules
 
 # Copy the rest of the frontend files and build the app
 COPY frontend/ ./
+RUN chmod +x node_modules/.bin/react-scripts
 RUN npm run build
 
 # Stage 2: Build the backend
