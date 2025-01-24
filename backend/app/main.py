@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from app.api.endpoints import example
 from app.routes.audio_routes import router as audio_router
-from app.database.crud import get_execution_logs_by_user
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import subprocess
@@ -62,8 +61,3 @@ def execute_code_in_docker(code: str, language: str):
     except Exception as e:
         return {"error": str(e)}
     
-    # Endpoint to get logs for a specific user
-    @router.get("/logs/{user_id}")
-    async def get_logs(user_id: str, db: Session = Depends(get_db)):
-        logs = get_execution_logs_by_user(db, user_id)
-        return logs
