@@ -24,6 +24,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def read_root():
+    return HTMLResponse("""
+        <h1>Welcome to the AI Development Assistant</h1>
+        <p>Use this platform for real-time coding, debugging, and testing assistance.</p>
+    """)
+
 def execute_code_in_docker(code: str, language: str):
     # Define file names and Docker images for supported languages
     file_names = {"python": "script.py", "cpp": "main.cpp"}
