@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from app.api.endpoints import example
 from app.routes.audio_routes import router as audio_router
 from app.database.crud import get_execution_logs_by_user
+from fastapi.middleware.cors import CORSMiddleware
 import os
 import subprocess
 import sys
@@ -16,6 +17,13 @@ app.include_router(example.router, prefix="/api/v1")
 # Register the audio processing route
 app.include_router(audio_router)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Frontend's URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def execute_code_in_docker(code: str, language: str):
     # Define file names and Docker images for supported languages
