@@ -2,12 +2,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "command": "npm start",
-            "name": "Run npm start",
-            "request": "launch",
-            "type": "node-terminal"
-        },
-        {
             "name": "Docker: Python - Fastapi",
             "type": "docker",
             "request": "launch",
@@ -15,7 +9,7 @@
             "python": {
                 "pathMappings": [
                     {
-                        "localRoot": "${workspaceFolder}",
+                        "localRoot": "${ai-dev-assistant}/backend",
                         "remoteRoot": "/app"
                     }
                 ],
@@ -24,8 +18,17 @@
                 "args": [
                     "app.main:app",
                     "--reload"
-                ]    
-            }
-        }
+                ],
+                "console": "integratedTerminal"
+                }
+        },
+        {
+            "name": "Frontend",
+            "type": "node",
+            "request": "launch",
+            "program": "${ai-dev-assistant}/frontend/src/index.js",
+            "cwd": "${ai-dev-assistant}/frontend"
+    
+        }  
    ]
 }
