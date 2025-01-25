@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTMLResponse
 from app.api.endpoints import example
 from app.routes.audio_routes import router as audio_router
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,6 +10,14 @@ print(sys.path)
 
 # Initialize FastAPI app
 app = FastAPI()
+
+# Define the root route
+@app.get("/")
+def read_root():
+    return HTMLResponse("""
+        <h1>Welcome to the AI Development Assistant</h1>
+        <p>Use this platform for real-time coding, debugging, and testing assistance.</p>
+    """)
 
 app.include_router(example.router, prefix="/api/v1")
 
@@ -23,13 +31,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-@app.get("/")
-def read_root():
-    return HTMLResponse("""
-        <h1>Welcome to the AI Development Assistant</h1>
-        <p>Use this platform for real-time coding, debugging, and testing assistance.</p>
-    """)
 
 def execute_code_in_docker(code: str, language: str):
     # Define file names and Docker images for supported languages
