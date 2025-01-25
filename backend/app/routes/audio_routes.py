@@ -4,6 +4,11 @@ import os
 
 router = APIRouter()
 
+@router.post("/convert-audio")
+async def convert_audio(audio_file: bytes):
+    text = convert_audio_to_text(audio_file)
+    return {"text": text}
+
 @router.post("/speech-to-text/")
 async def speech_to_text(file: UploadFile = File(...)):
     """
