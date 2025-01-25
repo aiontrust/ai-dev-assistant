@@ -8,6 +8,8 @@ import subprocess
 import sys
 print(sys.path)
 
+# Add the backend directory to the sys.path
+sys.path.append("C:/Users/aiontrust/ai-dev-assistant/backend")
 
 # Initialize FastAPI app
 app = FastAPI()
