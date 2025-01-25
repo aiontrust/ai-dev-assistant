@@ -1,4 +1,5 @@
-from fastapi import FastAPI, HTMLResponse
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 from app.api.endpoints import example
 from app.routes.audio_routes import router as audio_router
 from fastapi.middleware.cors import CORSMiddleware
