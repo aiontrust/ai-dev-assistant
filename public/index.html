@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #e6e6e6, #ffffff);
+      color: #333;
+      touch-action: manipulation;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .taskbar {
+      background: rgba(0, 123, 255, 0.9);
+      padding: 1rem;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .sections {
+      display: grid;
+      grid-template-rows: repeat(4, 1fr);
+      gap: 1rem;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+
+    .section {
+      background: rgba(0, 123, 255, 0.05);
+      border: 1px solid #007bff;
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .section:active {
+      transform: scale(0.98);
+      box-shadow: 0 2px 8px rgba(0, 123, 255, 0.5);
+    }
+
+    .section h2 {
+      margin: 0 0 1rem 0;
+      color: #007bff;
+    }
+
+    .draggable {
+      background: rgba(0, 123, 255, 0.2);
+      border: 1px solid #007bff;
+      border-radius: 4px;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      cursor: grab;
+    }
+
+    .draggable:active {
+      cursor: grabbing;
+    }
+
+    .drag-over {
+      border: 2px dashed #007bff;
+    }
+
+    .expand {
+      display: none;
+      cursor: pointer;
+    }
+
+    @media (hover: none) {
+      .expand {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <div class="taskbar">
+      <span>Taskbar</span>
+      <span>Options</span>
+    </div>
+
+    <div class="sections">
+      <div class="section" draggable="true">
+        <h2>Repositories</h2>
+        <div class="content">
+          <div class="draggable">Repo 1</div>
+          <div class="draggable">Repo 2</div>
+          <div class="draggable">Repo 3</div>
+        </div>
+      </div>
+      <div class="section">
+        <h2>Project Files</h2>
+        <div class="content">
+          <div class="draggable">File 1</div>
+          <div class="draggable">File 2</div>
+        </div>
+      </div>
+      <div class="section">
+        <h2>Uploads</h2>
+        <div class="content">
+          <div class="draggable">Image 1</div>
+          <div class="draggable">Logo 2</div>
+        </div>
+      </div>
+      <div class="section">
+        <h2>Finished Projects</h2>
+        <div class="content">
+          <div class="draggable">Project 1</div>
+          <div class="draggable">Project 2</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const draggables = document.querySelectorAll('.draggable');
+    const sections = document.querySelectorAll('.section');
+
+    draggables.forEach(draggable => {
+      draggable.addEventListener('dragstart', () => {
+        draggable.classList.add('dragging');
+      });
+
+      draggable.addEventListener('dragend', () => {
+        draggable.classList.remove('dragging');
+      });
+    });
+
+    sections.forEach(section => {
+      section.addEventListener('dragover', e => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(section, e.clientY);
+        const draggable = document.querySelector('.dragging');
+        if (afterElement == null) {
+          section.querySelector('.content').appendChild(draggable);
+        } else {
+          section.querySelector('.content').insertBefore(draggable, afterElement);
+        }
+      });
+    });
+
+    function getDragAfterElement(container, y) {
+      const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
+
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+  </script>
+</body>
+</html>
