@@ -1,16 +1,16 @@
-FROM node:14-alpine
+FROM node:14-alpine AS frontend-build
 
 # Set the working directory
 WORKDIR /app
 
 # Copy package.json and package-lock.json
-COPY package*.json ./
+COPY frontend/package*.json ./
 
 # Install dependencies
 RUN npm install
 
 # Copy the rest of the application code
-COPY . .
+COPY frontend/ ./
 
 # Build the React application
 RUN npm run build
@@ -19,7 +19,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy the built application from the previous stage
-COPY --from=0 /app/build /usr/share/nginx/html
+COPY --from=frontend-build /app/build /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
