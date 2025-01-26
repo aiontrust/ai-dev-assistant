@@ -4,13 +4,13 @@ FROM node:14-alpine AS frontend-build
 WORKDIR /app
 
 # Copy package.json and package-lock.json
-COPY frontend/package*.json ./
+COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
 # Copy the rest of the application code
-COPY frontend/ ./
+COPY . .
 
 # Build the React application
 RUN npm run build
