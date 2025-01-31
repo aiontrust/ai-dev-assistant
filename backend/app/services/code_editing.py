@@ -1,5 +1,6 @@
 import speech_recognition as sr
 import subprocess
+import time
 
 # Function to recognize speech from microphone
 def recognize_speech():
