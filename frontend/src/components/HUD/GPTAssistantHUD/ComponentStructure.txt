@@ -1,0 +1,10 @@
+📂 components
+ ├── 📂 GPTAssistantHUD
+ │   ├── GPTAssistant.tsx  // Main container component for the assistant
+ │   ├── ChatInput.tsx      // User input field for prompts
+ │   ├── ChatDisplay.tsx    // Response display area
+ │   ├── FileContext.tsx    // Displays file name (if context-aware)
+ │   ├── ModeSelector.tsx   // Dropdown to choose GPT model version
+ │   ├── ActionButtons.tsx  // Icons for attachments, voice input, run button
+ │   ├── CodeEditorView.tsx // Expands to show IDE-style code editing
+ │   ├── styles.module.css  // CSS module for styling
