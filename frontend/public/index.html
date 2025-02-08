@@ -1,174 +1,869 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Dashboard</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to bottom, #e6e6e6, #ffffff);
-      color: #333;
-      touch-action: manipulation;
-    }
-
-    .dashboard {
-      display: grid;
-      grid-template-rows: auto 1fr;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    .taskbar {
-      background: rgba(0, 123, 255, 0.9);
-      padding: 1rem;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
-
-    .sections {
-      display: grid;
-      grid-template-rows: repeat(4, 1fr);
-      gap: 1rem;
-      padding: 1rem;
-      overflow-y: auto;
-    }
-
-    .section {
-      background: rgba(0, 123, 255, 0.05);
-      border: 1px solid #007bff;
-      border-radius: 8px;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .section:active {
-      transform: scale(0.98);
-      box-shadow: 0 2px 8px rgba(0, 123, 255, 0.5);
-    }
-
-    .section h2 {
-      margin: 0 0 1rem 0;
-      color: #007bff;
-    }
-
-    .draggable {
-      background: rgba(0, 123, 255, 0.2);
-      border: 1px solid #007bff;
-      border-radius: 4px;
-      padding: 0.5rem;
-      margin-bottom: 0.5rem;
-      cursor: grab;
-    }
-
-    .draggable:active {
-      cursor: grabbing;
-    }
-
-    .drag-over {
-      border: 2px dashed #007bff;
-    }
-
-    .expand {
-      display: none;
-      cursor: pointer;
-    }
-
-    @media (hover: none) {
-      .expand {
-        display: block;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="dashboard">
-    <div class="taskbar">
-      <span>Taskbar</span>
-      <span>Options</span>
+<div style="width: 100%; height: 100%; position: relative">
+    <div style="width: 4276px; height: 2822px; left: 0px; top: -0.50px; position: absolute; background: linear-gradient(270deg, #021420 0%, #001C2B 6%, #002435 13%, #022435 19%, #002538 23%, #032840 25%, #022B44 29%, #002E45 33%, #003048 40%, #003149 43%, #00314A 45%, #01314C 50%, #00314A 55%, #003149 57%, #003048 60%, #002E45 67%, #022B44 71%, #032840 75%, #002538 77%, #022435 81%, #002435 87%, #001C2B 94%, #021420 100%); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border: 3px black solid"></div>
+    <div style="width: 751px; height: 229px; left: 445px; top: 66.50px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+        <div style="width: 751px; height: 229px; color: #9DCDF1; font-size: 133px; font-family: Orbitron; font-weight: 800; word-wrap: break-word">S A T I </div>
     </div>
-
-    <div class="sections">
-      <div class="section" draggable="true">
-        <h2>Repositories</h2>
-        <div class="content">
-          <div class="draggable">Repo 1</div>
-          <div class="draggable">Repo 2</div>
-          <div class="draggable">Repo 3</div>
+    <div style="width: 270px; height: 270px; left: 169px; top: 9.50px; position: absolute">
+        <div style="width: 73.54px; height: 73.54px; left: 106.96px; top: 108.84px; position: absolute">
+            <div style="width: 73.54px; height: 73.54px; left: 0px; top: 0px; position: absolute; background: #9DCDF1"></div>
         </div>
-      </div>
-      <div class="section">
-        <h2>Project Files</h2>
-        <div class="content">
-          <div class="draggable">File 1</div>
-          <div class="draggable">File 2</div>
+        <div style="width: 51.16px; height: 51.16px; left: 20.28px; top: 38.89px; position: absolute">
+            <div style="width: 51.16px; height: 51.16px; left: 0px; top: 0px; position: absolute; background: #9DCDF1"></div>
         </div>
-      </div>
-      <div class="section">
-        <h2>Uploads</h2>
-        <div class="content">
-          <div class="draggable">Image 1</div>
-          <div class="draggable">Logo 2</div>
+        <div style="width: 38.72px; height: 38.72px; left: 193.16px; top: 30.82px; position: absolute">
+            <div style="width: 38.72px; height: 38.72px; left: 0px; top: 0px; position: absolute; background: #9DCDF1"></div>
         </div>
-      </div>
-      <div class="section">
-        <h2>Finished Projects</h2>
-        <div class="content">
-          <div class="draggable">Project 1</div>
-          <div class="draggable">Project 2</div>
+        <div style="width: 39.43px; height: 39.43px; left: 218.52px; top: 173.05px; position: absolute">
+            <div style="width: 39.43px; height: 39.43px; left: 0px; top: 0px; position: absolute; background: #9DCDF1"></div>
         </div>
-      </div>
+        <div style="width: 36.59px; height: 36.59px; left: 84.94px; top: 229.08px; position: absolute">
+            <div style="width: 36.59px; height: 36.59px; left: 0px; top: 0px; position: absolute; background: #9DCDF1"></div>
+        </div>
+        <div style="width: 270px; height: 270px; left: 0px; top: 0px; position: absolute">
+            <div style="width: 148.12px; height: 3.55px; left: 29.74px; top: 48.63px; position: absolute; transform: rotate(40deg); transform-origin: 0 0; background: #9DCDF1"></div>
+            <div style="width: 97.20px; height: 3.42px; left: 168.20px; top: 150.36px; position: absolute; transform: rotate(30deg); transform-origin: 0 0; background: #9DCDF1"></div>
+            <div style="width: 96.77px; height: 3.55px; left: 96.71px; top: 256.34px; position: absolute; transform: rotate(-68.48deg); transform-origin: 0 0; background: #9DCDF1"></div>
+            <div style="width: 113.84px; height: 3.55px; left: 153.15px; top: 127.54px; position: absolute; transform: rotate(-53.53deg); transform-origin: 0 0; background: #9DCDF1"></div>
+        </div>
     </div>
-  </div>
-
-  <script>
-    const draggables = document.querySelectorAll('.draggable');
-    const sections = document.querySelectorAll('.section');
-
-    draggables.forEach(draggable => {
-      draggable.addEventListener('dragstart', () => {
-        draggable.classList.add('dragging');
-      });
-
-      draggable.addEventListener('dragend', () => {
-        draggable.classList.remove('dragging');
-      });
-    });
-
-    sections.forEach(section => {
-      section.addEventListener('dragover', e => {
-        e.preventDefault();
-        const afterElement = getDragAfterElement(section, e.clientY);
-        const draggable = document.querySelector('.dragging');
-        if (afterElement == null) {
-          section.querySelector('.content').appendChild(draggable);
-        } else {
-          section.querySelector('.content').insertBefore(draggable, afterElement);
-        }
-      });
-    });
-
-    function getDragAfterElement(container, y) {
-      const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
-
-      return draggableElements.reduce((closest, child) => {
-        const box = child.getBoundingClientRect();
-        const offset = y - box.top - box.height / 2;
-        if (offset < 0 && offset > closest.offset) {
-          return { offset: offset, element: child };
-        } else {
-          return closest;
-        }
-      }, { offset: Number.NEGATIVE_INFINITY }).element;
-    }
-  </script>
-</body>
-</html>
+    <div style="width: 842px; height: 842px; left: 148px; top: 444.50px; position: absolute; opacity: 0.50; background: #011D2C; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 9999px; border: 15px #194768 solid"></div>
+    <div style="width: 590.41px; height: 590.41px; left: 249px; top: 544.50px; position: absolute">
+        <div style="width: 590px; height: 590px; left: 590px; top: 0px; position: absolute; transform: rotate(89.96deg); transform-origin: 0 0; background: linear-gradient(180deg, #0D3048 0%, #0D6391 25%, #106594 50%, #0D6391 75%, #0D3048 100%); box-shadow: 4px 4px 4px; border-radius: 360px; border: 1px black solid; filter: blur(4px)"></div>
+        <div style="width: 480px; height: 480px; left: 535px; top: 55px; position: absolute; transform: rotate(89.96deg); transform-origin: 0 0; background: #002339; box-shadow: 4px 4px 4px; border-radius: 360px; border: 1px black solid; filter: blur(4px)"></div>
+        <div style="width: 450px; height: 450px; left: 520px; top: 70px; position: absolute; transform: rotate(89.96deg); transform-origin: 0 0; background: linear-gradient(90deg, #11405C 0%, #1D6B99 100%); box-shadow: 4px 4px 4px; border-radius: 360px; border: 1px black solid; filter: blur(4px)"></div>
+        <div style="width: 410px; height: 410px; left: 500px; top: 90px; position: absolute; transform: rotate(89.96deg); transform-origin: 0 0; background: #002339; box-shadow: 4px 4px 4px; border-radius: 360px; border: 1px black solid; filter: blur(4px)"></div>
+        <div style="width: 315px; height: 260px; left: 137px; top: 165px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                <div style="width: 315px; height: 260px; background: #001927"></div>
+            </div>
+        </div>
+        <div style="width: 57.28px; height: 127.98px; left: 519.81px; top: 167.68px; position: absolute; transform: rotate(-1.21deg); transform-origin: 0 0">
+            <div style="width: 32.14px; height: 124px; left: 0px; top: 6.70px; position: absolute; transform: rotate(-12.03deg); transform-origin: 0 0; background: #52CEF0; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 5px; border: 2px #147DB6 solid"></div>
+        </div>
+        <div style="width: 127.96px; height: 67.28px; left: 304.07px; top: 5.49px; position: absolute">
+            <div style="width: 32.14px; height: 124px; left: 0px; top: 30.71px; position: absolute; transform: rotate(-72.85deg); transform-origin: 0 0; background: #52CEF0; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 5px; border: 2px #147DB6 solid"></div>
+        </div>
+        <div style="width: 114.73px; height: 105.54px; left: 56.04px; top: 48.03px; position: absolute; transform: rotate(-1.28deg); transform-origin: 0 0">
+            <div style="width: 32.14px; height: 124px; left: 21.06px; top: 105.54px; position: absolute; transform: rotate(-130.94deg); transform-origin: 0 0; background: #52CEF0; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 5px; border: 2px #147DB6 solid"></div>
+        </div>
+        <div style="width: 60.08px; height: 128.08px; left: 9.88px; top: 289.75px; position: absolute">
+            <div style="width: 32.14px; height: 124px; left: 60.08px; top: 120.61px; position: absolute; transform: rotate(166.56deg); transform-origin: 0 0; background: #52CEF0; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 5px; border: 2px #147DB6 solid"></div>
+        </div>
+        <div style="width: 127.90px; height: 68.31px; left: 149.25px; top: 511.38px; position: absolute; transform: rotate(0.75deg); transform-origin: 0 0">
+            <div style="width: 32.14px; height: 124px; left: 127.90px; top: 37.69px; position: absolute; transform: rotate(107.69deg); transform-origin: 0 0; background: #52CEF0; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 5px; border: 2px #147DB6 solid"></div>
+        </div>
+        <div style="width: 111.21px; height: 109.60px; left: 414.84px; top: 434.12px; position: absolute; transform: rotate(1.31deg); transform-origin: 0 0">
+            <div style="width: 32.14px; height: 124px; left: 88.76px; top: 0px; position: absolute; transform: rotate(45.71deg); transform-origin: 0 0; background: #52CEF0; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 5px; border: 2px #147DB6 solid"></div>
+        </div>
+    </div>
+    <div style="width: 835.33px; height: 1040.62px; left: 297.09px; top: 329.38px; position: absolute">
+        <div style="width: 282.50px; height: 282.50px; left: 365.41px; top: 758.12px; position: absolute; justify-content: flex-start; align-items: center; display: inline-flex">
+            <div style="width: 293px; height: 282.50px; background: linear-gradient(270deg, #31DCFD 0%, #008CC1 100%); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; backdrop-filter: blur(4px)"></div>
+        </div>
+        <div style="width: 366.26px; height: 365.91px; left: 469.06px; top: 523.58px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 266.28px; height: 265.18px; transform: rotate(-31.95deg); transform-origin: 0 0; background: linear-gradient(270deg, #27A1C8 0%, #1CA5D3 100%); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; backdrop-filter: blur(4px)"></div>
+        </div>
+        <div style="width: 324.26px; height: 330.05px; left: 508.55px; top: 300.05px; position: absolute; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 252.30px; height: 240.38px; transform: rotate(-65.10deg); transform-origin: 0 0; background: linear-gradient(270deg, #005DA1 0%, #0A99C1 100%); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; backdrop-filter: blur(4px)"></div>
+        </div>
+        <div style="width: 253.02px; height: 267.24px; left: 431.94px; top: 122.04px; position: absolute; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 236px; height: 218.90px; transform: rotate(-98.97deg); transform-origin: 0 0; background: linear-gradient(90deg, #026EAA 0%, #1781C8 100%); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; backdrop-filter: blur(4px)"></div>
+        </div>
+        <div style="width: 292.45px; height: 294.14px; left: 201.59px; top: 0px; position: absolute; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 214.71px; height: 201.90px; transform: rotate(-129.63deg); transform-origin: 0 0; background: linear-gradient(90deg, #0F7ABD 0%, #001C3F 100%); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; backdrop-filter: blur(4px)"></div>
+        </div>
+        <div style="width: 230.85px; height: 222.59px; left: 0px; top: 60.86px; position: absolute">
+            <div style="width: 192.44px; height: 181.05px; left: 186.60px; top: 222.59px; position: absolute; transform: rotate(-165.85deg); transform-origin: 0 0; background: linear-gradient(90deg, #064677 0%, #143046 100%); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; backdrop-filter: blur(4px)"></div>
+        </div>
+    </div>
+    <div style="width: 145px; height: 66px; left: 908px; top: 417.50px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+        <div style="width: 145px; height: 66px; position: relative; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
+            <div style="width: 145px; height: 66px; background: #00364F"></div>
+            <div style="width: 122px; height: 47px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border: 10px #215C6E solid"></div>
+        </div>
+    </div>
+    <div style="width: 579px; height: 893.50px; left: 1142px; top: 460.50px; position: absolute">
+        <div style="width: 554px; height: 893px; left: 5px; top: 0.50px; position: absolute; background: #165675; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 2px; border: 10px #0F4661 solid"></div>
+        <div style="width: 320.08px; height: 116.22px; left: 26px; top: 22px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="flex: 1 1 0; align-self: stretch; transform: rotate(89.96deg); transform-origin: 0 0; border-radius: 3px; overflow: hidden; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
+                <div style="width: 319.94px; height: 115.71px; transform: rotate(-89.94deg); transform-origin: 0 0; background: #00364F"></div>
+            </div>
+        </div>
+        <div style="width: 319.96px; height: 115.80px; left: 26px; top: 208px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                <div style="width: 319.94px; height: 115.71px; background: #00364F"></div>
+            </div>
+        </div>
+        <div style="width: 319.96px; height: 115.80px; left: 26px; top: 396px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                <div style="width: 319.94px; height: 115.71px; background: #00364F"></div>
+            </div>
+        </div>
+        <div style="width: 319.96px; height: 115.80px; left: 26px; top: 579px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                <div style="width: 319.94px; height: 115.71px; background: #00364F"></div>
+            </div>
+        </div>
+        <div style="width: 319.96px; height: 115.80px; left: 26px; top: 767px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                <div style="width: 319.94px; height: 115.71px; background: #00364F"></div>
+            </div>
+        </div>
+        <div style="width: 20px; height: 240px; left: 559px; top: 325px; position: absolute">
+            <div style="width: 20px; height: 20px; left: 0px; top: 220px; position: absolute; background: #95F4FF; backdrop-filter: blur(4px)"></div>
+            <div style="width: 20px; height: 20px; left: 0px; top: 167px; position: absolute; background: #95F4FF; backdrop-filter: blur(4px)"></div>
+            <div style="width: 20px; height: 20px; left: 0px; top: 114px; position: absolute; background: #95F4FF; backdrop-filter: blur(4px)"></div>
+            <div style="width: 20px; height: 20px; left: 0px; top: 57px; position: absolute; background: #95F4FF; backdrop-filter: blur(4px)"></div>
+            <div style="width: 20px; height: 20px; left: 0px; top: 0px; position: absolute; background: #95F4FF; backdrop-filter: blur(4px)"></div>
+        </div>
+        <div style="width: 376px; height: 146px; left: 0px; top: 0px; position: absolute">
+            <div style="width: 376px; height: 32px; left: 0px; top: 0px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 2px #017EC5 solid"></div>
+            <div style="width: 0px; height: 21px; left: 371px; top: 67px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 0px; height: 21px; left: 5px; top: 67px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 30px; height: 0px; left: 322.50px; top: 146px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 24px; height: 0px; left: 15.50px; top: 146px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+        </div>
+        <div style="width: 375px; height: 146px; left: 0px; top: 184px; position: absolute">
+            <div style="width: 375px; height: 32px; left: 0px; top: 0px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 2px #017EC5 solid"></div>
+            <div style="width: 0px; height: 21px; left: 370px; top: 67px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 0px; height: 21px; left: 4px; top: 67px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 30px; height: 0px; left: 321.50px; top: 146px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 24px; height: 0px; left: 14.50px; top: 146px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+        </div>
+        <div style="width: 376px; height: 146px; left: 0px; top: 374px; position: absolute">
+            <div style="width: 376px; height: 32px; left: 0px; top: 0px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 2px #017EC5 solid"></div>
+            <div style="width: 0px; height: 21px; left: 371px; top: 67px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 0px; height: 21px; left: 5px; top: 67px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 30px; height: 0px; left: 322.50px; top: 146px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 24px; height: 0px; left: 15.50px; top: 146px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+        </div>
+        <div style="width: 376px; height: 146px; left: 0px; top: 555px; position: absolute">
+            <div style="width: 376px; height: 32px; left: 0px; top: 0px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 2px #017EC5 solid"></div>
+            <div style="width: 0px; height: 21px; left: 371px; top: 67px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 0px; height: 21px; left: 5px; top: 67px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 30px; height: 0px; left: 322.50px; top: 146px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 24px; height: 0px; left: 15.50px; top: 146px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+        </div>
+        <div style="width: 376px; height: 146px; left: 0px; top: 744px; position: absolute">
+            <div style="width: 376px; height: 32px; left: 0px; top: 0px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 2px #017EC5 solid"></div>
+            <div style="width: 0px; height: 21px; left: 371px; top: 67px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 0px; height: 21px; left: 5px; top: 67px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 30px; height: 0px; left: 322.50px; top: 146px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 24px; height: 0px; left: 15.50px; top: 146px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 5px #017EC5 solid"></div>
+        </div>
+    </div>
+    <div style="width: 1310px; height: 577.50px; left: 165px; top: 1414px; position: absolute">
+        <div style="width: 1115.50px; height: 528px; left: 194.50px; top: 49.50px; position: absolute; background: #03263C; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 2px; border: 10px #0D3348 solid"></div>
+        <div style="width: 212px; height: 215.08px; left: 646.08px; top: 133.50px; position: absolute; transform: rotate(89.96deg); transform-origin: 0 0; background: linear-gradient(180deg, #0D3048 0%, #0D6391 25%, #106594 50%, #0D6391 75%, #0D3048 100%); box-shadow: 4px 4px 4px; border-radius: 360px; border: 5px #00304F solid; filter: blur(4px)"></div>
+        <div style="width: 212px; height: 215.08px; left: 916.97px; top: 135.50px; position: absolute; transform: rotate(89.96deg); transform-origin: 0 0; background: linear-gradient(180deg, #0D3048 0%, #0D6391 25%, #106594 50%, #0D6391 75%, #0D3048 100%); box-shadow: 4px 4px 4px; border-radius: 360px; border: 5px #00304F solid; filter: blur(4px)"></div>
+        <div style="width: 212px; height: 215.08px; left: 1187.85px; top: 133.50px; position: absolute; transform: rotate(89.96deg); transform-origin: 0 0; background: linear-gradient(180deg, #0D3048 0%, #0D6391 25%, #106594 50%, #0D6391 75%, #0D3048 100%); box-shadow: 4px 4px 4px; border-radius: 360px; border: 5px #00304F solid; filter: blur(4px)"></div>
+        <div style="width: 1000.50px; height: 82px; left: 63px; top: 0px; position: absolute; border-radius: 2px; border: 10px #0D3348 solid"></div>
+        <div style="width: 167px; height: 167px; left: 167px; top: 67.50px; position: absolute; transform: rotate(89.96deg); transform-origin: 0 0; background: linear-gradient(180deg, #0D3048 0%, #134864 25%, #114D6D 50%, #134864 75%, #0D3048 100%); box-shadow: 4px 4px 4px; border-radius: 360px; border: 10px #00304F solid; filter: blur(4px)"></div>
+    </div>
+    <div style="width: 809px; height: 302px; left: 569.50px; top: 2070px; position: absolute">
+        <div style="width: 162px; height: 162px; left: 158.50px; top: 70.50px; position: absolute">
+            <div style="width: 162px; height: 162px; left: 0px; top: 0px; position: absolute; background: #002E45; border-radius: 9999px"></div>
+        </div>
+        <div style="width: 162px; height: 162px; left: 351.50px; top: 70.50px; position: absolute">
+            <div style="width: 162px; height: 162px; left: 0px; top: 0px; position: absolute; background: #002E45; border-radius: 9999px"></div>
+        </div>
+        <div style="width: 162px; height: 162px; left: 544.50px; top: 70.50px; position: absolute">
+            <div style="width: 162px; height: 162px; left: 0px; top: 0px; position: absolute; background: #002E45; border-radius: 9999px"></div>
+        </div>
+        <div style="width: 809px; height: 302px; left: 0px; top: 0px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 5px; border: 15px #084966 solid"></div>
+    </div>
+    <div style="width: 489px; height: 586.50px; left: 203px; top: 1993.50px; position: absolute; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
+        <div style="width: 489px; height: 586.50px; background: #003047; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 2px; border: 5px #084966 solid"></div>
+    </div>
+    <div style="width: 1724.96px; height: 1735.26px; left: 1275.18px; top: 662.71px; position: absolute">
+        <div style="width: 991px; height: 991px; left: 374.82px; top: 370.79px; position: absolute; border-radius: 9999px; border: 45px #2379A6 solid"></div>
+        <img style="width: 494px; height: 505px; left: 374.82px; top: 362.79px; position: absolute" src="https://via.placeholder.com/494x505" />
+        <img style="width: 501px; height: 500px; left: 870.82px; top: 865.79px; position: absolute" src="https://via.placeholder.com/501x500" />
+        <img style="width: 162px; height: 1042px; left: 348.82px; top: 345.79px; position: absolute" src="https://via.placeholder.com/162x1042" />
+        <div style="width: 832px; height: 832px; left: 450.82px; top: 445.79px; position: absolute; background: #1593C6; border-radius: 9999px"></div>
+        <div style="width: 810px; height: 810px; left: 463.82px; top: 457.79px; position: absolute; background: #00527E; border-radius: 9999px"></div>
+        <div style="width: 873px; height: 877px; left: 432.82px; top: 423.79px; position: absolute">
+            <div style="width: 47px; height: 23px; left: 0px; top: 420px; position: absolute; backdrop-filter: blur(4px)">
+                <div style="width: 47px; height: 23px; left: 0px; top: 0px; position: absolute; background: #7BE4FF"></div>
+            </div>
+            <div style="width: 51.80px; height: 45.77px; left: 0px; top: 355px; position: absolute; backdrop-filter: blur(4px)">
+                <div style="width: 47px; height: 40px; left: 5.20px; top: 0px; position: absolute; transform: rotate(7.47deg); transform-origin: 0 0; background: #82D5FD"></div>
+            </div>
+            <div style="width: 56.41px; height: 51.68px; left: 10px; top: 290px; position: absolute; backdrop-filter: blur(4px)">
+                <div style="width: 47px; height: 40px; left: 11.33px; top: 0px; position: absolute; transform: rotate(16.46deg); transform-origin: 0 0; background: #5FA9D0"></div>
+            </div>
+            <div style="width: 59.92px; height: 56.79px; left: 32.33px; top: 226.96px; position: absolute; backdrop-filter: blur(4px)">
+                <div style="width: 47px; height: 40px; left: 17.88px; top: 0px; position: absolute; transform: rotate(26.55deg); transform-origin: 0 0; background: #3A84A9"></div>
+            </div>
+            <div style="width: 61.60px; height: 60.21px; left: 65.89px; top: 166.67px; position: absolute; backdrop-filter: blur(4px)">
+                <div style="width: 40px; height: 47px; left: 0px; top: 31.98px; position: absolute; transform: rotate(-53.07deg); transform-origin: 0 0; background: #135B81"></div>
+            </div>
+            <div style="width: 48.92px; height: 50.02px; left: 130px; top: 111px; position: absolute; backdrop-filter: blur(4px)">
+                <div style="width: 23px; height: 47px; left: 0px; top: 15.73px; position: absolute; transform: rotate(-43.14deg); transform-origin: 0 0; background: #1B668E"></div>
+            </div>
+            <div style="width: 59.84px; height: 61.49px; left: 168px; top: 68px; position: absolute; backdrop-filter: blur(4px)">
+                <div style="width: 47px; height: 40px; left: 32.59px; top: 0px; position: absolute; transform: rotate(54.55deg); transform-origin: 0 0; background: #337DA0"></div>
+            </div>
+            <div style="width: 56.63px; height: 59.82px; left: 222.59px; top: 38.35px; position: absolute; backdrop-filter: blur(4px)">
+                <div style="width: 47px; height: 40px; left: 35.90px; top: 0px; position: absolute; transform: rotate(63.83deg); transform-origin: 0 0; background: #4EA5C3"></div>
+            </div>
+            <div style="width: 52.69px; height: 57.15px; left: 284px; top: 15px; position: absolute; backdrop-filter: blur(4px)">
+                <div style="width: 47px; height: 40px; left: 37.99px; top: 0px; position: absolute; transform: rotate(71.77deg); transform-origin: 0 0; background: #86DCF7"></div>
+            </div>
+            <div style="width: 47.40px; height: 53.11px; left: 345px; top: 1px; position: absolute; backdrop-filter: blur(4px)">
+                <div style="width: 47px; height: 40px; left: 39.42px; top: 0px; position: absolute; transform: rotate(80.22deg); transform-origin: 0 0; background: #96E4FB"></div>
+            </div>
+            <div style="width: 23px; height: 47px; left: 411px; top: 0px; position: absolute; backdrop-filter: blur(4px)">
+                <div style="width: 23px; height: 47px; left: 0px; top: 0px; position: absolute; background: #9EF1FF"></div>
+            </div>
+            <div style="width: 25px; height: 25px; left: 581px; top: 45px; position: absolute; backdrop-filter: blur(4px)">
+                <div style="width: 25px; height: 25px; left: 0px; top: 0px; position: absolute; background: #95F6FF; border-radius: 360px"></div>
+            </div>
+            <div style="width: 25px; height: 25px; left: 714px; top: 138px; position: absolute; backdrop-filter: blur(4px)">
+                <div style="width: 25px; height: 25px; left: 0px; top: 0px; position: absolute; background: #9EFFFF; border-radius: 360px"></div>
+            </div>
+            <div style="width: 25px; height: 25px; left: 804px; top: 271px; position: absolute; backdrop-filter: blur(4px)">
+                <div style="width: 25px; height: 25px; left: 0px; top: 0px; position: absolute; background: #87F9FF; border-radius: 360px"></div>
+            </div>
+            <div style="width: 47px; height: 23px; left: 826px; top: 439px; position: absolute; backdrop-filter: blur(4px)">
+                <div style="width: 47px; height: 23px; left: 0px; top: 0px; position: absolute; background: #8AF4FF"></div>
+            </div>
+            <div style="width: 53.43px; height: 47.80px; left: 815.71px; top: 484.42px; position: absolute; transform: rotate(-1.87deg); transform-origin: 0 0; backdrop-filter: blur(4px)">
+                <div style="width: 47px; height: 40px; left: 7.19px; top: 0px; position: absolute; transform: rotate(10.36deg); transform-origin: 0 0; background: #92E2FF"></div>
+            </div>
+            <div style="width: 57.62px; height: 53.34px; left: 802.04px; top: 540.07px; position: absolute; transform: rotate(-2.10deg); transform-origin: 0 0; backdrop-filter: blur(4px)">
+                <div style="width: 47px; height: 40px; left: 13.29px; top: 0px; position: absolute; transform: rotate(19.40deg); transform-origin: 0 0; background: #75BAD9"></div>
+            </div>
+            <div style="width: 60.64px; height: 58.02px; left: 777.18px; top: 597.03px; position: absolute; transform: rotate(-3.72deg); transform-origin: 0 0; backdrop-filter: blur(4px)">
+                <div style="width: 47px; height: 40px; left: 19.79px; top: 0px; position: absolute; transform: rotate(29.66deg); transform-origin: 0 0; background: #70AAD2"></div>
+            </div>
+            <div style="width: 61.58px; height: 60.12px; left: 747.86px; top: 647.63px; position: absolute; backdrop-filter: blur(4px)">
+                <div style="width: 47px; height: 40px; left: 23.80px; top: 0px; position: absolute; transform: rotate(36.52deg); transform-origin: 0 0; background: #4C8CB0"></div>
+            </div>
+            <div style="width: 61.48px; height: 61.56px; left: 707px; top: 696px; position: absolute; backdrop-filter: blur(4px)">
+                <div style="width: 40px; height: 47px; left: 0px; top: 28.06px; position: absolute; transform: rotate(-44.55deg); transform-origin: 0 0; background: #336890"></div>
+            </div>
+            <div style="width: 60.38px; height: 61.65px; left: 661px; top: 739px; position: absolute">
+                <div style="width: 40px; height: 47px; left: 0px; top: 24.45px; position: absolute; transform: rotate(-37.67deg); transform-origin: 0 0; background: #335477; backdrop-filter: blur(4px)"></div>
+            </div>
+            <div style="width: 57.40px; height: 60.28px; left: 604px; top: 776px; position: absolute">
+                <div style="width: 40px; height: 47px; left: 0px; top: 18.80px; position: absolute; transform: rotate(-28.03deg); transform-origin: 0 0; background: #607497; backdrop-filter: blur(4px)"></div>
+            </div>
+            <div style="width: 52.65px; height: 57.12px; left: 538px; top: 805px; position: absolute">
+                <div style="width: 40px; height: 47px; left: 0px; top: 12.46px; position: absolute; transform: rotate(-18.15deg); transform-origin: 0 0; background: #9BA2BE; backdrop-filter: blur(4px)"></div>
+            </div>
+            <div style="width: 46.63px; height: 52.50px; left: 478px; top: 824px; position: absolute">
+                <div style="width: 40px; height: 47px; left: 0px; top: 6.03px; position: absolute; transform: rotate(-8.67deg); transform-origin: 0 0; background: #B0B5D2; backdrop-filter: blur(4px)"></div>
+            </div>
+            <div style="width: 27.02px; height: 47px; left: 433px; top: 830px; position: absolute">
+                <div style="width: 27.02px; height: 47px; left: 0px; top: 0px; position: absolute; background: #BAD2F4"></div>
+            </div>
+            <div style="width: 25px; height: 25px; left: 264px; top: 806px; position: absolute">
+                <div style="width: 25px; height: 25px; left: 0px; top: 0px; position: absolute; background: #AEFCFF; border-radius: 360px; backdrop-filter: blur(4px)"></div>
+            </div>
+            <div style="width: 25px; height: 25px; left: 136px; top: 720px; position: absolute">
+                <div style="width: 25px; height: 25px; left: 0px; top: 0px; position: absolute; background: #A7FFFF; border-radius: 360px; backdrop-filter: blur(4px)"></div>
+            </div>
+            <div style="width: 25px; height: 25px; left: 47px; top: 587px; position: absolute">
+                <div style="width: 25px; height: 25px; left: 0px; top: 0px; position: absolute; background: #71DFFF; border-radius: 360px; backdrop-filter: blur(4px)"></div>
+            </div>
+        </div>
+        <div style="width: 888px; height: 888px; left: 425.82px; top: 1309.79px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 9999px; border: 10px #14719D solid"></div>
+        <div style="width: 747px; height: 747px; left: 494.82px; top: 489.79px; position: absolute; background: #1185BB; border-radius: 9999px"></div>
+        <div style="width: 712px; height: 712px; left: 512.82px; top: 506.79px; position: absolute; background: #00729F; border-radius: 9999px"></div>
+        <div style="width: 703.83px; height: 708.95px; left: 515.11px; top: 506.79px; position: absolute">
+            <div style="width: 128.19px; height: 56.93px; left: 224.71px; top: 0px; position: absolute">
+                <div style="width: 30.77px; height: 124.48px; left: 6.64px; top: 56.93px; position: absolute; transform: rotate(-102.47deg); transform-origin: 0 0; background: #52CEF0; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 5px; border: 2px #147DB6 solid"></div>
+            </div>
+            <div style="width: 119px; height: 97.71px; left: 486.71px; top: 39px; position: absolute">
+                <div style="width: 30.77px; height: 124.48px; left: 0px; top: 24.97px; position: absolute; transform: rotate(-54.24deg); transform-origin: 0 0; background: #52CEF0; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 5px; border: 2px #147DB6 solid"></div>
+            </div>
+            <div style="width: 53.67px; height: 128.05px; left: 650.16px; top: 230.55px; position: absolute">
+                <div style="width: 30.77px; height: 124.48px; left: 0px; top: 5.80px; position: absolute; transform: rotate(-10.86deg); transform-origin: 0 0; background: #52CEF0; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 5px; border: 2px #147DB6 solid"></div>
+            </div>
+            <div style="width: 98.37px; height: 118.62px; left: 573.32px; top: 487.98px; position: absolute">
+                <div style="width: 30.77px; height: 124.48px; left: 73.54px; top: 0px; position: absolute; transform: rotate(36.21deg); transform-origin: 0 0; background: #52CEF0; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 5px; border: 2px #147DB6 solid"></div>
+            </div>
+            <div style="width: 128.12px; height: 54.92px; left: 349.75px; top: 654.03px; position: absolute">
+                <div style="width: 30.77px; height: 124.48px; left: 122px; top: 0px; position: absolute; transform: rotate(78.53deg); transform-origin: 0 0; background: #52CEF0; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 5px; border: 2px #147DB6 solid"></div>
+            </div>
+            <div style="width: 120.23px; height: 95.46px; left: 104.71px; top: 582px; position: absolute">
+                <div style="width: 30.77px; height: 124.48px; left: 120.23px; top: 70.02px; position: absolute; transform: rotate(124.23deg); transform-origin: 0 0; background: #52CEF0; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 5px; border: 2px #147DB6 solid"></div>
+            </div>
+            <div style="width: 50.91px; height: 127.86px; left: 0px; top: 344.14px; position: absolute">
+                <div style="width: 30.77px; height: 124.48px; left: 50.91px; top: 122.77px; position: absolute; transform: rotate(170.49deg); transform-origin: 0 0; background: #52CEF0; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 5px; border: 2px #147DB6 solid"></div>
+            </div>
+            <div style="width: 95.49px; height: 120.22px; left: 30.71px; top: 111.09px; position: absolute">
+                <div style="width: 30.77px; height: 124.48px; left: 25.44px; top: 120.22px; position: absolute; transform: rotate(-145.76deg); transform-origin: 0 0; background: #52CEF0; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 5px; border: 2px #147DB6 solid"></div>
+            </div>
+        </div>
+        <div style="width: 625px; height: 625px; left: 555.82px; top: 550.79px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 625px; height: 625px; background: #D1F3FF; border-radius: 9999px"></div>
+        </div>
+        <div style="width: 600px; height: 600px; left: 568.82px; top: 562.79px; position: absolute; background: #036395; border-radius: 9999px"></div>
+        <div style="width: 520px; height: 520px; left: 1120.82px; top: 598.79px; position: absolute; transform: rotate(89.96deg); transform-origin: 0 0; background: #05608F; box-shadow: 4px 4px 4px; border-radius: 360px; border: 1px black solid; filter: blur(4px)"></div>
+        <div style="width: 480px; height: 480px; left: 1100.82px; top: 618.79px; position: absolute; transform: rotate(89.96deg); transform-origin: 0 0; background: #02537E; box-shadow: 4px 4px 4px; border-radius: 360px; border: 1px black solid; filter: blur(4px)"></div>
+        <div style="width: 62px; height: 62px; left: 752.82px; top: 997.79px; position: absolute">
+            <div style="width: 62px; height: 62px; left: 0px; top: 0px; position: absolute; background: #2B6E98; border-radius: 9999px"></div>
+        </div>
+        <div style="width: 62px; height: 62px; left: 830.82px; top: 997.79px; position: absolute">
+            <div style="width: 62px; height: 62px; left: 0px; top: 0px; position: absolute; background: #23618A; border-radius: 9999px"></div>
+        </div>
+        <div style="width: 62px; height: 62px; left: 908.82px; top: 997.79px; position: absolute">
+            <div style="width: 62px; height: 62px; left: 0px; top: 0px; position: absolute; background: #3A6E96; border-radius: 9999px"></div>
+        </div>
+    </div>
+    <div style="width: 256px; height: 671px; left: 2529.50px; top: 1194px; position: absolute">
+        <div style="width: 256px; height: 671px; left: 0px; top: 0px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 256px; height: 671px; border-radius: 5px; border: 12px #0E8BCD solid"></div>
+        </div>
+        <div style="width: 0px; height: 308.50px; left: 177.50px; top: 175.50px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 5px; border: 15px #005180 solid"></div>
+        <div style="width: 21px; height: 83px; left: 147px; top: 287px; position: absolute">
+            <div style="width: 21px; height: 83px; left: 0px; top: 0px; position: absolute; background: #D9D9D9; border-radius: 5px; border: 10px #24B4E9 solid"></div>
+        </div>
+    </div>
+    <div style="width: 473.50px; height: 610px; left: 1522.50px; top: 2017px; position: absolute; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
+        <div style="width: 473.50px; height: 610px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 473.50px; height: 610px; background: #003047; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 2px; border: 5px #084966 solid"></div>
+        </div>
+    </div>
+    <div style="width: 1303px; height: 339px; left: 2804px; top: 1660.50px; position: absolute">
+        <div style="width: 1303px; height: 339px; left: 0px; top: 0px; position: absolute; background: #003047; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 5px; border: 15px #084966 solid"></div>
+        <div style="width: 1239px; height: 231px; left: 32px; top: 85px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="flex: 1 1 0; align-self: stretch; padding-top: 4.46px; padding-bottom: 3.46px; justify-content: center; align-items: center; display: inline-flex">
+                <div style="width: 1239px; height: 223.08px; background: #00364F"></div>
+            </div>
+        </div>
+        <div style="width: 408px; height: 59px; left: 861px; top: 22px; position: absolute">
+            <div style="width: 448px; height: 79px; left: -20px; top: -20px; position: absolute; border-radius: 5px; overflow: hidden; border: 1px #9747FF dotted">
+                <div style="width: 410px; height: 59px; padding-top: 4px; padding-bottom: 4px; padding-left: 4px; padding-right: 6px; left: 20px; top: 99px; position: absolute; background: #225C77; justify-content: center; align-items: center; display: inline-flex">
+                    <div style="width: 400px; height: 51px; mix-blend-mode: lighten; color: #A2D9F5; font-size: 42px; font-family: Orbitron; font-weight: 500; letter-spacing: 0.84px; word-wrap: break-word">Uploaded</div>
+                </div>
+                <div style="width: 410px; height: 59px; left: 20px; top: 20px; position: absolute; background: #00364F"></div>
+            </div>
+            <div style="width: 36px; height: 36px; left: 360px; top: 12px; position: absolute">
+                <div style="width: 21.60px; height: 21.85px; left: 8.41px; top: 7.08px; position: absolute; background: #0581B4"></div>
+            </div>
+        </div>
+        <div style="width: 408px; height: 59px; left: 447px; top: 22px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 448px; height: 79px; position: relative; border-radius: 5px; overflow: hidden; border: 1px #9747FF dotted; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
+                <div style="width: 410px; height: 59px; position: relative; background: #00364F"></div>
+                <div style="width: 410px; height: 59px; padding-top: 4px; padding-bottom: 4px; padding-left: 4px; padding-right: 6px; background: #225C77; justify-content: center; align-items: center; display: inline-flex">
+                    <div style="width: 400px; height: 51px; mix-blend-mode: lighten; color: #A2D9F5; font-size: 42px; font-family: Orbitron; font-weight: 500; letter-spacing: 0.84px; word-wrap: break-word">Processing...</div>
+                </div>
+            </div>
+        </div>
+        <div style="width: 408px; height: 59px; left: 32px; top: 22px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 448px; height: 79px; position: relative; border-radius: 5px; overflow: hidden; border: 1px #9747FF dotted; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
+                <div style="width: 408px; height: 59px; position: relative; background: #00364F"></div>
+                <div style="width: 408px; height: 59px; padding: 4px; background: #225C77; justify-content: center; align-items: center; display: inline-flex">
+                    <div style="width: 400px; height: 51px; mix-blend-mode: lighten; color: #A2D9F5; font-size: 42px; font-family: Orbitron; font-weight: 500; letter-spacing: 0.84px; word-wrap: break-word">Recording...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="width: 669.50px; height: 589px; left: 1793.50px; top: 386.50px; position: absolute">
+        <div style="width: 653.50px; height: 549.50px; left: 0px; top: 33px; position: absolute; background: linear-gradient(360deg, #004267 0%, #00639A 25%, #0083CD 50%, #00639A 75%, #004267 100%); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border: 10px #00446E solid"></div>
+        <div style="width: 353px; height: 270px; left: 157.50px; top: 154px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                <div style="width: 353px; height: 270px; background: #00364F"></div>
+            </div>
+        </div>
+        <div style="width: 372px; height: 287.50px; left: 152px; top: 143px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 2px; border: 15px #1B5E84 solid"></div>
+        <div style="width: 324px; height: 98.50px; left: 188.50px; top: 444.50px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 2px; border: 15px #1B5E84 solid"></div>
+        <div style="width: 25px; height: 25px; left: 512.50px; top: 543px; position: absolute">
+            <div style="width: 25px; height: 25px; left: 0px; top: 0px; position: absolute; background: #86E4F9"></div>
+        </div>
+        <div style="width: 25px; height: 25px; left: 526.50px; top: 529px; position: absolute">
+            <div style="width: 25px; height: 25px; left: 0px; top: 0px; position: absolute; background: #86E4F9"></div>
+        </div>
+        <div style="width: 25px; height: 25px; left: 565.50px; top: 516px; position: absolute">
+            <div style="width: 25px; height: 25px; left: 0px; top: 0px; position: absolute; background: #73CDEF"></div>
+        </div>
+        <div style="width: 25px; height: 25px; left: 565.50px; top: 504px; position: absolute">
+            <div style="width: 25px; height: 25px; left: 0px; top: 0px; position: absolute; background: #7EC6DF"></div>
+        </div>
+        <div style="width: 25px; height: 25px; left: 590.50px; top: 502px; position: absolute">
+            <div style="width: 25px; height: 25px; left: 0px; top: 0px; position: absolute; background: #7EC6DF"></div>
+        </div>
+        <div style="width: 25px; height: 25px; left: 526.50px; top: 492px; position: absolute">
+            <div style="width: 25px; height: 25px; left: 0px; top: 0px; position: absolute; background: #FCFF42"></div>
+        </div>
+        <div style="width: 25px; height: 25px; left: 495.50px; top: 504px; position: absolute">
+            <div style="width: 25px; height: 25px; left: 0px; top: 0px; position: absolute; background: #FCFF42"></div>
+        </div>
+        <div style="width: 25px; height: 25px; left: 431.50px; top: 469px; position: absolute">
+            <div style="width: 25px; height: 25px; left: 0px; top: 0px; position: absolute; background: #FCFF42"></div>
+        </div>
+        <div style="width: 25px; height: 25px; left: 493.50px; top: 465px; position: absolute">
+            <div style="width: 25px; height: 25px; left: 0px; top: 0px; position: absolute; background: #86E4F9"></div>
+        </div>
+        <div style="width: 25px; height: 25px; left: 456.50px; top: 456px; position: absolute">
+            <div style="width: 25px; height: 25px; left: 0px; top: 0px; position: absolute; background: #95F6FF"></div>
+        </div>
+        <div style="width: 25px; height: 25px; left: 518.50px; top: 470px; position: absolute">
+            <div style="width: 25px; height: 25px; left: 0px; top: 0px; position: absolute; background: #FCFF42"></div>
+        </div>
+        <div style="width: 56px; height: 56px; left: 26.50px; top: 533px; position: absolute; background: #00446E; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 1px; border: 5px #0F547B solid"></div>
+        <div style="left: 68.50px; top: 88px; position: absolute; text-align: center; color: #013048; font-size: 32px; font-family: Orbitron; font-weight: 700; word-wrap: break-word">WebSocket API</div>
+        <div style="width: 108px; height: 205.50px; left: 561.50px; top: 27px; position: absolute; border: 5px #12587C solid"></div>
+        <div style="width: 84px; height: 17px; left: 573.41px; top: 23.70px; position: absolute; transform: rotate(40.19deg); transform-origin: 0 0; background: #00446E; border-radius: 1px"></div>
+        <div style="width: 0px; height: 51.50px; left: 40.50px; top: 200px; position: absolute; border-radius: 1px; border: 12px #4085AE solid"></div>
+    </div>
+    <div style="width: 360px; height: 176px; left: 2537px; top: 410.50px; position: absolute">
+        <div style="width: 304px; height: 29px; left: 41px; top: 4px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 304px; height: 29px; background: #0D5772"></div>
+        </div>
+        <div style="width: 304px; height: 29px; left: 46px; top: 75px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 304px; height: 29px; background: #0D5772"></div>
+        </div>
+        <div style="width: 304px; height: 29px; left: 41px; top: 144px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 304px; height: 29px; background: #0D5772"></div>
+        </div>
+        <div style="width: 319px; height: 34.50px; left: 41px; top: 1px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 319px; height: 34.50px; border-radius: 1px; border: 10px #003D5A solid"></div>
+        </div>
+        <div style="width: 319px; height: 34.50px; left: 41px; top: 72px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 319px; height: 34.50px; border-radius: 1px; border: 10px #003D5A solid"></div>
+        </div>
+        <div style="width: 319px; height: 34.50px; left: 41px; top: 139px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 319px; height: 34.50px; border-radius: 1px; border: 10px #003D5A solid"></div>
+        </div>
+        <div style="width: 30px; height: 40px; left: 0px; top: 0px; position: absolute; color: #0D405D; font-size: 32px; font-family: Orbitron; font-weight: 700; word-wrap: break-word"> 1</div>
+        <div style="width: 30px; height: 40px; left: 0px; top: 69px; position: absolute; color: #0D405D; font-size: 32px; font-family: Orbitron; font-weight: 700; word-wrap: break-word">2</div>
+        <div style="width: 30px; height: 40px; left: 0px; top: 136px; position: absolute; color: #0D405D; font-size: 32px; font-family: Orbitron; font-weight: 700; word-wrap: break-word">3<br/></div>
+    </div>
+    <div style="width: 453px; height: 2px; left: 2524px; top: 619px; position: absolute">
+        <div style="width: 453px; height: 0px; left: 0px; top: 0px; position: absolute; border: 5px #12587C solid"></div>
+        <div style="width: 314px; height: 0px; left: 57.50px; top: 2px; position: absolute; border: 10px #12587C solid"></div>
+    </div>
+    <div style="width: 456px; height: 477px; left: 2523px; top: 647.50px; position: absolute">
+        <div style="width: 455px; height: 146.50px; left: 1px; top: 0px; position: absolute; background: #00446C; border-radius: 1px; border: 15px #12587C solid"></div>
+        <div style="width: 455px; height: 146.50px; left: 1px; top: 165px; position: absolute; background: #00446C; border-radius: 1px; border: 15px #12587C solid"></div>
+        <div style="width: 455px; height: 146.50px; left: 1px; top: 330.50px; position: absolute; background: #00446C; border-radius: 1px; border: 15px #12587C solid"></div>
+        <div style="width: 429px; height: 126px; left: 14px; top: 339px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 429px; height: 126px; background: linear-gradient(0deg, #003B5D 0%, #0C5BA0 50%, #003B5D 100%)"></div>
+        </div>
+        <div style="width: 429px; height: 126px; left: 14px; top: 173px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 429px; height: 126px; background: linear-gradient(0deg, #003B5D 0%, #0C5BA0 50%, #003B5D 100%)"></div>
+        </div>
+        <div style="width: 429px; height: 126px; left: 14px; top: 7px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 429px; height: 126px; background: linear-gradient(0deg, #003B5D 0%, #0C5BA0 50%, #003B5D 100%)"></div>
+        </div>
+        <div style="width: 454px; height: 143.50px; left: 2px; top: 332px; position: absolute">
+            <div style="width: 44px; height: 34.50px; left: 0px; top: 2.50px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 30.50px; height: 0px; left: 110.50px; top: 5px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 88.50px; height: 0px; left: 250px; top: 3.50px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 46px; height: 68px; left: 408px; top: 0px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 45.50px; height: 40px; left: 408px; top: 103px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 37.50px; height: 0px; left: 308px; top: 135px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 90px; height: 0px; left: 121.50px; top: 143.50px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 41.50px; height: 43px; left: 1px; top: 100px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+        </div>
+        <div style="width: 454px; height: 143.50px; left: 0px; top: 166px; position: absolute">
+            <div style="width: 44px; height: 34.50px; left: 0px; top: 2.50px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 30.50px; height: 0px; left: 110.50px; top: 5px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 88.50px; height: 0px; left: 250px; top: 3.50px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 46px; height: 68px; left: 408px; top: 0px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 45.50px; height: 40px; left: 408px; top: 103px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 37.50px; height: 0px; left: 308px; top: 135px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 90px; height: 0px; left: 121.50px; top: 143.50px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 41.50px; height: 43px; left: 1px; top: 100px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+        </div>
+        <div style="width: 454px; height: 143.50px; left: 0px; top: 0px; position: absolute">
+            <div style="width: 44px; height: 34.50px; left: 0px; top: 2.50px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 30.50px; height: 0px; left: 110.50px; top: 5px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 88.50px; height: 0px; left: 250px; top: 3.50px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 46px; height: 68px; left: 408px; top: 0px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 45.50px; height: 40px; left: 408px; top: 103px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 37.50px; height: 0px; left: 308px; top: 136px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 90px; height: 0px; left: 121.50px; top: 143.50px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+            <div style="width: 41.50px; height: 43px; left: 1px; top: 100px; position: absolute; border-radius: 2px; border: 5px #017EC5 solid"></div>
+        </div>
+    </div>
+    <div style="width: 453px; height: 2px; left: 2977px; top: 1152.50px; position: absolute; transform: rotate(180deg); transform-origin: 0 0">
+        <div style="width: 453px; height: 0px; left: 0px; top: 0px; position: absolute; transform: rotate(180deg); transform-origin: 0 0; border: 5px #12587C solid"></div>
+        <div style="width: 314px; height: 0px; left: -57.50px; top: -2px; position: absolute; transform: rotate(180deg); transform-origin: 0 0; border: 10px #12587C solid"></div>
+    </div>
+    <div style="width: 1286.98px; height: 1112.50px; left: 2819px; top: 463.50px; position: absolute">
+        <div style="width: 859.98px; height: 317.50px; left: 427px; top: 795px; position: absolute">
+            <div style="width: 859.98px; height: 317.50px; left: 0px; top: 0px; position: absolute; background: #0581B4; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 2px; border: 10px #0581B4 solid"></div>
+            <div style="width: 839.13px; height: 296px; left: 10.17px; top: 14px; position: absolute; background: #003047; border-radius: 1px; border: 1px #003047 solid"></div>
+            <div style="width: 822px; height: 148px; left: 27px; top: 104px; position: absolute; justify-content: flex-end; align-items: center; display: inline-flex">
+                <div style="width: 1023.46px; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                    <div style="width: 1023.46px; height: 184.27px; background: #00364F"></div>
+                </div>
+            </div>
+            <div style="width: 191px; height: 30px; left: 27px; top: 63px; position: absolute; color: black; font-size: 24px; font-family: Orbitron; font-weight: 700; word-wrap: break-word">GPT</div>
+        </div>
+        <div style="width: 859px; height: 317.50px; left: 427px; top: 392px; position: absolute">
+            <div style="width: 859px; height: 317.50px; left: 0px; top: 0px; position: absolute; background: #0581B4; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 2px; border: 10px #0581B4 solid"></div>
+            <div style="width: 838.17px; height: 296px; left: 10.16px; top: 14px; position: absolute; background: #003047; border-radius: 1px; border: 1px #003047 solid"></div>
+            <div style="width: 822px; height: 148px; left: 27px; top: 103px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+                <div style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                    <div style="width: 822px; height: 148px; background: #00364F"></div>
+                </div>
+            </div>
+            <div style="width: 191px; height: 30px; left: 27px; top: 62px; position: absolute; color: black; font-size: 24px; font-family: Orbitron; font-weight: 700; word-wrap: break-word">IDE</div>
+        </div>
+        <div style="width: 859.49px; height: 317.50px; left: 427px; top: 0px; position: absolute">
+            <div style="width: 859.49px; height: 317.50px; left: 0px; top: 0px; position: absolute; background: #0581B4; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 2px; border: 10px #0581B4 solid"></div>
+            <div style="width: 838.65px; height: 296px; left: 10.17px; top: 14px; position: absolute; background: #003047; border-radius: 1px; border: 1px #003047 solid"></div>
+            <div style="width: 822px; height: 148px; left: 27px; top: 104px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+                <div style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                    <div style="width: 822px; height: 148px; background: #00364F"></div>
+                </div>
+            </div>
+            <div style="width: 191px; height: 30px; left: 27px; top: 61px; position: absolute; color: black; font-size: 24px; font-family: Orbitron; font-weight: 700; word-wrap: break-word">HUD</div>
+        </div>
+        <div style="width: 368.50px; height: 882px; left: 3px; top: 169px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 5px; border: 15px #084966 solid"></div>
+        <div style="width: 379px; height: 895px; left: 0px; top: 162px; position: absolute">
+            <div style="width: 366px; height: 884.50px; left: 8px; top: 2.50px; position: absolute; background: #3FA4E3; border-radius: 5px; border: 7px #3FA4E3 solid"></div>
+            <div style="width: 15px; height: 15px; left: 364px; top: 0px; position: absolute; background: #3FA4E3; backdrop-filter: blur(4px)"></div>
+            <div style="width: 15px; height: 15px; left: 364px; top: 399px; position: absolute; background: #3FA4E3; backdrop-filter: blur(4px)"></div>
+            <div style="width: 15px; height: 15px; left: 364px; top: 798px; position: absolute; background: #3FA4E3; backdrop-filter: blur(4px)"></div>
+            <div style="width: 15px; height: 15px; left: 0px; top: 880px; position: absolute; background: #3FA4E3; backdrop-filter: blur(4px)"></div>
+        </div>
+    </div>
+    <div style="width: 670px; height: 559.50px; left: 2204px; top: 1974.50px; position: absolute">
+        <div style="width: 39px; height: 43.50px; left: 631px; top: 278.50px; position: absolute">
+            <div style="width: 39px; height: 43.50px; left: 0px; top: 0px; position: absolute; border: 10px #0E8BCD solid"></div>
+            <div style="width: 0px; height: 22px; left: 6.50px; top: 11px; position: absolute; border-radius: 2px; border: 5px #A6D6A4 solid"></div>
+        </div>
+        <div style="width: 10.50px; height: 59px; left: 583px; top: 273px; position: absolute; border-radius: 2px; border: 6px #31AFEA solid"></div>
+        <div style="width: 501.50px; height: 515.50px; left: 76.50px; top: 44px; position: absolute; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 501.50px; height: 515.50px; background: #003047; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 2px; border: 5px #084966 solid"></div>
+        </div>
+        <div style="width: 204px; height: 204px; left: 0px; top: 4px; position: absolute; background: #146193; border-radius: 9999px; border: 10px #136D9F solid"></div>
+        <div style="width: 113px; height: 117px; left: 86px; top: 8px; position: absolute; border: 10px #136D9F solid"></div>
+        <div style="width: 120px; height: 120px; left: 91px; top: 0px; position: absolute; background: #003E68"></div>
+        <div style="width: 81.25px; height: 81.25px; left: 119px; top: 10px; position: absolute">
+            <div style="width: 9.25px; height: 9.25px; left: 9px; top: 63px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #357196"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 18px; top: 63px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #256186"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 27px; top: 63px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #357196"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 36px; top: 63px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #2B658A"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 45px; top: 63px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #42789C"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 54px; top: 63px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #548AAE"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 63px; top: 63px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #40769A"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 72px; top: 63px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #72AACD"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 9px; top: 54px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #1E587E"></div>
+            </div>
+            <div style="width: 9.25px; height: 9px; left: 18px; top: 54px; position: absolute">
+                <div style="width: 9.25px; height: 9px; left: 0px; top: 0px; position: absolute; background: #0E486D"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 27px; top: 54px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #245C81"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 36px; top: 54px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #1F577C"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 45px; top: 54px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #21557A"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 54px; top: 54px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #316386"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 63px; top: 54px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #184A6D"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 72px; top: 54px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #457A9C"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 9px; top: 45px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #4E86AB"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 18px; top: 45px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #245C81"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 27px; top: 45px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #558BB1"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 36px; top: 45px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #396F93"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 45px; top: 45px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #5080A4"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 54px; top: 45px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #6090B4"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 63px; top: 45px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #47779B"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 72px; top: 45px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #8ABCDF"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 9px; top: 36px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #31678D"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 18px; top: 36px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #174D71"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 27px; top: 36px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #376B90"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 36px; top: 36px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #275B80"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 45px; top: 36px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #39678B"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 54px; top: 36px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #386688"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 63px; top: 36px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #214F73"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 72px; top: 36px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #5484A8"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 9px; top: 27px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #588CB1"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 18px; top: 27px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #34668B"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 27px; top: 27px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #6597BC"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 36px; top: 27px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #49799D"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 45px; top: 27px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #608CAF"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 54px; top: 27px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #739FC2"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 63px; top: 27px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #4F7BA0"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 72px; top: 27px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #98C8EC"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 9px; top: 18px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #437397"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 18px; top: 18px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #1B4B6F"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 27px; top: 18px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #437397"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 36px; top: 18px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #2F5D81"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 45px; top: 18px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #376285"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 54px; top: 18px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #457092"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 63px; top: 18px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #2A5679"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 72px; top: 18px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #507EA2"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 9px; top: 9px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #719FC1"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 18px; top: 9px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #3E6C8E"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 27px; top: 9px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #7BA7CC"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 36px; top: 9px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #5A86A9"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 45px; top: 9px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #6D98BA"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 54px; top: 9px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #8FBADC"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 63px; top: 9px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #042F52"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 72px; top: 9px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #0E3C5E"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 9px; top: 0px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #4B7899"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 18px; top: 0px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #2C597A"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 27px; top: 0px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #4D789B"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 36px; top: 0px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #3A6588"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 45px; top: 0px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #436B8E"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 54px; top: 0px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #517C9E"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 63px; top: 0px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #0D385B"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 72px; top: 0px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #1C4A6C"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 0px; top: 72px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #02416A"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 0px; top: 63px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #07456C"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 0px; top: 54px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #0F4A72"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 0px; top: 45px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #064066"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 0px; top: 36px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #0F476C"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 0px; top: 27px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #12486C"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 0px; top: 18px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #124467"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 0px; top: 9px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #1C4D6E"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #214E6F"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 9px; top: 72px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #114F76"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 18px; top: 72px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #054166"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 27px; top: 72px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #104C71"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 36px; top: 72px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #0D496E"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 45px; top: 72px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #10486D"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 54px; top: 72px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #1D5578"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 63px; top: 72px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #084063"></div>
+            </div>
+            <div style="width: 9.25px; height: 9.25px; left: 72px; top: 72px; position: absolute">
+                <div style="width: 9.25px; height: 9.25px; left: 0px; top: 0px; position: absolute; background: #1B5678"></div>
+            </div>
+        </div>
+    </div>
+    <div style="width: 49px; height: 419.50px; left: 2980.50px; top: 2090px; position: absolute; border-radius: 2px; border: 3px #68A1BC solid"></div>
+    <div style="width: 49px; height: 419.50px; left: 4099px; top: 2516px; position: absolute; transform: rotate(180deg); transform-origin: 0 0; border-radius: 2px; border: 3px #68A1BC solid"></div>
+    <div style="width: 1013px; height: 466px; left: 3025px; top: 2035.50px; position: absolute">
+        <div style="width: 972px; height: 338px; left: 28px; top: 75px; position: absolute; background: #03304F; border-radius: 5px; border: 15px #084966 solid"></div>
+        <div style="width: 825px; height: 83px; left: 108px; top: 83px; position: absolute; background: #03304F"></div>
+        <div style="width: 942px; height: 194px; left: 42px; top: 167px; position: absolute; background: #03304F"></div>
+        <div style="width: 115px; height: 305px; left: 456px; top: -20px; position: absolute; border-radius: 5px; overflow: hidden; border: 1px #9747FF dotted">
+            <div style="width: 75px; height: 75px; left: 20px; top: 20px; position: absolute"></div>
+            <div style="width: 75px; height: 75px; left: 20px; top: 20px; position: absolute"></div>
+            <div style="width: 75px; height: 75px; left: 20px; top: 20px; position: absolute"></div>
+        </div>
+        <div style="width: 36px; height: 36px; left: 866px; top: 366px; position: absolute">
+            <div style="width: 27.75px; height: 24.75px; left: 4.88px; top: 5.62px; position: absolute; background: #0581B4"></div>
+        </div>
+        <div style="width: 36px; height: 36px; left: 190px; top: 366px; position: absolute">
+            <div style="width: 11.74px; height: 18.09px; left: 12.13px; top: 3.70px; position: absolute; background: #0581B4"></div>
+            <div style="width: 23.25px; height: 18px; left: 6.38px; top: 16.87px; position: absolute; background: #0581B4"></div>
+        </div>
+        <div style="width: 36px; height: 36px; left: 145px; top: 366px; position: absolute">
+            <div style="width: 29.25px; height: 20.25px; left: 3.38px; top: 7.88px; position: absolute; background: #0581B4"></div>
+        </div>
+    </div>
+    <div style="width: 115px; height: 305px; left: 3481px; top: 2428.50px; position: absolute; border-radius: 5px; overflow: hidden; border: 1px #9747FF dotted">
+        <div style="width: 75px; height: 75px; left: 20px; top: 20px; position: absolute"></div>
+        <div style="width: 75px; height: 75px; left: 20px; top: 20px; position: absolute"></div>
+        <div style="width: 75px; height: 75px; left: 20px; top: 20px; position: absolute"></div>
+    </div>
+    <div style="width: 4108px; height: 2265.50px; left: 80px; top: 361.50px; position: absolute">
+        <div style="width: 1595px; height: 2198.50px; left: 0px; top: 9px; position: absolute; border: 1px rgba(1, 46, 70, 0) solid">
+            <div style="width: 1595px; height: 2198.50px; left: 0px; top: 0px; position: absolute; border-radius: 2px; border: 5px #A6D6A4 solid; backdrop-filter: blur(4px)"></div>
+            <div style="width: 20px; height: 20px; left: 1582px; top: 60.50px; position: absolute; background: #A6D6A4; backdrop-filter: blur(4px)"></div>
+            <div style="width: 20px; height: 20px; left: 49px; top: 2192.50px; position: absolute; background: #A6D6A4; backdrop-filter: blur(4px)"></div>
+        </div>
+        <div style="width: 317px; height: 457.50px; left: 1265px; top: 1061px; position: absolute">
+            <div style="width: 317px; height: 457.50px; left: 0px; top: 0px; position: absolute; border-radius: 2px; border: 5px #A6D6A4 solid; backdrop-filter: blur(4px)"></div>
+            <div style="width: 20px; height: 20px; left: -14px; top: -10.50px; position: absolute; background: #A6D6A4; backdrop-filter: blur(4px)"></div>
+            <div style="width: 20px; height: 20px; left: 307px; top: 447.50px; position: absolute; background: #A6D6A4; backdrop-filter: blur(4px)"></div>
+        </div>
+        <div style="width: 924.50px; height: 177px; left: 469px; top: 2088.50px; position: absolute">
+            <div style="width: 924.50px; height: 177px; left: 0px; top: 0px; position: absolute; border-radius: 2px; border: 5px #A6D6A4 solid; backdrop-filter: blur(4px)"></div>
+            <div style="width: 20px; height: 20px; left: -14px; top: 167px; position: absolute; background: #A6D6A4; backdrop-filter: blur(4px)"></div>
+            <div style="width: 20px; height: 20px; left: 915px; top: 167px; position: absolute; background: #A6D6A4; backdrop-filter: blur(4px)"></div>
+        </div>
+        <div style="width: 1907.50px; height: 989px; left: 2191px; top: 1276.50px; position: absolute; backdrop-filter: blur(4px)">
+            <div style="width: 1907.50px; height: 989px; left: 0px; top: 0px; position: absolute; border-radius: 2px; border: 5px #A6D6A4 solid; backdrop-filter: blur(4px)"></div>
+            <div style="width: 20px; height: 20px; left: -17.50px; top: 842.50px; position: absolute; background: #A6D6A4; backdrop-filter: blur(4px)"></div>
+            <div style="width: 20px; height: 20px; left: 1831.50px; top: -4.50px; position: absolute; background: #A6D6A4; backdrop-filter: blur(4px)"></div>
+        </div>
+        <div style="width: 447.50px; height: 117.50px; left: 2765px; top: 1136.50px; position: absolute; backdrop-filter: blur(4px)">
+            <div style="width: 447.50px; height: 117.50px; left: 0px; top: 0px; position: absolute; border-radius: 2px; border: 5px #A6D6A4 solid; backdrop-filter: blur(4px)"></div>
+            <div style="width: 20px; height: 20px; left: -18.50px; top: 72px; position: absolute; background: #A6D6A4; backdrop-filter: blur(4px)"></div>
+            <div style="width: 20px; height: 20px; left: 445.50px; top: 107px; position: absolute; background: #A6D6A4; backdrop-filter: blur(4px)"></div>
+        </div>
+        <div style="width: 1849px; height: 477px; left: 2259px; top: 0px; position: absolute">
+            <div style="width: 1849px; height: 477px; left: 0px; top: 0px; position: absolute; border-radius: 2px; border: 5px #A6D6A4 solid; backdrop-filter: blur(4px)"></div>
+            <div style="width: 20px; height: 20px; left: -10px; top: -10.50px; position: absolute; background: #A6D6A4; backdrop-filter: blur(4px)"></div>
+            <div style="width: 20px; height: 20px; left: 1810px; top: 460.50px; position: absolute; background: #A6D6A4; backdrop-filter: blur(4px)"></div>
+        </div>
+    </div>
+    <div style="width: 253.50px; height: 423.50px; left: 2028px; top: 2604.50px; position: absolute; border-radius: 5px; overflow: hidden; border: 1px #9747FF dotted">
+        <div style="width: 213.50px; height: 114.50px; left: 20px; top: 20px; position: absolute">
+            <div style="width: 213.50px; height: 114.50px; left: 0px; top: 0px; position: absolute; background: #015A84; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border: 5px #0D6993 solid; backdrop-filter: blur(4px)"></div>
+            <div style="width: 161px; height: 0px; left: 26px; top: 87px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border: 5px #043B55 solid"></div>
+            <div style="width: 144px; height: 0px; left: 35px; top: 96px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border: 5px #043B55 solid"></div>
+            <div style="width: 174px; height: 0px; left: 20px; top: 78px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border: 5px #043B55 solid"></div>
+            <div style="width: 195.50px; height: 58.50px; left: 9px; top: 9px; position: absolute; background: #00314A; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border: 5px #032C40 solid"></div>
+        </div>
+        <div style="width: 213.50px; height: 114.50px; left: 20px; top: 20px; position: absolute">
+            <div style="width: 213.50px; height: 114.50px; left: 0px; top: 0px; position: absolute; background: #014160; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border: 5px #0C5E82 solid; backdrop-filter: blur(4px)"></div>
+            <div style="width: 161px; height: 0px; left: 26px; top: 87px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border: 5px #043B55 solid"></div>
+            <div style="width: 144px; height: 0px; left: 35px; top: 96px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border: 5px #043B55 solid"></div>
+            <div style="width: 174px; height: 0px; left: 20px; top: 78px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border: 5px #043B55 solid"></div>
+            <div style="width: 195.50px; height: 58.50px; left: 9px; top: 9px; position: absolute; background: #00314A; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border: 5px #032C40 solid"></div>
+        </div>
+        <div style="width: 213.50px; height: 114.50px; left: 20px; top: 20px; position: absolute">
+            <div style="width: 213.50px; height: 114.50px; left: 0px; top: 0px; position: absolute; background: #003047; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border: 5px #084966 solid; backdrop-filter: blur(4px)"></div>
+            <div style="width: 161px; height: 0px; left: 26px; top: 87px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border: 5px #043B55 solid"></div>
+            <div style="width: 144px; height: 0px; left: 35px; top: 96px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border: 5px #043B55 solid"></div>
+            <div style="width: 174px; height: 0px; left: 20px; top: 78px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border: 5px #043B55 solid"></div>
+            <div style="width: 195.50px; height: 58.50px; left: 9px; top: 9px; position: absolute; background: #00314A; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border: 5px #032C40 solid"></div>
+            <div style="width: 176px; height: 32px; left: 19px; top: 19px; position: absolute; text-align: center; color: #032C40; font-size: 24px; font-family: Orbitron; font-weight: 800; word-wrap: break-word">ENGAGE<br/></div>
+        </div>
+    </div>
+</div>
