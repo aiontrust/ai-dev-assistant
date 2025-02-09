@@ -1,174 +1,352 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Dashboard</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to bottom, #e6e6e6, #ffffff);
-      color: #333;
-      touch-action: manipulation;
-    }
-
-    .dashboard {
-      display: grid;
-      grid-template-rows: auto 1fr;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    .taskbar {
-      background: rgba(0, 123, 255, 0.9);
-      padding: 1rem;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
-
-    .sections {
-      display: grid;
-      grid-template-rows: repeat(4, 1fr);
-      gap: 1rem;
-      padding: 1rem;
-      overflow-y: auto;
-    }
-
-    .section {
-      background: rgba(0, 123, 255, 0.05);
-      border: 1px solid #007bff;
-      border-radius: 8px;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .section:active {
-      transform: scale(0.98);
-      box-shadow: 0 2px 8px rgba(0, 123, 255, 0.5);
-    }
-
-    .section h2 {
-      margin: 0 0 1rem 0;
-      color: #007bff;
-    }
-
-    .draggable {
-      background: rgba(0, 123, 255, 0.2);
-      border: 1px solid #007bff;
-      border-radius: 4px;
-      padding: 0.5rem;
-      margin-bottom: 0.5rem;
-      cursor: grab;
-    }
-
-    .draggable:active {
-      cursor: grabbing;
-    }
-
-    .drag-over {
-      border: 2px dashed #007bff;
-    }
-
-    .expand {
-      display: none;
-      cursor: pointer;
-    }
-
-    @media (hover: none) {
-      .expand {
-        display: block;
-      }
-    }
-  </style>
+  	<meta charset="utf-8">
+  	<meta name="viewport" content="initial-scale=1, width=device-width">
+  	
+  	<link rel="stylesheet"  href="./index.css" />
+  	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" />
+  	
+  	
+  	
 </head>
 <body>
-  <div class="dashboard">
-    <div class="taskbar">
-      <span>Taskbar</span>
-      <span>Options</span>
-    </div>
-
-    <div class="sections">
-      <div class="section" draggable="true">
-        <h2>Repositories</h2>
-        <div class="content">
-          <div class="draggable">Repo 1</div>
-          <div class="draggable">Repo 2</div>
-          <div class="draggable">Repo 3</div>
-        </div>
-      </div>
-      <div class="section">
-        <h2>Project Files</h2>
-        <div class="content">
-          <div class="draggable">File 1</div>
-          <div class="draggable">File 2</div>
-        </div>
-      </div>
-      <div class="section">
-        <h2>Uploads</h2>
-        <div class="content">
-          <div class="draggable">Image 1</div>
-          <div class="draggable">Logo 2</div>
-        </div>
-      </div>
-      <div class="section">
-        <h2>Finished Projects</h2>
-        <div class="content">
-          <div class="draggable">Project 1</div>
-          <div class="draggable">Project 2</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const draggables = document.querySelectorAll('.draggable');
-    const sections = document.querySelectorAll('.section');
-
-    draggables.forEach(draggable => {
-      draggable.addEventListener('dragstart', () => {
-        draggable.classList.add('dragging');
-      });
-
-      draggable.addEventListener('dragend', () => {
-        draggable.classList.remove('dragging');
-      });
-    });
-
-    sections.forEach(section => {
-      section.addEventListener('dragover', e => {
-        e.preventDefault();
-        const afterElement = getDragAfterElement(section, e.clientY);
-        const draggable = document.querySelector('.dragging');
-        if (afterElement == null) {
-          section.querySelector('.content').appendChild(draggable);
-        } else {
-          section.querySelector('.content').insertBefore(draggable, afterElement);
-        }
-      });
-    });
-
-    function getDragAfterElement(container, y) {
-      const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
-
-      return draggableElements.reduce((closest, child) => {
-        const box = child.getBoundingClientRect();
-        const offset = y - box.top - box.height / 2;
-        if (offset < 0 && offset > closest.offset) {
-          return { offset: offset, element: child };
-        } else {
-          return closest;
-        }
-      }, { offset: Number.NEGATIVE_INFINITY }).element;
-    }
-  </script>
-</body>
+  	
+  	<div class="vector-parent">
+    		<img class="frame-child" alt="" src="Vector 71.svg">
+    		
+    		<div class="s-a-t-i">
+      			<div class="s-a-t">S A T I </div>
+    		</div>
+    		<div class="o-p-t-i-o-n-s">
+      			<div class="s-a-t">O P T I O N S</div>
+    		</div>
+    		<img class="selector-group-icon" alt="" src="Selector Group.svg">
+    		
+    		<img class="os-group-icon" alt="" src="OS Group.svg">
+    		
+    		<img class="sperical-data-icon" alt="" src="Sperical Data.svg">
+    		
+    		<img class="os-lights-icon" alt="" src="OS Lights.svg">
+    		
+    		<div class="cpu-percentage-wrapper">
+      			<div class="cpu-percentage">
+        				<div class="cpu-percentage1">
+        				</div>
+      			</div>
+    		</div>
+    		<img class="osl-container-icon" alt="" src="OSL Container.svg">
+    		
+    		<img class="output-vector-icon" alt="" src="Output Vector.svg">
+    		
+    		<img class="frame-item" alt="" src="Group 7.svg">
+    		
+    		<img class="lower-9-icon" alt="" src="Lower 9.svg">
+    		
+    		<img class="frame-inner" alt="" src="Frame 8.svg">
+    		
+    		<img class="speaker-visual-icon" alt="" src="Speaker Visual.svg">
+    		
+    		<img class="speaker-vector-icon" alt="" src="Speaker Vector.svg">
+    		
+    		<img class="prometheus-console-icon" alt="" src="Prometheus Console.svg">
+    		
+    		<div class="audio-vector">
+      			<img class="audio-vector-icon" alt="" src="Audio Vector.svg">
+      			
+      			<div class="uploaded-console">
+        				<div class="console">
+          					<div class="stateuploaded">
+            						<div class="uploaded">Uploaded</div>
+          					</div>
+          					<div class="statedefault">
+          					</div>
+        				</div>
+        				<img class="basilplay-outline-icon" alt="" src="basil:play-outline.svg">
+        				
+      			</div>
+      			<div class="processing-console">
+        				<div class="console">
+          					<div class="stateprocessing">
+            						<div class="uploaded">Processing...</div>
+          					</div>
+          					<div class="statedefault">
+          					</div>
+        				</div>
+      			</div>
+      			<div class="recording-console">
+        				<div class="console">
+          					<div class="staterecording">
+            						<div class="uploaded">Recording...</div>
+          					</div>
+          					<div class="statedefault2">
+          					</div>
+        				</div>
+      			</div>
+      			<div class="waveform-console">
+        				<div class="audio-waveform">
+          					<div class="build-console">
+          					</div>
+        				</div>
+      			</div>
+    		</div>
+    		<div class="vector-main">
+      			<img class="vector-main-child" alt="" src="Vector 2.svg">
+      			
+      			<div class="console2">
+        				<div class="websocket-console">
+          					<div class="websocket-console1">
+          					</div>
+        				</div>
+      			</div>
+      			<img class="vector-main-item" alt="" src="Vector 3.svg">
+      			
+      			<img class="vector-main-inner" alt="" src="Vector 4.svg">
+      			
+      			<div class="rectangle-div">
+        				<div class="component-child">
+        				</div>
+      			</div>
+      			<div class="vector-main-inner1">
+        				<div class="component-child">
+        				</div>
+      			</div>
+      			<div class="vector-main-inner2">
+        				<div class="component-inner">
+        				</div>
+      			</div>
+      			<div class="vector-main-inner3">
+        				<div class="component-child1">
+        				</div>
+      			</div>
+      			<div class="vector-main-inner4">
+        				<div class="component-child1">
+        				</div>
+      			</div>
+      			<div class="vector-main-inner5">
+        				<div class="component-child3">
+        				</div>
+      			</div>
+      			<div class="vector-main-inner6">
+        				<div class="component-child3">
+        				</div>
+      			</div>
+      			<div class="vector-main-inner7">
+        				<div class="component-child3">
+        				</div>
+      			</div>
+      			<div class="vector-main-inner8">
+        				<div class="component-child">
+        				</div>
+      			</div>
+      			<div class="vector-main-inner9">
+        				<div class="component-child7">
+        				</div>
+      			</div>
+      			<div class="vector-main-inner10">
+        				<div class="component-child3">
+        				</div>
+      			</div>
+      			<img class="triangle-icon" alt="" src="Triangle.svg">
+      			
+      			<b class="websocket">WebSocket API</b>
+      			<img class="vector-icon" alt="" src="Vector 37.svg">
+      			
+      			<div class="vector-main-child1">
+      			</div>
+      			<img class="polygon-icon" alt="" src="Polygon 16.svg">
+      			
+      			<img class="vector-main-child2" alt="" src="Vector 38.svg">
+      			
+    		</div>
+    		<div class="three-bars">
+      			<img class="three-bars-child" alt="" src="Frame 6.svg">
+      			
+      			<img class="three-bars-item" alt="" src="Frame 5.svg">
+      			
+      			<img class="three-bars-inner" alt="" src="Frame 4.svg">
+      			
+      			<b class="b"> 1</b>
+      			<b class="b1">2</b>
+      			<b class="b2">
+        				<p class="p">3</p>
+      			</b>
+    		</div>
+    		<img class="group-icon" alt="" src="Group 9.svg">
+    		
+    		<img class="waveconsole-group-icon" alt="" src="WaveConsole Group.svg">
+    		
+    		<img class="frame-child1" alt="" src="Group 10.png">
+    		
+    		<div class="rp-vector">
+      			<div class="rpb">
+        				<img class="rpb-icon" alt="" src="RPB.svg">
+        				
+        				<img class="rpb-fill-icon" alt="" src="RPB Fill.svg">
+        				
+        				<div class="build-console1">
+          					<div class="build-console2">
+            						<div class="build-console3">
+            						</div>
+          					</div>
+        				</div>
+        				<b class="build">GPT</b>
+      			</div>
+      			<div class="rpc">
+        				<img class="rpc-icon" alt="" src="RPC.svg">
+        				
+        				<img class="rpc-fill-icon" alt="" src="RPC Fill.svg">
+        				
+        				<div class="terminal-console">
+          					<div class="build-console2">
+            						<div class="build-console3">
+            						</div>
+          					</div>
+        				</div>
+        				<b class="ide">IDE</b>
+      			</div>
+      			<div class="rpt">
+        				<img class="rpt-icon" alt="" src="RPT.svg">
+        				
+        				<img class="rpt-fill-icon" alt="" src="RPT Fill.svg">
+        				
+        				<div class="server-console">
+          					<div class="build-console2">
+            						<div class="build-console3">
+            						</div>
+          					</div>
+        				</div>
+        				<b class="server">HUD</b>
+      			</div>
+      			<img class="rp-vector-background" alt="" src="RP Vector Background.svg">
+      			
+      			<div class="rp-vector-lights">
+        				<img class="rp-vector-light" alt="" src="RP Vector Light.svg">
+        				
+        				<div class="rpv1">
+        				</div>
+        				<div class="rpv2">
+        				</div>
+        				<div class="rpv3">
+        				</div>
+        				<div class="rpv4">
+        				</div>
+      			</div>
+    		</div>
+    		<img class="grafana-group-icon" alt="" src="Grafana Group.svg">
+    		
+    		<img class="chat-panel-vector-1" alt="" src="Chat Panel Vector 1.svg">
+    		
+    		<img class="chat-panel-vector-2" alt="" src="Chat Panel Vector 2.svg">
+    		
+    		<div class="chat-panel-parent">
+      			<img class="chat-panel-icon" alt="" src="Chat Panel.svg">
+      			
+      			<div class="gpt-assistant-status">
+      			</div>
+      			<div class="text-input">
+      			</div>
+      			<div class="statepressed-parent">
+        				<img class="statepressed-icon" alt="" src="State=Pressed.svg">
+        				
+        				<img class="statepressed-icon" alt="" src="State=Hover.svg">
+        				
+        				<img class="statepressed-icon" alt="" src="State=Default.svg">
+        				
+      			</div>
+      			<img class="basilsend-outline-icon" alt="" src="basil:send-outline.svg">
+      			
+      			<img class="basilmicrophone-outline-icon" alt="" src="basil:microphone-outline.svg">
+      			
+      			<img class="basilattach-outline-icon" alt="" src="basil:attach-outline.svg">
+      			
+    		</div>
+    		<div class="ide-button">
+      			<img class="statepressed-icon" alt="" src="State=Pressed.svg">
+      			
+      			<img class="statepressed-icon" alt="" src="State=Hover.svg">
+      			
+      			<img class="statepressed-icon" alt="" src="State=Default.svg">
+      			
+    		</div>
+    		<img class="hud-vector-lights" alt="" src="HUD Vector Lights.svg">
+    		
+    		<div class="terminal-release">
+      			<img class="statepressed-icon2" alt="" src="State=Pressed.svg" id="statePressed">
+      			
+      			<img class="statepressed-icon2" alt="" src="State=Hover.svg">
+      			
+      			<div class="statepressed-icon2">
+        				<img class="statedefault-child" alt="" src="Vector 73.svg">
+        				
+        				<img class="statedefault-item" alt="" src="Vector 74.svg">
+        				
+        				<img class="statedefault-inner" alt="" src="Vector 75.svg">
+        				
+        				<img class="statedefault-child1" alt="" src="Vector 76.svg">
+        				
+        				<img class="statedefault-child2" alt="" src="Vector 77.svg">
+        				
+        				<div class="engage">
+          					<p class="p">ENGAGE</p>
+        				</div>
+      			</div>
+    		</div>
+  	</div>
+  	
+  	<div id="terminalContainer" class="popup-overlay" style="display:none">
+    		
+    		<div class="terminal">
+      			<img class="terminal-child" alt="" src="Vector 78.svg">
+      			
+      			<div class="terminal1">
+        				<div class="terminal-console-wrapper">
+          					<div class="terminal-console3">
+          					</div>
+        				</div>
+      			</div>
+      			<div class="terminal-releasedisengage">
+        				<img class="terminal-releasedisengage-child" alt="" src="Vector 73.svg">
+        				
+        				<img class="terminal-releasedisengage-item" alt="" src="Vector 74.svg">
+        				
+        				<img class="terminal-releasedisengage-inner" alt="" src="Vector 75.svg">
+        				
+        				<img class="terminal-releasedisengage-child1" alt="" src="Vector 76.svg">
+        				
+        				<img class="terminal-releasedisengage-child2" alt="" src="Vector 77.svg">
+        				
+        				<div class="disengage">DISENGAGE</div>
+      			</div>
+    		</div>
+    		
+    		
+  	</div>
+  	
+  	
+  	
+  	<script>
+    		var statePressed = document.getElementById("statePressed");
+    		if(statePressed) {
+      			statePressed.addEventListener("click", function () {
+        				var popup = document.getElementById("terminalContainer");
+        				if(!popup) return;
+        				var popupStyle = popup.style;
+        				if(popupStyle) {
+          					popupStyle.display = "flex";
+          					popupStyle.zIndex = 100;
+          					popupStyle.backgroundColor = "rgba(113, 113, 113, 0.3)";
+          					popupStyle.alignItems = "center";
+          					popupStyle.justifyContent = "center";
+        				}
+        				popup.setAttribute("closable", "");
+        				
+        				var onClick = popup.onClick || function(e) {
+          					if(e.target === popup && popup.hasAttribute("closable")) {
+            						popupStyle.display = "none";
+          					}
+        				};
+        				popup.addEventListener("click", onClick);
+      			});
+    		}</script></body>
 </html>
