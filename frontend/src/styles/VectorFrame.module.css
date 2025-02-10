@@ -815,7 +815,7 @@
     font-size: 5.01px;
     color: #002538;
 }
-.grafanaGroupIcon {
+.grafanaConsoleGroup {
     position: absolute;
     bottom: 162.56px;
     left: calc(50% + 13.83px);
@@ -839,7 +839,7 @@
     height: 87.5px;
     object-fit: contain;
 }
-.chatPanelIcon {
+.chatPanelVector {
     position: absolute;
     right: 2.76px;
     bottom: 11.05px;
@@ -870,7 +870,7 @@
     width: 15.7px;
     height: 15.7px;
 }
-.statepressedParent {
+.gptpopupButton {
     position: absolute;
     right: 92.24px;
     bottom: 37.77px;

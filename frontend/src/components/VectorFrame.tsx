@@ -171,14 +171,14 @@ const VectorFrame: React.FC = () => {
                     <div className={styles.rpv4} />
                 </div>
             </div>
-            <img className={styles.grafanaGroupIcon} alt="" src="Grafana Group.svg" />
+            <img className={styles.grafanaConsoleGroup} alt="" src="Grafana Console Group.svg" />
             <img className={styles.chatPanelVector1} alt="" src="Chat Panel Vector 1.svg" />
             <img className={styles.chatPanelVector2} alt="" src="Chat Panel Vector 2.svg" />
-            <div className={styles.chatPanelParent}>
-                <img className={styles.chatPanelIcon} alt="" src="Chat Panel.svg" />
+            <div className={styles.chatPanelVectorParent}>
+                <img className={styles.chatPanelVector} alt="" src="Chat Panel Vector.svg" />
                 <div className={styles.gptAssistantStatus} />
                 <div className={styles.textInput} />
-                <div className={styles.statepressedParent}>
+                <div className={styles.gptpopupButton}>
                     <img className={styles.statepressedIcon} alt="" src="State=Pressed.svg" />
                     <img className={styles.statepressedIcon} alt="" src="State=Hover.svg" />
                     <img className={styles.statepressedIcon} alt="" src="State=Default.svg" />
@@ -219,7 +219,7 @@ const VectorFrame: React.FC = () => {
 
             {/* Buttons to Toggle Overlays */}
             <div className="absolute bottom-4 left-4 flex gap-2">
-              <button onClick={() => setShowGPT(!showGPT)} className="btn">GPT</button>
+              <button onClick={() => setShowGPT(!showGPT)} className="btn">gptpopupButton</button>
               <button onClick={() => setShowTerminal(!showTerminal)} className="btn">terminalRelease</button>
               <button onClick={() => setShowVector72(!showVector72)} className="btn">ideButton</button>
             </div>
