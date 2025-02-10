@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import styles from './Vector72.module.css';
 
 
-const VectorFrame:FunctionComponent = () => {
+const VectorFrame = () => {
   	return (
     		<div className={styles.vectorParent}>
       			<img className={styles.frameChild} alt="" src="Vector 72.svg" />
