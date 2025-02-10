@@ -1,8 +1,16 @@
 import React, { FunctionComponent } from 'react';
+import { useState } from "react";
 import styles from './VectorFrame.module.css';
+import GPTPopup from "./GPTPopup";
+import Terminal from "./Terminal";
+import Vector72 from "./Vector72";
 
-const VectorFrame: FunctionComponent = () => {
-    return (
+const VectorFrame: React.FC = () => {
+  const [showTerminal, setShowTerminal] = useState<boolean>(false);
+  const [showVector72, setShowVector72] = useState<boolean>(false);
+  const [showGPT, setShowGPT] = useState<boolean>(false);
+   
+  return (
         <div className={styles.componentParent}>
             <img className={styles.frameChild} alt="" src="Vector 71.svg" />
             <div className={styles.sATI}>
@@ -199,8 +207,24 @@ const VectorFrame: FunctionComponent = () => {
                     </div>
                 </div>
             </div>
+            
+            {/* GPT Assistant Overlay */}
+            {showGPT && <GPTPopup onClose={() => setShowGPT(false)} />}
+
+            {/* Terminal Overlay */}
+            {showTerminal && <Terminal onClose={() => setShowTerminal(false)} />}
+
+            {/* Vector72 Overlay */}
+            {showVector72 && <Vector72 onClose={() => setShowVector72(false)} />}
+
+            {/* Buttons to Toggle Overlays */}
+            <div className="absolute bottom-4 left-4 flex gap-2">
+              <button onClick={() => setShowGPT(!showGPT)} className="btn">GPT</button>
+              <button onClick={() => setShowTerminal(!showTerminal)} className="btn">terminalRelease</button>
+              <button onClick={() => setShowVector72(!showVector72)} className="btn">ideButton</button>
+            </div>
         </div>
     );
-};
+}; 
 
 export default VectorFrame;
