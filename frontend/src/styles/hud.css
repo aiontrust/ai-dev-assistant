@@ -112,3 +112,140 @@
   top: 16px;
   left: 16px;
 }
+
+/* ---- Voice deck: speaker ring, waveform, status lights ------------------- */
+
+.hud-speaker {
+  position: absolute;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  --level: 0;
+}
+
+.hud-speaker:disabled {
+  cursor: progress;
+}
+
+.hud-speaker:focus-visible {
+  outline: 1px solid #71dfff;
+  outline-offset: 3px;
+}
+
+.hud-speaker:hover:not(:disabled) .hud-speaker__glow {
+  box-shadow: 0 0 10px 2px rgba(113, 223, 255, 0.35), inset 0 0 14px rgba(113, 223, 255, 0.25);
+}
+
+/* Halo that swells with the microphone level while recording */
+.hud-speaker__glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: box-shadow 160ms ease;
+}
+
+.hud-speaker--recording .hud-speaker__glow {
+  transform: scale(calc(1 + var(--level) * 0.12));
+  box-shadow:
+    0 0 calc(8px + var(--level) * 22px) calc(1px + var(--level) * 5px) rgba(113, 223, 255, 0.7),
+    inset 0 0 calc(10px + var(--level) * 20px) rgba(113, 223, 255, 0.45);
+  border: 1px solid rgba(160, 236, 255, 0.9);
+  transition: none;
+}
+
+.hud-speaker--uploaded .hud-speaker__glow {
+  box-shadow: 0 0 10px 2px rgba(166, 214, 164, 0.6), inset 0 0 12px rgba(166, 214, 164, 0.35);
+}
+
+/* Dashed ring that spins while the clip is being transcribed */
+.hud-speaker__spin {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px dashed transparent;
+  pointer-events: none;
+}
+
+.hud-speaker--processing .hud-speaker__spin {
+  border-color: rgba(113, 223, 255, 0.85);
+  animation: hud-spin 1.6s linear infinite;
+}
+
+/* Lights up the three dots drawn on the plate (Figma 'listening' dots) */
+.hud-speaker__dots {
+  position: absolute;
+  left: 50%;
+  top: 75.7%;
+  display: flex;
+  gap: 3.9px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.hud-speaker__dots i {
+  width: 12.6px;
+  height: 12.6px;
+  border-radius: 50%;
+  background: #71dfff;
+  opacity: 0;
+}
+
+.hud-speaker--recording .hud-speaker__dots i {
+  opacity: calc(0.35 + var(--level) * 0.65);
+}
+
+.hud-speaker--processing .hud-speaker__dots i {
+  animation: hud-blink 1s ease-in-out infinite;
+}
+
+.hud-speaker--processing .hud-speaker__dots i:nth-child(2) { animation-delay: 0.2s; }
+.hud-speaker--processing .hud-speaker__dots i:nth-child(3) { animation-delay: 0.4s; }
+
+.hud-wave {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.35;
+  transition: opacity 200ms ease;
+}
+
+.hud-wave--recording {
+  opacity: 1;
+}
+
+/* REC / PROC / SENT cells above the waveform */
+.hud-light {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  font: 600 6px/1 'Orbitron', sans-serif;
+  letter-spacing: 0.2em;
+  color: #2f5670;
+  pointer-events: none;
+  transition: color 150ms ease, text-shadow 150ms ease, background-color 150ms ease;
+}
+
+.hud-light--on {
+  color: #a0ecff;
+  background: rgba(113, 223, 255, 0.12);
+  text-shadow: 0 0 4px rgba(113, 223, 255, 0.9);
+}
+
+@keyframes hud-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes hud-blink {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hud-speaker--processing .hud-speaker__spin,
+  .hud-speaker--processing .hud-speaker__dots i {
+    animation: none;
+    opacity: 0.8;
+  }
+}
