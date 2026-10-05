@@ -1,0 +1,79 @@
+/* HUD dashboard layout (plain CSS; Tailwind is not installed in this project) */
+
+.hud-stage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  color: #9dcdf1;
+  font-family: 'Orbitron', sans-serif;
+  background: linear-gradient(270deg, #021420 0%, #001C2B 6%, #002435 13%, #022435 19%, #002538 23%, #032840 25%, #022B44 29%, #002E45 33%, #003048 40%, #003149 43%, #00314A 45%, #01314C 50%, #00314A 55%, #003149 57%, #003048 60%, #002E45 67%, #022B44 71%, #032840 75%, #002538 77%, #022435 81%, #002435 87%, #001C2B 94%, #021420 100%);
+}
+
+.hud-title {
+  margin: 0;
+  padding: 16px 20px 8px;
+  font-size: clamp(16px, 4vw, 28px);
+  font-weight: 800;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #9dcdf1;
+}
+
+.hud-toolbar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 20px 12px;
+}
+
+/* Matches the Figma button palette: #015A84 fill, #0D6993 border */
+.btn {
+  padding: 6px 14px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a2d9f5;
+  background: #015a84;
+  border: 1px solid #0d6993;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #0d6993;
+}
+
+.btn:active {
+  background: #00314a;
+}
+
+/* Overlay slots. Each panel keeps its exported Figma dimensions and scrolls
+   rather than overflowing on small screens. */
+.hud-overlay {
+  position: absolute;
+  z-index: 5;
+  max-width: 100vw;
+  max-height: calc(100vh - 80px);
+  overflow: auto;
+}
+
+.hud-overlay--gpt {
+  top: 80px;
+  right: 16px;
+}
+
+.hud-overlay--terminal {
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+}
+
+.hud-overlay--vector72 {
+  top: 80px;
+  left: 16px;
+}
