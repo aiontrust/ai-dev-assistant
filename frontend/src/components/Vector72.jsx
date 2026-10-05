@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react';
-import styles from './Vector72.module.css';
+import React from 'react';
+import styles from '../styles/Vector72.module.css';
 
 
 const VectorFrame = () => {
