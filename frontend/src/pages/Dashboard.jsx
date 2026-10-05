@@ -1,6 +1,6 @@
 import GPTPopup from "../components/GPTPopup";
-import Terminal from "./Terminal";
-import Vector72 from "./Vector72";
+import Terminal from "../components/Terminal";
+import Vector72 from "../components/Vector72";
 import { useState } from "react";
 
 export default function Dashboard() {
@@ -15,7 +15,7 @@ export default function Dashboard() {
     <h1 className="text-3xl p-4">AI Development Assistant HUD</h1>
 
 {/* GPT Assistant Overlay */}
-{showGPTPopup && <GPTPopup onClose={() => setShowGPT(false)} />}
+{showGPTPopup && <GPTPopup onClose={() => setShowGPTPopup(false)} />}
 
 {/* Terminal Overlay */}
 {showTerminal && <Terminal onClose={() => setShowTerminal(false)} />}
