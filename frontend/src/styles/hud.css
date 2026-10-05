@@ -1,4 +1,4 @@
-/* HUD dashboard layout (plain CSS; Tailwind is not installed in this project) */
+/* HUD dashboard layout (plain CSS so it works with or without Tailwind) */
 
 .hud-stage {
   position: relative;
@@ -10,60 +10,95 @@
   background: linear-gradient(270deg, #021420 0%, #001C2B 6%, #002435 13%, #022435 19%, #002538 23%, #032840 25%, #022B44 29%, #002E45 33%, #003048 40%, #003149 43%, #00314A 45%, #01314C 50%, #00314A 55%, #003149 57%, #003048 60%, #002E45 67%, #022B44 71%, #032840 75%, #002538 77%, #022435 81%, #002435 87%, #001C2B 94%, #021420 100%);
 }
 
-.hud-title {
-  margin: 0;
-  padding: 16px 20px 8px;
-  font-size: clamp(16px, 4vw, 28px);
-  font-weight: 800;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: #9dcdf1;
+/* ---- Main HUD (Figma frame 591:103) ------------------------------------ */
+
+/* Fills the stage and centres the fixed-size canvas; the canvas is scaled to fit. */
+.hud-viewport {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
 }
 
-.hud-toolbar {
+.hud-canvas {
   position: relative;
-  z-index: 10;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 0 20px 12px;
+  flex: none;
+  transform-origin: center center;
 }
 
-/* Matches the Figma button palette: #015A84 fill, #0D6993 border */
-.btn {
-  padding: 6px 14px;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #a2d9f5;
-  background: #015a84;
-  border: 1px solid #0d6993;
-  border-radius: 4px;
+.hud-plate {
+  position: absolute;
+  inset: 0;
+  display: block;
+  max-width: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Invisible click targets laid over the Figma buttons */
+.hud-hotspot {
+  position: absolute;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
   cursor: pointer;
+  transition: background-color 120ms ease, box-shadow 120ms ease;
 }
 
-.btn:hover {
-  background: #0d6993;
+.hud-hotspot:hover {
+  background: rgba(113, 223, 255, 0.12);
 }
 
-.btn:active {
-  background: #00314a;
+.hud-hotspot:active {
+  background: rgba(113, 223, 255, 0.24);
 }
 
-/* Overlay slots. Each panel keeps its exported Figma dimensions and scrolls
+.hud-hotspot:focus-visible {
+  outline: 1px solid #71dfff;
+  outline-offset: 1px;
+}
+
+.hud-hotspot[aria-pressed="true"] {
+  box-shadow: inset 0 0 0 1px #71dfff, 0 0 6px rgba(113, 223, 255, 0.55);
+}
+
+/* Right-hand console read-outs (HUD / IDE / GPT) */
+.hud-console {
+  position: absolute;
+  box-sizing: border-box;
+  padding: 2px 5px;
+  overflow: hidden;
+  font: 500 7px/9px 'Orbitron', sans-serif;
+  letter-spacing: 0.12em;
+  color: #a2d9f5;
+  pointer-events: none;
+}
+
+.hud-console--idle {
+  color: #4f7b99;
+}
+
+.hud-console__line {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ---- Overlay panels ---------------------------------------------------- */
+/* Each panel keeps its exported Figma dimensions and scrolls
    rather than overflowing on small screens. */
 .hud-overlay {
   position: absolute;
   z-index: 5;
   max-width: 100vw;
-  max-height: calc(100vh - 80px);
+  max-height: calc(100vh - 32px);
   overflow: auto;
 }
 
 .hud-overlay--gpt {
-  top: 80px;
+  top: 16px;
   right: 16px;
 }
 
@@ -74,6 +109,6 @@
 }
 
 .hud-overlay--vector72 {
-  top: 80px;
+  top: 16px;
   left: 16px;
 }
