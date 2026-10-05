@@ -28,13 +28,12 @@ export default function GPTPopup({ onClose }) {
             {/* Frame 17 */}
             <div style={{width: 199, height: 367, position: 'relative'}}>
              {/* Console-GPT Output */}
-             <div className="absolute top-0 left-0 w-screen h-screen bg-transparent bg-opacity-50 flex items-center justify-center overflow-hidden"></div>
-             <div className="bg-white p-4 rounded-lg">
-		     <h1 className="text-3xl">GPT Assistant</h1>
+             <div className="p-4 text-[#9dcdf1]">
+		     <h1 className="relative z-10 text-sm font-bold uppercase tracking-widest">GPT Assistant</h1>
              <div style={{width: 199, height: 368, left: 199, top: 368, position: 'absolute', overflow: 'auto', transform: 'rotate(180deg)', transformOrigin: 'top left', background: '#03304F'}} />
              {/* Response Display */}
              {response && (
-                <CardContent className="bg-transparent p-2 rounded-md mb-2 text-green-400">
+                <CardContent className="relative z-10 bg-transparent p-2 rounded-md mb-2 text-green-400">
                   <pre>{response}</pre>
                 </CardContent>
               )}
