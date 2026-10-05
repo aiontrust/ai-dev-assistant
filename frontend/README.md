@@ -2,6 +2,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Tailwind CSS is configured in `tailwind.config.js` and included through `src/index.css`. Start and build the app with the npm scripts so CRACO applies the Tailwind PostCSS plugin.
+
 ## Available Scripts
 
 In the project directory, you can run:
