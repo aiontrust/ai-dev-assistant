@@ -1,11 +1,14 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Board from "../components/HUD/Board";
 import HudMain, { HUD_H } from "../components/HUD/HudMain";
 import IdeFrame from "../components/IdeFrame";
 import GPTPopup from "../components/GPTPopup";
 import Terminal, { TERMINAL_H } from "../components/Terminal";
+import { createLightSignals, pulse } from "../components/HUD/hudLights";
 import useVoiceCapture from "../hooks/useVoiceCapture";
+import useSystemMetrics from "../hooks/useSystemMetrics";
 import { askAssistant } from "../utils/api";
+import { speak, setSpeechEnabled, stopSpeaking } from "../utils/speech";
 import { runCommand } from "../utils/terminal";
 import "../styles/hud.css";
 
@@ -38,11 +41,20 @@ export default function Dashboard() {
   const [gptOpen, setGptOpen] = useState(false);
   const [terminalOpen, setTerminalOpen] = useState(false);
 
+  // Shared state the HUD's light engine reads every frame.
+  const lights = useRef(createLightSignals()).current;
+  const flow = useCallback((name) => pulse(lights, name), [lights]);
+  const metrics = useSystemMetrics({ onPoll: () => flow("metrics") });
+  const [speaking, setSpeaking] = useState(false);
+
   const voice = useVoiceCapture();
   const [feeds, setFeeds] = useState({ hud: [], gpt: [] });
   const pushFeed = useCallback(
-    (key, line) => setFeeds((f) => ({ ...f, [key]: append(f[key], line, FEED_LIMIT) })),
-    []
+    (key, line) => {
+      setFeeds((f) => ({ ...f, [key]: append(f[key], line, FEED_LIMIT) }));
+      flow(`console:${key}`);
+    },
+    [flow]
   );
 
   const [messages, setMessages] = useState([]);
@@ -51,7 +63,13 @@ export default function Dashboard() {
 
   const [doc, setDoc] = useState({ name: "untitled.txt", code: "" });
   const [ideLog, setIdeLog] = useState([]);
-  const logIde = useCallback((line) => setIdeLog((l) => append(l, line, LOG_LIMIT)), []);
+  const logIde = useCallback(
+    (line) => {
+      setIdeLog((l) => append(l, line, LOG_LIMIT));
+      flow("console:ide");
+    },
+    [flow]
+  );
 
   const [termLines, setTermLines] = useState(["SATI terminal. Type help."]);
   const [termHistory, setTermHistory] = useState([]);
@@ -62,7 +80,16 @@ export default function Dashboard() {
   useEffect(() => {
     const line = STATUS_LINES[voice.state];
     if (line) pushFeed("hud", line);
-  }, [voice.state, pushFeed]);
+    if (voice.state === "recording") stopSpeaking(); // don't talk over the user
+    if (voice.state === "processing") flow("voice");
+  }, [voice.state, pushFeed, flow]);
+
+  // While the mic is live, keep data moving along the speaker's traces.
+  useEffect(() => {
+    if (voice.state !== "recording") return undefined;
+    const timer = setInterval(() => flow("voice"), 700);
+    return () => clearInterval(timer);
+  }, [voice.state, flow]);
 
   useEffect(() => {
     if (voice.error) pushFeed("hud", `ERR ${voice.error.toUpperCase()}`);
@@ -78,6 +105,7 @@ export default function Dashboard() {
   const ask = useCallback(
     async (prompt) => {
       pushFeed("gpt", `> ${prompt}`);
+      flow("chat");
       try {
         const reply = await askAssistant(prompt);
         pushFeed("gpt", `< ${reply.split("\n")[0]}`);
@@ -87,7 +115,7 @@ export default function Dashboard() {
         throw e;
       }
     },
-    [pushFeed]
+    [pushFeed, flow]
   );
 
   const sendChat = async (prompt) => {
@@ -96,6 +124,13 @@ export default function Dashboard() {
     try {
       const reply = await ask(prompt);
       setMessages((m) => [...m, { role: "assistant", text: reply || "(empty reply)" }]);
+      speak(reply, {
+        onStart: () => setSpeaking(true),
+        onBoundary: () => {
+          lights.energy = 1;
+        },
+        onEnd: () => setSpeaking(false),
+      });
     } catch (e) {
       setMessages((m) => [...m, { role: "system", text: `Assistant offline: ${e.message}` }]);
     } finally {
@@ -114,6 +149,7 @@ export default function Dashboard() {
 
   const runTerm = async (line) => {
     printTerm(`> ${line}`);
+    flow("terminal");
     setTermHistory((h) => append(h, line, 100));
     setTermBusy(true);
     try {
@@ -127,6 +163,7 @@ export default function Dashboard() {
           else setView(target);
         },
         toggleRecording: voice.toggle,
+        setSpeech: setSpeechEnabled,
         close: () => setTerminalOpen(false),
       });
     } finally {
@@ -148,6 +185,9 @@ export default function Dashboard() {
 
   const boardHeight = terminalOpen ? TERMINAL_TOP + TERMINAL_H : HUD_H;
 
+  // Latest state for the light engine (it reads this object every frame).
+  Object.assign(lights, { cpu: metrics.cpu, online: metrics.online, thinking: pending, speaking });
+
   return (
     <div className="hud-stage">
       <Board height={boardHeight}>
@@ -159,6 +199,7 @@ export default function Dashboard() {
             active={{ gpt: gptOpen, terminal: terminalOpen }}
             feeds={{ ...feeds, ide: ideLog }}
             voice={voice}
+            lights={lights}
           />
         ) : (
           <IdeFrame

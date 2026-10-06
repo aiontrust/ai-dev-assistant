@@ -1,5 +1,9 @@
+import { useState } from "react";
 import VoiceDeck from "./VoiceDeck";
+import HudPlate from "./HudPlate";
 import { Hotspot, place } from "./Board";
+import { SLOTS } from "./hudLayout";
+import { useHudLights } from "./hudLights";
 
 // The Figma frame ("Interactive Dashboard" > 591:103) exported as one SVG plate.
 // All coordinates below are in that frame's pixel space (895 x 692).
@@ -49,6 +53,7 @@ function ConsoleReadout({ region, lines }) {
  *  - feeds: { hud, ide, gpt } arrays of strings shown in the right-hand consoles
  *  - voice: the object from useVoiceCapture(); when given, the speaker ring,
  *    waveform and status lights come alive
+ *  - lights: signal object from createLightSignals(); drives the plate's lights
  */
 export default function HudMain({
   onOpenGPT,
@@ -57,17 +62,21 @@ export default function HudMain({
   active = {},
   feeds = {},
   voice,
+  lights,
 }) {
+  const [plate, setPlate] = useState(null);
+  useHudLights(lights ? plate : null, lights, voice);
+  const cpu = lights?.cpu;
+
   return (
     <div className="hud-frame" style={{ left: 0, top: 0, width: HUD_W, height: HUD_H }}>
-      <img
-        className="hud-plate"
-        src={`${process.env.PUBLIC_URL}/hud/dashboard.svg`}
-        width={HUD_W}
-        height={HUD_H}
-        alt="SATI AI development assistant HUD"
-        draggable={false}
-      />
+      <HudPlate width={HUD_W} height={HUD_H} label="SATI AI development assistant HUD" onReady={setPlate} />
+
+      {lights && (
+        <div className="hud-cpu" style={place(SLOTS.cpu)} aria-label="CPU load">
+          {cpu === null || cpu === undefined ? "--" : `${Math.round(cpu * 100)}%`}
+        </div>
+      )}
 
       {voice && <VoiceDeck voice={voice} />}
 

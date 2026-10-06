@@ -26,6 +26,13 @@ export async function askAssistant(prompt) {
   return body.response || "";
 }
 
+/** CPU and memory load of the backend machine: { cpu, memory } in percent. */
+export async function getMetrics() {
+  const res = await fetch(`${API_BASE}/api/v1/metrics`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
 /** True when the backend answers its root route. */
 export async function backendOnline() {
   try {
