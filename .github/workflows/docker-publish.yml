@@ -6,14 +6,9 @@ name: Docker
 # documentation.
 
 on:
-  schedule:
-    - cron: '37 6 * * *'
-  push:
-    branches: [ "main" ]
-    # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
-  pull_request:
-    branches: [ "main" ]
+  # Manual only until the app is deployed (planned: Azure Container Instances).
+  # To publish on every push again, restore the schedule/push/pull_request triggers.
+  workflow_dispatch:
 
 env:
   # Use docker.io for Docker Hub if empty
