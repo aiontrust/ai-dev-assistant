@@ -3,6 +3,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:8000";
 export const WAVE_BARS = 64;
 
+// Browsers record different containers: Chrome WebM, Firefox Ogg, Safari MP4.
+const EXTENSIONS = { "audio/webm": "webm", "audio/ogg": "ogg", "audio/mp4": "m4a" };
+
 // Records the microphone, exposes live levels for the waveform, and uploads the
 // clip to the backend's POST /speech-to-text/ endpoint.
 //
@@ -34,7 +37,7 @@ export default function useVoiceCapture() {
     setState("processing");
     try {
       const body = new FormData();
-      body.append("file", blob, "recording.webm");
+      body.append("file", blob, `recording.${EXTENSIONS[blob.type.split(";")[0]] || "webm"}`);
       const res = await fetch(`${API_BASE}/speech-to-text/`, { method: "POST", body });
       const json = await res.json();
       if (!res.ok || json.error) throw new Error(json.error || `HTTP ${res.status}`);

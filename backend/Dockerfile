@@ -14,6 +14,9 @@ WORKDIR /app
 # Add the application and backend directories to the PYTHONPATH environment variable
 ENV PYTHONPATH=/app:/app/backend
 
+# ffmpeg converts audio formats Google Speech-to-Text can't read directly (e.g. Safari's audio/mp4)
+RUN apk add --no-cache ffmpeg
+
 # Install pip requirements
 COPY requirements.txt /app
 RUN pip install --no-cache-dir --upgrade pip && \

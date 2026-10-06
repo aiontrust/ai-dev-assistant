@@ -4,5 +4,6 @@ uvicorn
 pydantic
 openai
 google-cloud-speech
+python-multipart  # needed for file uploads (UploadFile)
 psycopg2-binary  # PostgreSQL driver
 sqlalchemy       # ORM for PostgreSQL

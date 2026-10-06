@@ -25,6 +25,7 @@ WORKDIR /app
 RUN apk update && apk add --no-cache \
 build-base \
 g++ \
+ffmpeg \
 && rm -rf /var/cache/apk/*
 
 # Copy the backend requirements and install dependencies
