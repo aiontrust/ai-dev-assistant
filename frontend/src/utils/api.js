@@ -33,6 +33,13 @@ export async function getMetrics() {
   return res.json();
 }
 
+/** Latest CI run reported by the backend: { status, branch, sha, title, updated_at, url, error? }. */
+export async function getBuildStatus() {
+  const res = await fetch(`${API_BASE}/api/v1/build`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
 /** True when the backend answers its root route. */
 export async function backendOnline() {
   try {

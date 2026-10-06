@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Board from "../components/HUD/Board";
 import HudMain, { HUD_H } from "../components/HUD/HudMain";
 import IdeFrame from "../components/IdeFrame";
@@ -7,13 +7,15 @@ import Terminal, { TERMINAL_H } from "../components/Terminal";
 import { createLightSignals, pulse } from "../components/HUD/hudLights";
 import useVoiceCapture from "../hooks/useVoiceCapture";
 import useSystemMetrics from "../hooks/useSystemMetrics";
-import { askAssistant } from "../utils/api";
+import useBuildStatus from "../hooks/useBuildStatus";
+import { API_BASE, askAssistant } from "../utils/api";
+import { buildStatus, serverStatus, terminalStatus } from "../utils/consoleStatus";
 import { speak, setSpeechEnabled, stopSpeaking } from "../utils/speech";
 import { runCommand } from "../utils/terminal";
 import "../styles/hud.css";
 
-const FEED_LIMIT = 20;
 const LOG_LIMIT = 500;
+const BACKEND_HOST = new URL(API_BASE).host;
 
 // The terminal docks under the HUD, lined up with the release tab. Its panel starts
 // just below the plate's lower corners (y 588), so the DISENGAGE handle overlaps the
@@ -22,11 +24,6 @@ const TERMINAL_TOP = 561;
 // The GPT popup floats in the top-right corner, clear of the ▲ / ▼ buttons.
 const GPT_POS = { left: 676, top: 2 };
 
-const STATUS_LINES = {
-  recording: "MIC LIVE",
-  processing: "TRANSCRIBING",
-  uploaded: "TRANSCRIPT READY",
-};
 
 const EXTENSIONS = {
   javascript: "js", js: "js", jsx: "jsx", typescript: "ts", ts: "ts", tsx: "tsx",
@@ -47,15 +44,8 @@ export default function Dashboard() {
   const metrics = useSystemMetrics({ onPoll: () => flow("metrics") });
   const [speaking, setSpeaking] = useState(false);
 
+  const build = useBuildStatus();
   const voice = useVoiceCapture();
-  const [feeds, setFeeds] = useState({ hud: [], gpt: [] });
-  const pushFeed = useCallback(
-    (key, line) => {
-      setFeeds((f) => ({ ...f, [key]: append(f[key], line, FEED_LIMIT) }));
-      flow(`console:${key}`);
-    },
-    [flow]
-  );
 
   const [messages, setMessages] = useState([]);
   const [pending, setPending] = useState(false);
@@ -63,26 +53,17 @@ export default function Dashboard() {
 
   const [doc, setDoc] = useState({ name: "untitled.txt", code: "" });
   const [ideLog, setIdeLog] = useState([]);
-  const logIde = useCallback(
-    (line) => {
-      setIdeLog((l) => append(l, line, LOG_LIMIT));
-      flow("console:ide");
-    },
-    [flow]
-  );
+  const logIde = useCallback((line) => setIdeLog((l) => append(l, line, LOG_LIMIT)), []);
 
   const [termLines, setTermLines] = useState(["SATI terminal. Type help."]);
   const [termHistory, setTermHistory] = useState([]);
   const [termBusy, setTermBusy] = useState(false);
+  const [lastCommand, setLastCommand] = useState(null); // { line, ok }
 
-  // Voice status goes to the HUD console, transcripts to the GPT console and,
-  // while the assistant is open, into its input box.
   useEffect(() => {
-    const line = STATUS_LINES[voice.state];
-    if (line) pushFeed("hud", line);
     if (voice.state === "recording") stopSpeaking(); // don't talk over the user
     if (voice.state === "processing") flow("voice");
-  }, [voice.state, pushFeed, flow]);
+  }, [voice.state, flow]);
 
   // While the mic is live, keep data moving along the speaker's traces.
   useEffect(() => {
@@ -91,31 +72,21 @@ export default function Dashboard() {
     return () => clearInterval(timer);
   }, [voice.state, flow]);
 
+  // A new transcript goes into the assistant's input box while it is open.
   useEffect(() => {
-    if (voice.error) pushFeed("hud", `ERR ${voice.error.toUpperCase()}`);
-  }, [voice.error, pushFeed]);
-
-  useEffect(() => {
-    if (voice.transcript) pushFeed("gpt", `> ${voice.transcript}`);
     setDictation(gptOpen ? voice.transcript : "");
     // Only a new transcript should be dictated, not reopening the popup.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [voice.transcript, pushFeed]);
+  }, [voice.transcript]);
 
   const ask = useCallback(
     async (prompt) => {
-      pushFeed("gpt", `> ${prompt}`);
       flow("chat");
-      try {
-        const reply = await askAssistant(prompt);
-        pushFeed("gpt", `< ${reply.split("\n")[0]}`);
-        return reply;
-      } catch (e) {
-        pushFeed("gpt", "ERR ASSISTANT OFFLINE");
-        throw e;
-      }
+      const reply = await askAssistant(prompt);
+      flow("chat");
+      return reply;
     },
-    [pushFeed, flow]
+    [flow]
   );
 
   const sendChat = async (prompt) => {
@@ -152,8 +123,9 @@ export default function Dashboard() {
     flow("terminal");
     setTermHistory((h) => append(h, line, 100));
     setTermBusy(true);
+    setLastCommand({ line, ok: true });
     try {
-      await runCommand(line, {
+      const ok = await runCommand(line, {
         print: printTerm,
         clear: () => setTermLines([]),
         history: termHistory,
@@ -166,6 +138,9 @@ export default function Dashboard() {
         setSpeech: setSpeechEnabled,
         close: () => setTerminalOpen(false),
       });
+      setLastCommand({ line, ok });
+    } catch {
+      setLastCommand({ line, ok: false });
     } finally {
       setTermBusy(false);
     }
@@ -185,6 +160,20 @@ export default function Dashboard() {
 
   const boardHeight = terminalOpen ? TERMINAL_TOP + TERMINAL_H : HUD_H;
 
+  // Right-panel status consoles; a change sends a pulse along that console's connector.
+  const status = useMemo(
+    () => ({
+      server: serverStatus(metrics, BACKEND_HOST),
+      terminal: terminalStatus({ open: terminalOpen, busy: termBusy, last: lastCommand }),
+      build: buildStatus(build, metrics.online),
+    }),
+    [metrics, terminalOpen, termBusy, lastCommand, build]
+  );
+  const headlines = Object.fromEntries(Object.entries(status).map(([k, v]) => [k, v?.lines.join("|")]));
+  useEffect(() => flow("console:server"), [headlines.server, flow]);
+  useEffect(() => flow("console:terminal"), [headlines.terminal, flow]);
+  useEffect(() => flow("console:build"), [headlines.build, flow]);
+
   // Latest state for the light engine (it reads this object every frame).
   Object.assign(lights, { cpu: metrics.cpu, online: metrics.online, thinking: pending, speaking });
 
@@ -197,7 +186,7 @@ export default function Dashboard() {
             onOpenIDE={() => setView("ide")}
             onOpenTerminal={() => setTerminalOpen((open) => !open)}
             active={{ gpt: gptOpen, terminal: terminalOpen }}
-            feeds={{ ...feeds, ide: ideLog }}
+            status={status}
             voice={voice}
             lights={lights}
           />
