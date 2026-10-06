@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import VoiceDeck from "./VoiceDeck";
 
 // The Figma frame ("Interactive Dashboard" > 591:103) exported as one SVG plate.
 // All coordinates below are in that frame's pixel space (895 x 692).
@@ -80,6 +81,8 @@ function ConsoleReadout({ region, lines }) {
  *  - onOpenGPT / onOpenIDE / onOpenTerminal: click handlers for the three buttons
  *  - active: { gpt, ide, terminal } booleans for pressed state
  *  - feeds: { hud, ide, gpt } arrays of strings shown in the right-hand consoles
+ *  - voice: the object from useVoiceCapture(); when given, the speaker ring,
+ *    waveform and status lights come alive
  */
 export default function HudMain({
   onOpenGPT,
@@ -87,6 +90,7 @@ export default function HudMain({
   onOpenTerminal,
   active = {},
   feeds = {},
+  voice,
 }) {
   const viewportRef = useRef(null);
   const scale = useFitScale(viewportRef);
@@ -105,6 +109,8 @@ export default function HudMain({
           alt="SATI AI development assistant HUD"
           draggable={false}
         />
+
+        {voice && <VoiceDeck voice={voice} />}
 
         <ConsoleReadout region={CONSOLES.hud} lines={feeds.hud} />
         <ConsoleReadout region={CONSOLES.ide} lines={feeds.ide} />

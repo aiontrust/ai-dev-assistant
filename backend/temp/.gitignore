@@ -1,0 +1,3 @@
+# Saved voice recordings (for playback); keep the folder, not the audio.
+*
+!.gitignore
