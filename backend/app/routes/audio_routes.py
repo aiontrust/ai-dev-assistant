@@ -29,12 +29,6 @@ EXTENSIONS = {
 RECORDING_NAME = re.compile(r"^\d{8}-\d{6}-[0-9a-f]{8}\.[a-z0-9]{2,5}$")
 
 
-@router.post("/convert-audio")
-async def convert_audio(audio_file: bytes):
-    text = convert_audio_to_text(audio_file)
-    return {"text": text}
-
-
 @router.post("/speech-to-text/")
 async def speech_to_text(file: UploadFile = File(...)):
     """
