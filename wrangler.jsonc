@@ -5,5 +5,8 @@
   "assets": {
     "directory": "./frontend/build",
     "not_found_handling": "single-page-application"
-  }
+  },
+  // Required by Worker Previews (npx wrangler preview), which Workers Builds
+  // runs for every non-main branch. Empty: previews use the same static assets.
+  "previews": {}
 }
