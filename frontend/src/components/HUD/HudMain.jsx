@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import VoiceDeck from "./VoiceDeck";
 import HudPlate from "./HudPlate";
 import { Hotspot, place } from "./Board";
@@ -17,25 +17,27 @@ const REGIONS = {
   terminal: { x: 423.2, y: 543.5, w: 52.9, h: 88.4, label: "Terminal release" },
 };
 
-// Console read-outs on the right-hand panels (labelled HUD / IDE / GPT in the design).
+// Status consoles on the right panel ("RP Vector"): Figma frames Server / Terminal /
+// Build Console. `art` is the layer holding the label drawn on the plate, which is
+// replaced by `title` (the plate's lettering reads HUD / IDE / GPT).
 const CONSOLES = {
-  hud: { x: 683, y: 118.4, w: 171.5, h: 30.9, label: "HUD console" },
-  ide: { x: 683, y: 200, w: 171.5, h: 30.9, label: "IDE console" },
-  gpt: { x: 683, y: 284.3, w: 171.5, h: 30.9, label: "GPT console" },
+  server: { x: 683, y: 118.4, w: 171.5, h: 30.9, title: "SERVER", art: "SERVER", labelY: 110.5 },
+  terminal: { x: 683, y: 200, w: 171.5, h: 30.9, title: "TERMINAL", art: "IDE", labelY: 192.5 },
+  build: { x: 683, y: 284.3, w: 171.5, h: 30.9, title: "BUILD", art: "BUILD", labelY: 276.8 },
 };
 
-function ConsoleReadout({ region, lines }) {
-  const hasLines = Array.isArray(lines) && lines.length > 0;
-  const shown = hasLines ? lines.slice(-3) : ["STANDBY"];
+function ConsoleReadout({ region, status }) {
+  const lines = status?.lines?.length ? status.lines.slice(0, 3) : ["STANDBY"];
+  const tone = status?.lines?.length ? status.tone || "ok" : "idle";
   return (
     <div
-      className={`hud-console${hasLines ? "" : " hud-console--idle"}`}
-      role="log"
-      aria-label={region.label}
+      className={`hud-console hud-console--${tone}`}
+      role="status"
+      aria-label={`${region.title} console`}
       style={place(region)}
     >
-      {shown.map((line, i) => (
-        <div className="hud-console__line" key={`${i}-${line}`}>
+      {lines.map((line, i) => (
+        <div className={`hud-console__line${i === 0 ? " hud-console__line--head" : ""}`} key={`${i}-${line}`}>
           {line}
         </div>
       ))}
@@ -50,9 +52,10 @@ function ConsoleReadout({ region, lines }) {
  * Props:
  *  - onOpenGPT / onOpenIDE / onOpenTerminal: click handlers for the three buttons
  *  - active: { gpt, ide, terminal } booleans for pressed state
- *  - feeds: { hud, ide, gpt } arrays of strings shown in the right-hand consoles
+ *  - status: { server, terminal, build }, each { lines: [headline, ...details], tone }
+ *    where tone is "ok" | "busy" | "warn"
  *  - voice: the object from useVoiceCapture(); when given, the speaker ring,
- *    waveform and status lights come alive
+ *    waveform and Audio Vector consoles come alive
  *  - lights: signal object from createLightSignals(); drives the plate's lights
  */
 export default function HudMain({
@@ -60,13 +63,22 @@ export default function HudMain({
   onOpenIDE,
   onOpenTerminal,
   active = {},
-  feeds = {},
+  status = {},
   voice,
   lights,
 }) {
   const [plate, setPlate] = useState(null);
   useHudLights(lights ? plate : null, lights, voice);
   const cpu = lights?.cpu;
+
+  // Hide the plate's own console lettering; the titles above are drawn instead.
+  useEffect(() => {
+    if (!plate) return;
+    Object.values(CONSOLES).forEach(({ art }) => {
+      const el = plate.querySelector(`[id="${art}"]`);
+      if (el) el.style.display = "none";
+    });
+  }, [plate]);
 
   return (
     <div className="hud-frame" style={{ left: 0, top: 0, width: HUD_W, height: HUD_H }}>
@@ -80,9 +92,16 @@ export default function HudMain({
 
       {voice && <VoiceDeck voice={voice} />}
 
-      <ConsoleReadout region={CONSOLES.hud} lines={feeds.hud} />
-      <ConsoleReadout region={CONSOLES.ide} lines={feeds.ide} />
-      <ConsoleReadout region={CONSOLES.gpt} lines={feeds.gpt} />
+      {Object.entries(CONSOLES).map(([key, region]) => (
+        <Fragment key={key}>
+          {plate && (
+            <div className="hud-console-title" style={{ left: 684.3, top: region.labelY }}>
+              {region.title}
+            </div>
+          )}
+          <ConsoleReadout region={region} status={status[key]} />
+        </Fragment>
+      ))}
 
       <Hotspot box={REGIONS.gptPopup} label={REGIONS.gptPopup.label} onClick={onOpenGPT} active={!!active.gpt} />
       <Hotspot box={REGIONS.ide} label={REGIONS.ide.label} onClick={onOpenIDE} active={!!active.ide} />

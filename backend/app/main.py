@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from app.api.endpoints import example
 from app.routes.audio_routes import router as audio_router
 from app.routes.metrics_routes import router as metrics_router
+from app.routes.build_routes import router as build_router
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import subprocess
@@ -30,6 +31,9 @@ app.include_router(audio_router)
 
 # System load for the HUD's OS gauge
 app.include_router(metrics_router, prefix="/api/v1")
+
+# CI status for the HUD's Build console
+app.include_router(build_router, prefix="/api/v1")
 
 app.add_middleware(
     CORSMiddleware,

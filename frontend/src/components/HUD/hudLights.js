@@ -19,9 +19,9 @@ const TRACES = {
   L5: "Vector L5", // speaker out to the waveform panel
   L6: "Vector L6", // top-right run from the WebSocket panel
   RP: "RP Vector Light", // trunk from the speaker up to the consoles
-  RPV1: "RPV1", // HUD console end
-  RPV2: "RPV2", // IDE console end
-  RPV3: "RPV3", // GPT console end
+  RPV1: "RPV1", // Server console end
+  RPV2: "RPV2", // Terminal console end
+  RPV3: "RPV3", // Build console end
   RPV4: "RPV4", // speaker end
 };
 
@@ -32,9 +32,9 @@ const FLOWS = {
   terminal: [["L3", 0]],
   chat: [["L4", 0], ["L6", 140]],
   backend: [["L6", 0]],
-  "console:hud": [["RPV4", 0], ["RP", 90], ["RPV1", 200]],
-  "console:ide": [["RPV4", 0], ["RP", 90], ["RPV2", 200]],
-  "console:gpt": [["RPV4", 0], ["RP", 90], ["RPV3", 200]],
+  "console:server": [["RPV4", 0], ["RP", 90], ["RPV1", 200]],
+  "console:terminal": [["RPV4", 0], ["RP", 90], ["RPV2", 200]],
+  "console:build": [["RPV4", 0], ["RP", 90], ["RPV3", 200]],
 };
 
 const DIM = 0.14; // an "off" light stays faintly visible so the design still reads

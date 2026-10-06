@@ -21,6 +21,8 @@ const HELP = [
  *   print(lines), clear(), history (array of earlier lines),
  *   ask(prompt) -> Promise<string>, open(target), toggleRecording(),
  *   setSpeech(on), close()
+ *
+ * Resolves to true if the command succeeded, false if it failed or was misused.
  */
 export async function runCommand(line, ctx) {
   const [name = "", ...args] = line.trim().split(/\s+/);
@@ -28,56 +30,60 @@ export async function runCommand(line, ctx) {
 
   switch (name.toLowerCase()) {
     case "":
-      return;
+      return true;
     case "help":
       ctx.print(HELP);
-      return;
+      return true;
     case "clear":
       ctx.clear();
-      return;
+      return true;
     case "echo":
       ctx.print([rest]);
-      return;
+      return true;
     case "history":
       ctx.print(ctx.history.map((h, i) => `${String(i + 1).padStart(3)}  ${h}`));
-      return;
-    case "status":
-      ctx.print([(await backendOnline()) ? "Backend online" : "Backend offline"]);
-      return;
+      return true;
+    case "status": {
+      const online = await backendOnline();
+      ctx.print([online ? "Backend online" : "Backend offline"]);
+      return online;
+    }
     case "ask":
       if (!rest) {
         ctx.print(["usage: ask <prompt>"]);
-        return;
+        return false;
       }
       try {
         ctx.print((await ctx.ask(rest)).split("\n"));
+        return true;
       } catch (e) {
         ctx.print([`Assistant offline: ${e.message}`]);
+        return false;
       }
-      return;
     case "open": {
       const target = (args[0] || "").toLowerCase();
       if (!["ide", "gpt", "hud"].includes(target)) {
         ctx.print(["usage: open ide|gpt|hud"]);
-        return;
+        return false;
       }
       ctx.open(target);
-      return;
+      return true;
     }
     case "record":
       ctx.toggleRecording();
-      return;
+      return true;
     case "mute":
     case "unmute": {
       const on = name.toLowerCase() === "unmute";
       ctx.setSpeech(on);
       ctx.print([on ? "Spoken replies on" : "Spoken replies off"]);
-      return;
+      return true;
     }
     case "exit":
       ctx.close();
-      return;
+      return true;
     default:
       ctx.print([`${name}: command not found (type help)`]);
+      return false;
   }
 }

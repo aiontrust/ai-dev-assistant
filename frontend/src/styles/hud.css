@@ -98,6 +98,33 @@
   color: #4f7b99;
 }
 
+/* Headline colour by state; detail lines stay neutral */
+.hud-console--ok .hud-console__line--head {
+  color: #a6d6a4;
+}
+
+.hud-console--busy .hud-console__line--head {
+  color: #71dfff;
+  animation: hud-blink 1.4s ease-in-out infinite;
+}
+
+.hud-console--warn .hud-console__line--head {
+  color: #e0a35c;
+}
+
+.hud-console__line--head {
+  font-weight: 700;
+}
+
+/* Console titles drawn over the plate's own lettering */
+.hud-console-title {
+  position: absolute;
+  font: 800 4.7px/1 'Orbitron', sans-serif;
+  letter-spacing: 0.06em;
+  color: #002538;
+  pointer-events: none;
+}
+
 .hud-console__line {
   overflow: hidden;
   white-space: nowrap;
@@ -459,6 +486,11 @@
   opacity: 1;
 }
 
+/* Outline of the last clip, kept after recording stops */
+.hud-wave--captured {
+  opacity: 0.6;
+}
+
 /* REC / PROC / SENT cells above the waveform */
 .hud-light {
   position: absolute;
@@ -469,6 +501,12 @@
   color: #2f5670;
   pointer-events: none;
   transition: color 150ms ease, text-shadow 150ms ease, background-color 150ms ease;
+}
+
+.hud-light--warn {
+  color: #e0a35c;
+  text-shadow: 0 0 4px rgba(224, 163, 92, 0.7);
+  pointer-events: auto; /* shows the error on hover */
 }
 
 .hud-light--on {
