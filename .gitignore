@@ -1,2 +1,6 @@
 # Dependencies are installed with npm, never committed
 node_modules/
+
+# Python bytecode, regenerated on every run
+__pycache__/
+*.py[cod]
