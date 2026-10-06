@@ -35,7 +35,7 @@ export default function Board({ height, children }) {
     <div className="hud-viewport" ref={viewportRef}>
       <div
         className="hud-canvas"
-        style={{ width: BOARD_W, height, transform: `scale(${scale})` }}
+        style={{ width: BOARD_W, height, transform: `translate(-50%, -50%) scale(${scale})` }}
       >
         {children}
       </div>

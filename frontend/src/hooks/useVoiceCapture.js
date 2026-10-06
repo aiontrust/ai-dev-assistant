@@ -38,7 +38,7 @@ export default function useVoiceCapture() {
       const body = new FormData();
       body.append("file", blob, `recording.${EXTENSIONS[blob.type.split(";")[0]] || "webm"}`);
       const res = await fetch(`${API_BASE}/speech-to-text/`, { method: "POST", body });
-      const json = await res.json();
+      const json = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
       if (!res.ok || json.error) throw new Error(json.error || `HTTP ${res.status}`);
       setTranscript(json.transcription || "");
       setState("uploaded");

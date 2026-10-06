@@ -9,6 +9,7 @@ const HELP = [
   "ask <prompt>      send a prompt to the GPT assistant",
   "open ide|gpt|hud  switch panels",
   "record            start or stop voice capture",
+  "mute / unmute     turn spoken replies off or on",
   "exit              close the terminal",
   "Shell execution is not connected yet.",
 ];
@@ -18,7 +19,8 @@ const HELP = [
  *
  * `ctx` supplies the actions the terminal can take:
  *   print(lines), clear(), history (array of earlier lines),
- *   ask(prompt) -> Promise<string>, open(target), toggleRecording(), close()
+ *   ask(prompt) -> Promise<string>, open(target), toggleRecording(),
+ *   setSpeech(on), close()
  */
 export async function runCommand(line, ctx) {
   const [name = "", ...args] = line.trim().split(/\s+/);
@@ -65,6 +67,13 @@ export async function runCommand(line, ctx) {
     case "record":
       ctx.toggleRecording();
       return;
+    case "mute":
+    case "unmute": {
+      const on = name.toLowerCase() === "unmute";
+      ctx.setSpeech(on);
+      ctx.print([on ? "Spoken replies on" : "Spoken replies off"]);
+      return;
+    }
     case "exit":
       ctx.close();
       return;
