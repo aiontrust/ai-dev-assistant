@@ -86,31 +86,257 @@
   text-overflow: ellipsis;
 }
 
-/* ---- Overlay panels ---------------------------------------------------- */
-/* Each panel keeps its exported Figma dimensions and scrolls
-   rather than overflowing on small screens. */
-.hud-overlay {
+/* ---- Frames ------------------------------------------------------------ */
+/* Every frame is a Figma plate at its design size; live parts sit on top. */
+.hud-frame {
+  position: absolute;
+}
+
+/* Floating frames (GPT popup, terminal) placed on the board */
+.hud-dock {
   position: absolute;
   z-index: 5;
-  max-width: 100vw;
-  max-height: calc(100vh - 32px);
-  overflow: auto;
 }
 
-.hud-overlay--gpt {
-  top: 16px;
-  right: 16px;
+.hud-frame input,
+.hud-frame textarea {
+  box-sizing: border-box;
+  margin: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: #a2d9f5;
+  caret-color: #71dfff;
 }
 
-.hud-overlay--terminal {
-  left: 50%;
-  bottom: 16px;
-  transform: translateX(-50%);
+.hud-frame ::placeholder {
+  color: #4f7b99;
 }
 
-.hud-overlay--vector72 {
-  top: 16px;
-  left: 16px;
+/* Hide native scrollbars; the plates draw their own tracks */
+.hud-chat,
+.hud-term__log,
+.hud-ide__output {
+  scrollbar-width: none;
+}
+
+.hud-chat::-webkit-scrollbar,
+.hud-term__log::-webkit-scrollbar,
+.hud-ide__output::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---- GPT popup (Figma 717:28) ------------------------------------------- */
+.hud-chat {
+  position: absolute;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font: 400 7px/9.5px 'Segoe UI', system-ui, sans-serif;
+  color: #a2d9f5;
+}
+
+.hud-chat__empty {
+  margin: auto 8px;
+  text-align: center;
+  font: 500 5.5px/8px 'Orbitron', sans-serif;
+  letter-spacing: 0.1em;
+  color: #4f7b99;
+}
+
+.hud-chat__msg {
+  max-width: 92%;
+  padding: 3px 5px;
+  border-radius: 2px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.hud-chat__msg--user {
+  align-self: flex-end;
+  background: rgba(5, 129, 180, 0.28);
+  border: 0.5px solid rgba(113, 223, 255, 0.35);
+}
+
+.hud-chat__msg--assistant {
+  align-self: flex-start;
+  background: rgba(1, 36, 53, 0.7);
+  border: 0.5px solid rgba(22, 110, 149, 0.6);
+}
+
+.hud-chat__msg--system {
+  align-self: center;
+  font: 500 5.5px/8px 'Orbitron', sans-serif;
+  letter-spacing: 0.08em;
+  color: #e0a35c;
+  white-space: normal;
+}
+
+.hud-chat__code {
+  margin: 3px 0;
+  border: 0.5px solid #166e95;
+  background: #012435;
+}
+
+.hud-chat__code pre {
+  margin: 0;
+  padding: 3px 4px;
+  overflow-x: auto;
+  font: 6px/8px ui-monospace, Consolas, monospace;
+  color: #a6d6a4;
+}
+
+.hud-chat__code button,
+.hud-chat__chip button {
+  border: 0;
+  background: transparent;
+  color: #71dfff;
+  cursor: pointer;
+}
+
+.hud-chat__code button {
+  display: block;
+  width: 100%;
+  padding: 2px;
+  border-top: 0.5px solid #166e95;
+  font: 600 5px/6px 'Orbitron', sans-serif;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.hud-chat__code button:hover {
+  background: rgba(113, 223, 255, 0.12);
+}
+
+.hud-chat__thumb {
+  position: absolute;
+  width: 3px;
+  border-radius: 2px;
+  background: #0581b4;
+  pointer-events: none;
+}
+
+.hud-chat__chip {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10px;
+  padding: 0 4px;
+  box-sizing: border-box;
+  font: 500 5px/10px 'Orbitron', sans-serif;
+  letter-spacing: 0.08em;
+  color: #a2d9f5;
+  background: rgba(3, 48, 79, 0.9);
+}
+
+.hud-chat__chip span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.hud-chat__input {
+  position: absolute;
+  padding: 0 5px;
+  font: 400 7px 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ---- Terminal (Figma 869:7) --------------------------------------------- */
+.hud-term {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 3px 6px;
+  font: 7px/9px ui-monospace, 'Cascadia Code', Consolas, monospace;
+  color: #a6d6a4;
+  cursor: text;
+}
+
+.hud-term__log {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.hud-term__line {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.hud-term__prompt {
+  display: flex;
+  gap: 4px;
+  color: #71dfff;
+}
+
+.hud-term__prompt input {
+  flex: 1;
+  padding: 0;
+  font: inherit;
+  color: #a6d6a4;
+}
+
+/* ---- IDE editor (Figma 595:105, "Vector 72") ----------------------------- */
+.hud-ide__tab {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 14px 0 6px;
+  box-sizing: border-box;
+  font: 600 6px/1 'Orbitron', sans-serif;
+  letter-spacing: 0.14em;
+  color: #a2d9f5;
+  pointer-events: none;
+}
+
+.hud-ide__tab span:last-child {
+  color: #4f7b99;
+}
+
+.hud-ide__editor {
+  position: absolute;
+  display: flex;
+  overflow: hidden;
+  font: 8.5px/12px ui-monospace, 'Cascadia Code', Consolas, monospace;
+}
+
+.hud-ide__gutter {
+  flex: none;
+  width: 30px;
+  overflow: hidden;
+  padding: 6px 6px 6px 0;
+  box-sizing: border-box;
+  text-align: right;
+  color: #2f5670;
+  border-right: 0.5px solid #166e95;
+  user-select: none;
+}
+
+.hud-ide__editor textarea {
+  flex: 1;
+  padding: 6px 8px;
+  resize: none;
+  font: inherit;
+  tab-size: 2;
+  white-space: pre;
+}
+
+.hud-ide__output {
+  position: absolute;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  font: 7px/9.5px ui-monospace, 'Cascadia Code', Consolas, monospace;
+  color: #a2d9f5;
+}
+
+.hud-ide__idle {
+  font: 500 7px/9px 'Orbitron', sans-serif;
+  letter-spacing: 0.12em;
+  color: #4f7b99;
 }
 
 /* ---- Voice deck: speaker ring, waveform, status lights ------------------- */

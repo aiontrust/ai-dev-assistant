@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
 import VoiceDeck from "./VoiceDeck";
+import { Hotspot, place } from "./Board";
 
 // The Figma frame ("Interactive Dashboard" > 591:103) exported as one SVG plate.
 // All coordinates below are in that frame's pixel space (895 x 692).
@@ -20,40 +20,6 @@ const CONSOLES = {
   gpt: { x: 683, y: 284.3, w: 171.5, h: 30.9, label: "GPT console" },
 };
 
-/** Scale factor that fits the HUD_W x HUD_H stage inside the element `ref` points at. */
-function useFitScale(ref) {
-  const [scale, setScale] = useState(1);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return undefined;
-    const update = () => {
-      const { clientWidth, clientHeight } = el;
-      if (clientWidth && clientHeight) {
-        setScale(Math.min(clientWidth / HUD_W, clientHeight / HUD_H));
-      }
-    };
-    update();
-    const observer = new ResizeObserver(update);
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [ref]);
-  return scale;
-}
-
-function Hotspot({ region, onClick, active = false }) {
-  return (
-    <button
-      type="button"
-      className="hud-hotspot"
-      aria-label={region.label}
-      title={region.label}
-      aria-pressed={active}
-      onClick={onClick}
-      style={{ left: region.x, top: region.y, width: region.w, height: region.h }}
-    />
-  );
-}
-
 function ConsoleReadout({ region, lines }) {
   const hasLines = Array.isArray(lines) && lines.length > 0;
   const shown = hasLines ? lines.slice(-3) : ["STANDBY"];
@@ -62,7 +28,7 @@ function ConsoleReadout({ region, lines }) {
       className={`hud-console${hasLines ? "" : " hud-console--idle"}`}
       role="log"
       aria-label={region.label}
-      style={{ left: region.x, top: region.y, width: region.w, height: region.h }}
+      style={place(region)}
     >
       {shown.map((line, i) => (
         <div className="hud-console__line" key={`${i}-${line}`}>
@@ -74,8 +40,8 @@ function ConsoleReadout({ region, lines }) {
 }
 
 /**
- * The main HUD. Renders the Figma plate scaled to fit its container and layers
- * the interactive parts on top.
+ * The main HUD frame: the Figma plate with the interactive parts on top.
+ * Rendered inside a <Board>, which does the scaling.
  *
  * Props:
  *  - onOpenGPT / onOpenIDE / onOpenTerminal: click handlers for the three buttons
@@ -92,34 +58,31 @@ export default function HudMain({
   feeds = {},
   voice,
 }) {
-  const viewportRef = useRef(null);
-  const scale = useFitScale(viewportRef);
-
   return (
-    <div className="hud-viewport" ref={viewportRef}>
-      <div
-        className="hud-canvas"
-        style={{ width: HUD_W, height: HUD_H, transform: `scale(${scale})` }}
-      >
-        <img
-          className="hud-plate"
-          src={`${process.env.PUBLIC_URL}/hud/dashboard.svg`}
-          width={HUD_W}
-          height={HUD_H}
-          alt="SATI AI development assistant HUD"
-          draggable={false}
-        />
+    <div className="hud-frame" style={{ left: 0, top: 0, width: HUD_W, height: HUD_H }}>
+      <img
+        className="hud-plate"
+        src={`${process.env.PUBLIC_URL}/hud/dashboard.svg`}
+        width={HUD_W}
+        height={HUD_H}
+        alt="SATI AI development assistant HUD"
+        draggable={false}
+      />
 
-        {voice && <VoiceDeck voice={voice} />}
+      {voice && <VoiceDeck voice={voice} />}
 
-        <ConsoleReadout region={CONSOLES.hud} lines={feeds.hud} />
-        <ConsoleReadout region={CONSOLES.ide} lines={feeds.ide} />
-        <ConsoleReadout region={CONSOLES.gpt} lines={feeds.gpt} />
+      <ConsoleReadout region={CONSOLES.hud} lines={feeds.hud} />
+      <ConsoleReadout region={CONSOLES.ide} lines={feeds.ide} />
+      <ConsoleReadout region={CONSOLES.gpt} lines={feeds.gpt} />
 
-        <Hotspot region={REGIONS.gptPopup} onClick={onOpenGPT} active={!!active.gpt} />
-        <Hotspot region={REGIONS.ide} onClick={onOpenIDE} active={!!active.ide} />
-        <Hotspot region={REGIONS.terminal} onClick={onOpenTerminal} active={!!active.terminal} />
-      </div>
+      <Hotspot box={REGIONS.gptPopup} label={REGIONS.gptPopup.label} onClick={onOpenGPT} active={!!active.gpt} />
+      <Hotspot box={REGIONS.ide} label={REGIONS.ide.label} onClick={onOpenIDE} active={!!active.ide} />
+      <Hotspot
+        box={REGIONS.terminal}
+        label={REGIONS.terminal.label}
+        onClick={onOpenTerminal}
+        active={!!active.terminal}
+      />
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-
-const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:8000";
+import { API_BASE } from "../utils/api";
 export const WAVE_BARS = 64;
 
 // Browsers record different containers: Chrome WebM, Firefox Ogg, Safari MP4.
