@@ -3,7 +3,7 @@ fastapi
 uvicorn
 websockets       # lets uvicorn accept WebSocket connections (/api/v1/ws)
 pydantic
-openai
+anthropic        # Claude, the default assistant model
 google-cloud-speech
 python-multipart  # needed for file uploads (UploadFile)
 psutil           # CPU / memory load for the HUD

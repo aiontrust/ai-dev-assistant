@@ -9,6 +9,7 @@ import useVoiceCapture from "../hooks/useVoiceCapture";
 import useSystemMetrics from "../hooks/useSystemMetrics";
 import useBuildStatus from "../hooks/useBuildStatus";
 import useWebSocket from "../hooks/useWebSocket";
+import useProviders from "../hooks/useProviders";
 import { API_BASE, askAssistant } from "../utils/api";
 import { buildStatus, serverStatus, terminalStatus } from "../utils/consoleStatus";
 import { speak, setSpeechEnabled, stopSpeaking } from "../utils/speech";
@@ -86,22 +87,41 @@ export default function Dashboard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [voice.transcript]);
 
+  // Model providers; polled while the assistant or terminal is open.
+  const providers = useProviders({ active: gptOpen || terminalOpen });
+
+  /** Sends a conversation; resolves to the backend's { reply, label, model, ... }. */
   const ask = useCallback(
-    async (prompt) => {
+    async (conversation) => {
       flow("chat");
-      const reply = await askAssistant(prompt);
+      const result = await askAssistant(conversation);
       flow("chat");
-      return reply;
+      return result;
     },
     [flow]
   );
 
+  /** Display name of a provider id (e.g. "claude" -> "Claude"). */
+  const labelOf = (id) => (id && providers.list?.providers.find((p) => p.id === id)?.label) || id;
+
   const sendChat = async (prompt) => {
+    // The whole conversation goes along, so the assistant keeps context.
+    const conversation = [
+      ...messages
+        .filter((m) => m.role === "user" || m.role === "assistant")
+        .map((m) => ({ role: m.role, content: m.text })),
+      { role: "user", content: prompt },
+    ];
     setMessages((m) => [...m, { role: "user", text: prompt }]);
     setPending(true);
     try {
-      const reply = await ask(prompt);
-      setMessages((m) => [...m, { role: "assistant", text: reply || "(empty reply)" }]);
+      const result = await ask(conversation);
+      const reply = result.reply || "(empty reply)";
+      setMessages((m) => [
+        ...m,
+        { role: "assistant", text: reply, via: `${result.label} · ${result.model}`, fallbackFrom: labelOf(result.fallback_from) },
+      ]);
+      providers.refresh();
       speak(reply, {
         onStart: () => setSpeaking(true),
         onBoundary: () => {
@@ -110,7 +130,8 @@ export default function Dashboard() {
         onEnd: () => setSpeaking(false),
       });
     } catch (e) {
-      setMessages((m) => [...m, { role: "system", text: `Assistant offline: ${e.message}` }]);
+      // The backend explains itself: no provider available, a refusal, unreachable...
+      setMessages((m) => [...m, { role: "system", text: e.message }]);
     } finally {
       setPending(false);
     }
@@ -136,7 +157,9 @@ export default function Dashboard() {
         print: printTerm,
         clear: () => setTermLines([]),
         history: termHistory,
-        ask,
+        ask: async (prompt) => (await ask([{ role: "user", content: prompt }])).reply,
+        providers: providers.list,
+        selectProvider: providers.select,
         open: (target) => {
           if (target === "gpt") setGptOpen(true);
           else setView(target);
@@ -217,6 +240,8 @@ export default function Dashboard() {
               messages={messages}
               pending={pending}
               onSend={sendChat}
+              providers={providers.list}
+              onSelectProvider={providers.select}
               onOpenCode={openCode}
               dictation={dictation}
               recording={voice.state === "recording"}

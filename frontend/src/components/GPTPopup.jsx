@@ -12,6 +12,7 @@ const ATTACH = { x: 15.5, y: 402.6, w: 15, h: 10 };
 const MIC = { x: 28.9, y: 402.3, w: 12.2, h: 10.5 };
 const SEND = { x: 166, y: 402.6, w: 13.6, h: 10.5 };
 const CLOSE = { x: 182.3, y: 2, w: 12.5, h: 12.5 };
+const MODEL = { x: 6, y: 3, w: 172, h: 10 }; // model picker, left of the close button
 
 const MAX_ATTACHMENT = 100 * 1024;
 
@@ -50,7 +51,47 @@ function Message({ message, onOpenCode }) {
           <span key={i}>{part.text}</span>
         )
       )}
+      {message.via && (
+        <div className="hud-chat__via">
+          via {message.via}
+          {message.fallbackFrom ? ` (${message.fallbackFrom} unavailable)` : ""}
+        </div>
+      )}
     </div>
+  );
+}
+
+/** Label for a provider in the picker: name, model, and whether it can answer. */
+function providerOption(p) {
+  return `${p.label}${p.model ? ` · ${p.model}` : ""}${p.available ? "" : " (offline)"}`;
+}
+
+/** Header picker for which model answers first. */
+function ModelPicker({ providers, onSelect }) {
+  if (!providers) {
+    return (
+      <div className="hud-chat__model hud-chat__model--offline" style={place(MODEL)}>
+        MODELS UNAVAILABLE (BACKEND OFFLINE)
+      </div>
+    );
+  }
+  const active = providers.providers.find((p) => p.active);
+  return (
+    <label className={`hud-chat__model${active?.available ? "" : " hud-chat__model--offline"}`} style={place(MODEL)}>
+      <i aria-hidden="true" />
+      <select
+        value={providers.active}
+        aria-label="Model that answers first"
+        title={active && !active.available ? active.reason : undefined}
+        onChange={(e) => onSelect(e.target.value)}
+      >
+        {providers.providers.map((p) => (
+          <option key={p.id} value={p.id} title={p.reason || undefined}>
+            {providerOption(p)}
+          </option>
+        ))}
+      </select>
+    </label>
   );
 }
 
@@ -58,7 +99,8 @@ function Message({ message, onOpenCode }) {
  * The GPT assistant popup.
  *
  * Props:
- *  - messages: [{ role: "user" | "assistant" | "system", text }]
+ *  - messages: [{ role: "user" | "assistant" | "system", text, via?, fallbackFrom? }]
+ *  - providers / onSelectProvider: model providers from useProviders() and the picker's handler
  *  - pending: true while waiting for a reply
  *  - onSend(prompt): send a prompt (any attached file is already folded in)
  *  - onOpenCode(code, lang): open a code block in the IDE
@@ -75,6 +117,8 @@ export default function GPTPopup({
   recording = false,
   onToggleMic,
   onClose,
+  providers = null,
+  onSelectProvider,
 }) {
   const [input, setInput] = useState("");
   const [attachment, setAttachment] = useState(null); // { name, text }
@@ -141,6 +185,8 @@ export default function GPTPopup({
         alt=""
         draggable={false}
       />
+
+      <ModelPicker providers={providers} onSelect={onSelectProvider} />
 
       <div
         className="hud-chat"
