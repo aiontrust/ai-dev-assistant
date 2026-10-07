@@ -18,12 +18,13 @@ const REGIONS = {
 };
 
 // Status consoles on the right panel ("RP Vector"): Figma frames Server / Terminal /
-// Build Console. `art` is the layer holding the label drawn on the plate, which is
-// replaced by `title` (the plate's lettering reads HUD / IDE / GPT).
+// Build Console, lettered HUD / IDE / GPT on the plate. `art` is the plate's label
+// layer; where `replace` is set it is hidden and that title drawn instead. The GPT
+// console keeps its lettering: it is the assistant reporting build results.
 const CONSOLES = {
-  server: { x: 683, y: 118.4, w: 171.5, h: 30.9, title: "SERVER", art: "SERVER", labelY: 110.5 },
-  terminal: { x: 683, y: 200, w: 171.5, h: 30.9, title: "TERMINAL", art: "IDE", labelY: 192.5 },
-  build: { x: 683, y: 284.3, w: 171.5, h: 30.9, title: "BUILD", art: "BUILD", labelY: 276.8 },
+  server: { x: 683, y: 118.4, w: 171.5, h: 30.9, title: "SERVER", art: "SERVER", replace: true, labelY: 110.5 },
+  terminal: { x: 683, y: 200, w: 171.5, h: 30.9, title: "TERMINAL", art: "IDE", replace: true, labelY: 192.5 },
+  build: { x: 683, y: 284.3, w: 171.5, h: 30.9, title: "GPT", art: "BUILD" },
 };
 
 function ConsoleReadout({ region, status }) {
@@ -74,7 +75,8 @@ export default function HudMain({
   // Hide the plate's own console lettering; the titles above are drawn instead.
   useEffect(() => {
     if (!plate) return;
-    Object.values(CONSOLES).forEach(({ art }) => {
+    Object.values(CONSOLES).forEach(({ art, replace }) => {
+      if (!replace) return;
       const el = plate.querySelector(`[id="${art}"]`);
       if (el) el.style.display = "none";
     });
@@ -94,7 +96,7 @@ export default function HudMain({
 
       {Object.entries(CONSOLES).map(([key, region]) => (
         <Fragment key={key}>
-          {plate && (
+          {plate && region.replace && (
             <div className="hud-console-title" style={{ left: 684.3, top: region.labelY }}>
               {region.title}
             </div>

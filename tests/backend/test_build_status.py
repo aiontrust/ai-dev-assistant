@@ -14,7 +14,7 @@ def fresh_cache():
     build_routes._cache.update(at=0.0, value=None)
 
 
-def run(**fields):
+def workflow_run(**fields):
     base = {
         "status": "completed",
         "conclusion": "success",
@@ -24,45 +24,89 @@ def run(**fields):
         "updated_at": "2026-10-06T02:30:36Z",
         "html_url": "https://github.com/aiontrust/ai-dev-assistant/actions/runs/1",
     }
-    return {**base, **fields}
+    return {"workflow_runs": [{**base, **fields}]}
 
 
-def test_completed_run_reports_its_conclusion(monkeypatch):
-    monkeypatch.setattr(build_routes, "_fetch_latest_run", lambda: run())
+def check_runs(*runs):
+    return {"check_runs": list(runs)}
+
+
+def fake_github(responses):
+    """Answers _get(path) from the first matching path fragment in `responses`."""
+
+    def get(path):
+        for fragment, body in responses.items():
+            if fragment in path:
+                if isinstance(body, Exception):
+                    raise body
+                return body
+        raise AssertionError(f"unexpected GitHub call: {path}")
+
+    return get
+
+
+def test_reports_ci_cloudflare_and_docker(monkeypatch):
+    monkeypatch.setattr(build_routes, "_get", fake_github({
+        "checks.yml": workflow_run(),
+        "check-runs": check_runs(
+            {"name": "Backend tests", "status": "completed", "conclusion": "success"},
+            {"name": "Workers Builds: ai-dev-assistant", "status": "completed", "conclusion": "success",
+             "head_sha": "d024c98aaaa", "completed_at": "2026-10-06T21:32:34Z"},
+        ),
+        "docker-publish.yml": workflow_run(conclusion="failure", display_title="Merge pull request #26"),
+    }))
 
     body = client.get("/api/v1/build").json()
 
-    assert body["status"] == "success"
-    assert body["branch"] == "main"
-    assert body["sha"] == "629bdb3"
-    assert body["title"] == "Merge pull request #28"
+    assert body["ci"]["status"] == "success"
+    assert body["ci"]["sha"] == "629bdb3"
+    assert body["cloudflare"]["status"] == "success"
+    assert body["cloudflare"]["sha"] == "d024c98"
+    assert body["docker"]["status"] == "failure"
+    assert body["docker"]["title"] == "Merge pull request #26"
 
 
 @pytest.mark.parametrize("status", ["queued", "in_progress"])
-def test_unfinished_run_reports_its_status(monkeypatch, status):
-    monkeypatch.setattr(build_routes, "_fetch_latest_run", lambda: run(status=status, conclusion=None))
+def test_unfinished_runs_report_their_status(monkeypatch, status):
+    monkeypatch.setattr(build_routes, "_get", fake_github({
+        "checks.yml": workflow_run(status=status, conclusion=None),
+        "check-runs": check_runs({"name": "Workers Builds: x", "status": status, "conclusion": None}),
+        "docker-publish.yml": {"workflow_runs": []},
+    }))
 
-    assert client.get("/api/v1/build").json()["status"] == status
+    body = client.get("/api/v1/build").json()
+
+    assert body["ci"]["status"] == status
+    assert body["cloudflare"]["status"] == status
+    assert body["docker"]["status"] == "none"
 
 
-def test_failure_to_reach_github_is_reported_not_raised(monkeypatch):
-    def boom():
-        raise OSError("network unreachable")
-
-    monkeypatch.setattr(build_routes, "_fetch_latest_run", boom)
+def test_one_unreachable_source_does_not_hide_the_others(monkeypatch):
+    monkeypatch.setattr(build_routes, "_get", fake_github({
+        "checks.yml": workflow_run(),
+        "check-runs": OSError("network unreachable"),
+        "docker-publish.yml": workflow_run(),
+    }))
 
     res = client.get("/api/v1/build")
 
     assert res.status_code == 200
-    assert res.json()["status"] == "unknown"
-    assert "network unreachable" in res.json()["error"]
+    body = res.json()
+    assert body["ci"]["status"] == "success"
+    assert body["cloudflare"]["status"] == "unknown"
+    assert "network unreachable" in body["cloudflare"]["error"]
 
 
 def test_results_are_cached(monkeypatch):
     calls = []
-    monkeypatch.setattr(build_routes, "_fetch_latest_run", lambda: calls.append(1) or run())
+
+    def get(path):
+        calls.append(path)
+        return check_runs() if "check-runs" in path else workflow_run()
+
+    monkeypatch.setattr(build_routes, "_get", get)
 
     client.get("/api/v1/build")
     client.get("/api/v1/build")
 
-    assert len(calls) == 1
+    assert len(calls) == 3
