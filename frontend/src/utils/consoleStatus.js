@@ -37,17 +37,56 @@ export function terminalStatus({ open, busy, last }) {
 const RUNNING = ["in_progress", "queued", "waiting", "requested", "pending"];
 const FAILED = ["failure", "cancelled", "timed_out", "startup_failure", "action_required"];
 
-/** Build: the latest CI run reported by the backend. */
-export function buildStatus(build, online, now = Date.now()) {
-  if (online === false) return null; // the last result would be stale
-  if (!build) return online ? { lines: ["CHECKING"], tone: "busy" } : null;
-  const where = [build.branch, build.sha].filter(Boolean).join(" ");
-  const age = build.updated_at ? ago(build.updated_at, now) : "";
-  const detail = [where, age].filter(Boolean).join("  ");
-  if (build.status === "success") return { lines: ["PASSING", detail, build.title], tone: "ok" };
-  if (FAILED.includes(build.status)) return { lines: ["FAILING", detail, build.title], tone: "warn" };
-  if (RUNNING.includes(build.status)) {
-    return { lines: [build.status === "queued" ? "QUEUED" : "RUNNING", detail, build.title], tone: "busy" };
+// Sources the GPT console reports on, in display order.
+const SOURCES = [
+  ["ci", "CI"],
+  ["cloudflare", "CF"],
+  ["docker", "DOCKER"],
+];
+
+function short(status) {
+  if (status === "success") return "PASS";
+  if (FAILED.includes(status)) return "FAIL";
+  if (RUNNING.includes(status)) return "RUN";
+  if (status === "none") return "--";
+  return "?";
+}
+
+/**
+ * GPT console: the assistant's build reports (GitHub CI, Cloudflare, Docker),
+ * from the backend's /api/v1/build summary.
+ */
+export function buildStatus(report, online, now = Date.now()) {
+  if (online === false) return null; // the last report would be stale
+  if (!report) return online ? { lines: ["CHECKING BUILDS"], tone: "busy" } : null;
+
+  const known = SOURCES.filter(([key]) => report[key]).map(([key, label]) => ({ label, ...report[key] }));
+  const running = known.filter((s) => RUNNING.includes(s.status));
+  const failing = known.filter((s) => FAILED.includes(s.status));
+
+  let head;
+  let tone;
+  if (running.length) {
+    head = `${running.map((s) => s.label).join(" + ")} BUILDING`;
+    tone = "busy";
+  } else if (failing.length) {
+    head = `${failing.map((s) => s.label).join(" + ")} FAILING`;
+    tone = "warn";
+  } else if (known.length && known.every((s) => s.status === "success" || s.status === "none")) {
+    head = "ALL PASSING";
+    tone = "ok";
+  } else {
+    head = "STATUS UNKNOWN";
+    tone = "warn";
   }
-  return { lines: ["UNKNOWN", build.error || detail], tone: "warn" };
+
+  const summary = known.map((s) => `${s.label} ${short(s.status)}`).join("  ");
+  const latest = known
+    .filter((s) => s.updated_at)
+    .sort((a, b) => Date.parse(b.updated_at) - Date.parse(a.updated_at))[0];
+  const event = latest
+    ? [latest.label, short(latest.status), latest.sha, ago(latest.updated_at, now)].filter(Boolean).join(" ")
+    : "";
+
+  return { lines: [head, summary, event].filter(Boolean), tone };
 }

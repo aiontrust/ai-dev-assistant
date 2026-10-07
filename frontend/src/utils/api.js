@@ -33,7 +33,7 @@ export async function getMetrics() {
   return res.json();
 }
 
-/** Latest CI run reported by the backend: { status, branch, sha, title, updated_at, url, error? }. */
+/** Latest build results: { ci, cloudflare, docker }, each { status, branch, sha, title, updated_at, url, error? }. */
 export async function getBuildStatus() {
   const res = await fetch(`${API_BASE}/api/v1/build`);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);

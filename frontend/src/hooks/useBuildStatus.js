@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { getBuildStatus } from "../utils/api";
 
 /**
- * Polls the backend for the latest CI run (the backend caches GitHub for 2 min).
+ * Polls the backend for the latest CI, Cloudflare and Docker build results (the backend
+ * caches GitHub for 5 min).
  * Returns the backend's summary, or null before the first answer / while offline.
  */
 export default function useBuildStatus(intervalMs = 60000) {
