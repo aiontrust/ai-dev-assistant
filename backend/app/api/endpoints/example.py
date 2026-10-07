@@ -1,7 +1,10 @@
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, HTTPException
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import HTMLResponse
-from app.models.example_model import GPTRequest
-import openai
+
+from app.assistant.providers import ProviderRefused
+from app.assistant.registry import NoProviderAvailable
+from app.routes.assistant_routes import assistant
 
 # Initialize FastAPI router
 router = APIRouter()
@@ -13,19 +16,6 @@ async def test_endpoint():
         <h1>Welcome to the AI Development Assistant</h1>
         <p>Use this platform for real-time coding, debugging, and testing assistance.</p>
     """)
-
-# GPT Route
-@router.post("/gpt")
-def get_gpt_response(request: GPTRequest):
-    try:
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=request.prompt,
-            max_tokens=request.max_tokens,
-        )
-        return {"response": response.choices[0].text.strip()}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error: {e}")
 
 # WebSocket for Real-Time Updates
 @router.websocket("/ws")
@@ -39,12 +29,11 @@ async def websocket_endpoint(websocket: WebSocket):
             if data == "ping":
                 await websocket.send_text("pong")
                 continue
+            # Any other text is a one-off prompt for the assistant.
             try:
-                response = openai.Completion.create(
-                    engine="text-davinci-003", prompt=data, max_tokens=150
-                )
-                await websocket.send_text(response.choices[0].text.strip())
-            except Exception as e:
+                result = await run_in_threadpool(assistant.chat, [{"role": "user", "content": data}])
+                await websocket.send_text(result["reply"])
+            except (NoProviderAvailable, ProviderRefused) as e:
                 # Report assistant failures without dropping the connection.
                 await websocket.send_text(f"ERROR: {e}")
     except WebSocketDisconnect:
