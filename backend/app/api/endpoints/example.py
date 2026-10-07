@@ -1,4 +1,4 @@
-from fastapi import APIRouter, WebSocket, HTTPException
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect, HTTPException
 from fastapi.responses import HTMLResponse
 from app.models.example_model import GPTRequest
 import openai
@@ -35,10 +35,17 @@ async def websocket_endpoint(websocket: WebSocket):
     try:
         while True:
             data = await websocket.receive_text()
-            response = openai.Completion.create(
-                engine="text-davinci-003", prompt=data, max_tokens=150
-            )
-            await websocket.send_text(response.choices[0].text.strip())
-    except Exception as e:
-        await websocket.close()
-        print(f"WebSocket closed: {e}")
+            # The HUD pings to measure round-trip time and keep the link alive.
+            if data == "ping":
+                await websocket.send_text("pong")
+                continue
+            try:
+                response = openai.Completion.create(
+                    engine="text-davinci-003", prompt=data, max_tokens=150
+                )
+                await websocket.send_text(response.choices[0].text.strip())
+            except Exception as e:
+                # Report assistant failures without dropping the connection.
+                await websocket.send_text(f"ERROR: {e}")
+    except WebSocketDisconnect:
+        pass

@@ -23,6 +23,11 @@ const TRACES = {
   RPV2: "RPV2", // Terminal console end
   RPV3: "RPV3", // Build console end
   RPV4: "RPV4", // speaker end
+  OVL1: "OVL1", // Output Vector edge lights, bottom (OVL1) to top (OVL5)
+  OVL2: "OVL2",
+  OVL3: "OVL3",
+  OVL4: "OVL4",
+  OVL5: "OVL5",
 };
 
 // Which traces light, and when (ms), for each kind of data movement.
@@ -32,6 +37,8 @@ const FLOWS = {
   terminal: [["L3", 0]],
   chat: [["L4", 0], ["L6", 140]],
   backend: [["L6", 0]],
+  socket: [["L6", 0]],
+  outputs: [["OVL5", 0], ["OVL4", 60], ["OVL3", 120], ["OVL2", 180], ["OVL1", 240]],
   "console:server": [["RPV4", 0], ["RP", 90], ["RPV1", 200]],
   "console:terminal": [["RPV4", 0], ["RP", 90], ["RPV2", 200]],
   "console:build": [["RPV4", 0], ["RP", 90], ["RPV3", 200]],

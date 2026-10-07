@@ -8,6 +8,7 @@ import { createLightSignals, pulse } from "../components/HUD/hudLights";
 import useVoiceCapture from "../hooks/useVoiceCapture";
 import useSystemMetrics from "../hooks/useSystemMetrics";
 import useBuildStatus from "../hooks/useBuildStatus";
+import useWebSocket from "../hooks/useWebSocket";
 import { API_BASE, askAssistant } from "../utils/api";
 import { buildStatus, serverStatus, terminalStatus } from "../utils/consoleStatus";
 import { speak, setSpeechEnabled, stopSpeaking } from "../utils/speech";
@@ -41,7 +42,13 @@ export default function Dashboard() {
   // Shared state the HUD's light engine reads every frame.
   const lights = useRef(createLightSignals()).current;
   const flow = useCallback((name) => pulse(lights, name), [lights]);
-  const metrics = useSystemMetrics({ onPoll: () => flow("metrics") });
+  const metrics = useSystemMetrics({
+    onPoll: () => {
+      flow("metrics");
+      flow("outputs");
+    },
+  });
+  const link = useWebSocket({ onActivity: () => flow("socket") });
   const [speaking, setSpeaking] = useState(false);
 
   const build = useBuildStatus();
@@ -189,6 +196,8 @@ export default function Dashboard() {
             status={status}
             voice={voice}
             lights={lights}
+            metrics={metrics}
+            link={link}
           />
         ) : (
           <IdeFrame
