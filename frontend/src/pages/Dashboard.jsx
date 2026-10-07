@@ -9,6 +9,7 @@ import useVoiceCapture from "../hooks/useVoiceCapture";
 import useSystemMetrics from "../hooks/useSystemMetrics";
 import useBuildStatus from "../hooks/useBuildStatus";
 import useWebSocket from "../hooks/useWebSocket";
+import useMetricsHistory from "../hooks/useMetricsHistory";
 import { API_BASE, askAssistant } from "../utils/api";
 import { buildStatus, serverStatus, terminalStatus } from "../utils/consoleStatus";
 import { speak, setSpeechEnabled, stopSpeaking } from "../utils/speech";
@@ -52,6 +53,7 @@ export default function Dashboard() {
   const [speaking, setSpeaking] = useState(false);
 
   const build = useBuildStatus();
+  const history = useMetricsHistory(metrics);
   const voice = useVoiceCapture();
 
   const [messages, setMessages] = useState([]);
@@ -198,6 +200,8 @@ export default function Dashboard() {
             lights={lights}
             metrics={metrics}
             link={link}
+            history={history}
+            build={build}
           />
         ) : (
           <IdeFrame
