@@ -628,3 +628,89 @@
   letter-spacing: 0.12em;
   color: #4f9fc4;
 }
+/* ---- Prometheus Console: CPU / memory history ---------------------------- */
+.hud-monitor {
+  position: absolute;
+  pointer-events: none;
+}
+
+.hud-monitor canvas,
+.hud-globe canvas,
+.hud-ws-waves {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hud-ws-waves {
+  position: absolute;
+  pointer-events: none;
+}
+
+.hud-monitor__head {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 9px;
+  display: flex;
+  justify-content: space-between;
+  font: 700 5px/1 'Orbitron', sans-serif;
+  letter-spacing: 0.08em;
+  color: #71dfff;
+}
+
+.hud-monitor__mem {
+  color: #a6d6a4;
+}
+
+.hud-monitor__foot {
+  position: absolute;
+  left: 8px;
+  bottom: 4px;
+  font: 600 3.8px/1 'Orbitron', sans-serif;
+  letter-spacing: 0.14em;
+  color: #4f7b99;
+}
+
+/* ---- Frame 8: deployment globe ------------------------------------------- */
+.hud-globe {
+  position: absolute;
+  pointer-events: none;
+}
+
+.hud-globe canvas {
+  height: auto;
+}
+
+.hud-globe__legend {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  font: 600 4.2px/1 'Orbitron', sans-serif;
+  letter-spacing: 0.1em;
+  color: #8fbfd9;
+}
+
+.hud-globe__item {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.hud-globe__item i {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #4f7b99;
+}
+
+.hud-globe__item--ok i { background: #a6d6a4; box-shadow: 0 0 3px #a6d6a4; }
+.hud-globe__item--warn i { background: #e0a35c; box-shadow: 0 0 3px #e0a35c; }
+.hud-globe__item--busy i { background: #71dfff; box-shadow: 0 0 3px #71dfff; animation: hud-blink 1s ease-in-out infinite; }

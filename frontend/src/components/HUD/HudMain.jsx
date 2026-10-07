@@ -2,6 +2,8 @@ import { Fragment, useEffect, useState } from "react";
 import VoiceDeck from "./VoiceDeck";
 import HudPlate from "./HudPlate";
 import PerformanceMetrics from "./PerformanceMetrics";
+import MonitoringLogging from "./MonitoringLogging";
+import DeploymentGlobe from "./DeploymentGlobe";
 import WebSocketStatus from "./WebSocketStatus";
 import { Hotspot, place } from "./Board";
 import { SLOTS } from "./hudLayout";
@@ -62,6 +64,8 @@ function ConsoleReadout({ region, status }) {
  *  - lights: signal object from createLightSignals(); drives the plate's lights
  *  - metrics: object from useSystemMetrics(); fills the Output Vector boxes
  *  - link: object from useWebSocket(); drives the WebSocket screen and WaveConsoles
+ *  - history: recent { cpu, memory } readings for the Prometheus Console chart
+ *  - build: backend build report ({ ci, cloudflare, docker }) for the deployment globe
  */
 export default function HudMain({
   onOpenGPT,
@@ -73,6 +77,8 @@ export default function HudMain({
   lights,
   metrics,
   link,
+  history,
+  build,
 }) {
   const [plate, setPlate] = useState(null);
   useHudLights(lights ? plate : null, lights, voice);
@@ -101,6 +107,8 @@ export default function HudMain({
       {voice && <VoiceDeck voice={voice} />}
       {metrics && <PerformanceMetrics metrics={metrics} />}
       {link && <WebSocketStatus link={link} />}
+      {history && <MonitoringLogging history={history} />}
+      {lights && <DeploymentGlobe report={build} online={lights.online} />}
 
       {Object.entries(CONSOLES).map(([key, region]) => (
         <Fragment key={key}>
