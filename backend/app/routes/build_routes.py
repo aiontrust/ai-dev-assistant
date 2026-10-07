@@ -9,10 +9,11 @@ router = APIRouter()
 
 # What the HUD's GPT console reports on: CI checks, the Docker image workflow and
 # Cloudflare's Workers Builds (which posts its result to GitHub as a check run).
-REPO = os.getenv("GITHUB_REPO", "aiontrust/ai-dev-assistant")
-BRANCH = os.getenv("GITHUB_BRANCH", "main")
-CI_WORKFLOW = os.getenv("GITHUB_WORKFLOW", "checks.yml")
-DOCKER_WORKFLOW = os.getenv("DOCKER_WORKFLOW", "docker-publish.yml")
+# Settings use a HUD_ prefix: GitHub Actions itself sets GITHUB_WORKFLOW and friends.
+REPO = os.getenv("HUD_GITHUB_REPO", "aiontrust/ai-dev-assistant")
+BRANCH = os.getenv("HUD_GITHUB_BRANCH", "main")
+CI_WORKFLOW = os.getenv("HUD_CI_WORKFLOW", "checks.yml")
+DOCKER_WORKFLOW = os.getenv("HUD_DOCKER_WORKFLOW", "docker-publish.yml")
 CLOUDFLARE_CHECK = "Workers Builds"
 # Three GitHub calls per refresh; unauthenticated, GitHub allows 60 an hour.
 CACHE_SECONDS = 300
