@@ -98,7 +98,12 @@ export default function HudMain({
         </div>
       )}
 
-      {voice && <VoiceDeck voice={voice} />}
+      {voice && (
+        <VoiceDeck
+          voice={voice}
+          assistant={{ thinking: lights?.thinking, speaking: lights?.speaking, online: lights?.online }}
+        />
+      )}
       {metrics && <PerformanceMetrics metrics={metrics} />}
       {link && <WebSocketStatus link={link} />}
 

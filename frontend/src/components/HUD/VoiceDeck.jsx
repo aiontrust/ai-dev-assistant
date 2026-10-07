@@ -85,12 +85,25 @@ function drawWave(canvas, levels, color = "#71dfff") {
 }
 
 /**
- * Live voice widgets on the HUD: the speaker ring (click to record), the
- * waveform panel, and the REC / PROC / SENT status lights.
- *
- * `voice` is the object returned by useVoiceCapture().
+ * The word in the speaker's centre (the inspiration HUD's "PROGRESSING"):
+ * what the assistant is doing right now, most urgent first.
  */
-export default function VoiceDeck({ voice }) {
+export function speakerWord(voice, { thinking = false, speaking = false, online = null } = {}) {
+  if (voice.state === "recording") return "LISTENING";
+  if (voice.state === "processing" || thinking) return "PROCESSING";
+  if (speaking) return "SPEAKING";
+  if (online === false) return "OFFLINE";
+  return "STANDBY";
+}
+
+/**
+ * Live voice widgets on the HUD: the speaker ring (click to record) with its
+ * status word, the waveform panel, and the REC / PROC / SENT status lights.
+ *
+ * `voice` is the object returned by useVoiceCapture(); `assistant` is
+ * { thinking, speaking, online } for the status word.
+ */
+export default function VoiceDeck({ voice, assistant }) {
   const { state, levelsRef, toggle } = voice;
   const glowRef = useRef(null);
   const canvasRef = useRef(null);
@@ -137,6 +150,7 @@ export default function VoiceDeck({ voice }) {
 
   const sp = SLOTS.speaker;
   const wave = SLOTS.waveform;
+  const word = speakerWord(voice, assistant);
 
   return (
     <>
@@ -163,6 +177,16 @@ export default function VoiceDeck({ voice }) {
           <i />
         </span>
       </button>
+
+      {/* Separate from the button so its label stays the action, not the state. */}
+      <div
+        className={`hud-speaker-word hud-speaker-word--${word.toLowerCase()}`}
+        role="status"
+        aria-label={`Assistant ${word.toLowerCase()}`}
+        style={{ left: sp.x, top: sp.y + sp.h / 2 - 8, width: sp.w }}
+      >
+        <span key={word}>{word}</span>
+      </div>
 
       <canvas
         ref={canvasRef}
