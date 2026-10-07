@@ -628,3 +628,45 @@
   letter-spacing: 0.12em;
   color: #4f9fc4;
 }
+/* ---- Speaker status word (the inspiration HUD's "PROGRESSING") ----------- */
+.hud-speaker-word {
+  position: absolute;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  font: 700 9.5px/1 'Orbitron', sans-serif;
+  letter-spacing: 0.16em;
+  color: #dff6ff;
+  text-shadow: 0 0 4px rgba(113, 223, 255, 0.9), 0 0 10px rgba(113, 223, 255, 0.5);
+  pointer-events: none;
+}
+
+.hud-speaker-word span {
+  animation: hud-word-in 280ms ease-out;
+}
+
+.hud-speaker-word--standby {
+  color: #8fbfd9;
+  text-shadow: 0 0 4px rgba(113, 223, 255, 0.35);
+}
+
+.hud-speaker-word--offline {
+  color: #e0a35c;
+  text-shadow: 0 0 4px rgba(224, 163, 92, 0.6);
+}
+
+.hud-speaker-word--processing span {
+  animation: hud-word-in 280ms ease-out, hud-blink 1.4s ease-in-out 280ms infinite;
+}
+
+@keyframes hud-word-in {
+  from { opacity: 0; letter-spacing: 0.4em; }
+  to { opacity: 1; letter-spacing: 0.16em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hud-speaker-word span,
+  .hud-speaker-word--processing span {
+    animation: none;
+  }
+}
