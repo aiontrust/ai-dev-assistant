@@ -1,6 +1,8 @@
 import { Fragment, useEffect, useState } from "react";
 import VoiceDeck from "./VoiceDeck";
 import HudPlate from "./HudPlate";
+import PerformanceMetrics from "./PerformanceMetrics";
+import WebSocketStatus from "./WebSocketStatus";
 import { Hotspot, place } from "./Board";
 import { SLOTS } from "./hudLayout";
 import { useHudLights } from "./hudLights";
@@ -57,6 +59,8 @@ function ConsoleReadout({ region, status }) {
  *  - voice: the object from useVoiceCapture(); when given, the speaker ring,
  *    waveform and Audio Vector consoles come alive
  *  - lights: signal object from createLightSignals(); drives the plate's lights
+ *  - metrics: object from useSystemMetrics(); fills the Output Vector boxes
+ *  - link: object from useWebSocket(); drives the WebSocket screen and WaveConsoles
  */
 export default function HudMain({
   onOpenGPT,
@@ -66,6 +70,8 @@ export default function HudMain({
   status = {},
   voice,
   lights,
+  metrics,
+  link,
 }) {
   const [plate, setPlate] = useState(null);
   useHudLights(lights ? plate : null, lights, voice);
@@ -91,6 +97,8 @@ export default function HudMain({
       )}
 
       {voice && <VoiceDeck voice={voice} />}
+      {metrics && <PerformanceMetrics metrics={metrics} />}
+      {link && <WebSocketStatus link={link} />}
 
       {Object.entries(CONSOLES).map(([key, region]) => (
         <Fragment key={key}>

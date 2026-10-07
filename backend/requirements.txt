@@ -1,6 +1,7 @@
 # To ensure app dependencies are ported from your virtual environment/host machine into your container, run 'pip freeze > requirements.txt' in the terminal to overwrite this file
 fastapi
 uvicorn
+websockets       # lets uvicorn accept WebSocket connections (/api/v1/ws)
 pydantic
 openai
 google-cloud-speech
