@@ -42,3 +42,20 @@ jobs:
       - run: pytest -q tests/backend
         env:
           PYTHONPATH: backend
+
+  avatar:
+    name: Avatar tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: avatar
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: avatar/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+      - run: npm run build
