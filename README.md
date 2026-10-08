@@ -1,3 +1,5 @@
+The embeddable 3D avatar (VRM / Three.js) is documented in [avatar/README.md](avatar/README.md).
+
 project_root/
 │
 ├── .vscode/
