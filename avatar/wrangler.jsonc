@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ai-dev-avatar",
+  "compatibility_date": "2026-10-08",
+  "assets": {
+    "directory": "./dist",
+    // Keep /demo.html and /embed.html at those exact URLs. A trailing-slash
+    // rewrite would make the relative ./assets links resolve under the wrong path.
+    "html_handling": "none",
+    // No SPA fallback. These are real HTML files, and serving index.html from a
+    // nested path would make the relative ./assets URLs miss.
+    "not_found_handling": "none"
+  },
+  // Required by Worker Previews, which Workers Builds runs for non-production
+  // branches. Empty: previews serve the same static dist/.
+  "previews": {}
+}

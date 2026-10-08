@@ -6,7 +6,7 @@ The bust is framed on the head and shoulders over a transparent canvas. The page
 
 ## Model
 
-No `.vrm` is committed. Pixiv's three-vrm examples (including `VRM1_Constraint_Twist_Sample`) are under the [VRM Public License 1.0](https://vrm.dev/licenses/1.0/), not a permissive license: redistribution defaults to off, and use is limited by each file's meta. Until you export a character from VRoid Studio, the module draws a procedural placeholder and drives the same behaviours on it.
+No `.vrm` is committed. Pixiv's three-vrm examples (including `VRM1_Constraint_Twist_Sample`) are under the [VRM Public License 1.0](https://vrm.dev/licenses/1.0/), not a permissive license: redistribution defaults to off, and use is limited by each file's meta. Until you export a character from VRoid Studio, the module draws a procedural placeholder and drives the same behaviours on it. That mesh is compiled into the JavaScript in `dist/assets/`; the demo does not fetch a model file unless you set a URL.
 
 Loading another model does not require a code change:
 
@@ -36,12 +36,12 @@ VRM expressions used for host names:
 cd avatar
 npm install
 npm test
-npm run dev    # demo page with a control for every message
-npm run build  # static avatar/dist (index.html is the embed, demo.html is the panel)
+npm run dev    # demo at /, also available at /demo.html
+npm run build  # static avatar/dist for the webview and for Cloudflare
 npm run preview
 ```
 
-`dist/` is a build output and is not committed. Copy it into the extension (for example `media/avatar`) before packaging.
+`dist/` is a build output and is not committed. `/` and `/demo.html` are the demo (avatar plus control panel). `/embed.html` is the same bust without the panel, which is what the webview should load. Asset URLs are relative (`./assets/…`), so they resolve when `dist/` is the site root. Copy `dist/` into the extension (for example `media/avatar`) before packaging.
 
 ## Behaviours
 
@@ -91,7 +91,7 @@ Invalid host messages with a string `type` produce an `error` reply. The avatar 
 
 ## VS Code webview
 
-Framework-agnostic. Copy `avatar/dist` to `media/avatar` inside the extension. The built HTML uses relative `./assets/…` URLs and no `crossorigin` attribute, so the snippet below can rewrite them with `asWebviewUri`.
+Framework-agnostic. Copy `avatar/dist` to `media/avatar` inside the extension and load `embed.html` (not the demo). The built HTML uses relative `./assets/…` URLs and no `crossorigin` attribute, so the snippet below can rewrite them with `asWebviewUri`.
 
 ```js
 const vscode = require('vscode');
@@ -99,7 +99,7 @@ const fs = require('fs');
 const path = require('path');
 
 function avatarHtml(webview, distUri) {
-  const indexPath = path.join(distUri.fsPath, 'index.html');
+  const indexPath = path.join(distUri.fsPath, 'embed.html');
   let html = fs.readFileSync(indexPath, 'utf8');
   html = html.replace(/(href|src)="\.\/([^"]+)"/g, (_, attr, rel) => {
     const uri = webview.asWebviewUri(vscode.Uri.joinPath(distUri, rel));
@@ -166,11 +166,24 @@ vscode.window.registerWebviewViewProvider('sati.avatar', {
 "views": { "sati": [{ "type": "webview", "id": "sati.avatar", "name": "Avatar" }] }
 ```
 
-Audio and model URLs must be allowed by `connect-src` / `media-src`. `speechSynthesis` is the browser API inside the Chromium webview; a missing voice still moves the mouth. For a fully transparent webview, load `index.html?background=transparent` (rewrite that query in the HTML or set the body class yourself).
+Audio and model URLs must be allowed by `connect-src` / `media-src`. `speechSynthesis` is the browser API inside the Chromium webview; a missing voice still moves the mouth. For a fully transparent webview, load `embed.html?background=transparent` (rewrite that query in the HTML or set the body class yourself).
+
+## Cloudflare
+
+`avatar/wrangler.jsonc` publishes `dist/` as Workers static assets under the name `ai-dev-avatar`. The file has no account id, token, or other credentials. Do not put those in the repo. Connect the Git repository in the Cloudflare dashboard (Workers Builds) with:
+
+| Setting | Value |
+| --- | --- |
+| Root directory | `avatar` |
+| Build command | `npm run build` |
+| Deploy command | `npx wrangler deploy` |
+| Node.js version | 22 |
+
+The worker origin serves the demo at `/` and `/demo.html`. `/embed.html` is the panel-free page. There is no single-page-application fallback: these are real HTML files, and a fallback that served `index.html` from some other path would break the relative `./assets` URLs. `html_handling` is `none` for the same reason (no trailing-slash redirect).
 
 ## Embedding in the HUD later
 
-The React app does not import this package. When you want it on the dashboard, either iframe `dist/index.html` or mount the runtime from a bundler that compiles this TypeScript:
+The React app does not import this package. When you want it on the dashboard, either iframe `dist/embed.html` (or `dist/index.html` for the demo) or mount the runtime from a bundler that compiles this TypeScript:
 
 ```ts
 import { mountAvatar } from '../avatar/src/avatar';

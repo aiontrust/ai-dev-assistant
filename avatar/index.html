@@ -3,10 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SATI Avatar</title>
+    <title>SATI Avatar demo</title>
   </head>
-  <body class="embed">
-    <div id="avatar"></div>
-    <script type="module" src="/src/main.ts"></script>
+  <body class="demo">
+    <div class="demo-shell">
+      <div class="stage">
+        <div id="avatar"></div>
+        <div class="brackets" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+      </div>
+      <aside id="panel"></aside>
+    </div>
+    <script type="module" src="/src/demo/main.ts"></script>
   </body>
 </html>

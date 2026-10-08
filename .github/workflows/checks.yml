@@ -59,3 +59,17 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - run: npm test
       - run: npm run build
+      - name: Demo is servable from the site root
+        run: node --input-type=module -e "
+          import { readdirSync, readFileSync } from 'node:fs';
+          for (const page of ['index.html', 'demo.html', 'embed.html']) {
+            const html = readFileSync('dist/' + page, 'utf8');
+            if (!html.includes('./assets/')) throw new Error(page + ' is missing relative asset URLs');
+            if (html.includes('crossorigin')) throw new Error(page + ' still has crossorigin');
+          }
+          const bundled = readdirSync('dist/assets')
+            .filter((name) => name.endsWith('.js'))
+            .map((name) => readFileSync('dist/assets/' + name, 'utf8'))
+            .join('\n');
+          if (!bundled.includes('placeholder-bust')) throw new Error('procedural placeholder is not in dist');
+          "

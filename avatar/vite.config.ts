@@ -1,8 +1,9 @@
 import { resolve } from 'node:path';
 import { defineConfig } from 'vitest/config';
 
-// Relative asset URLs and no `crossorigin` so a VS Code webview can rewrite
-// dist/index.html with asWebviewUri without extra module-preload requests.
+// `./assets/…` resolves correctly when the worker serves dist/ at the site root
+// (`/`, `/demo.html`, `/embed.html`) and can be rewritten with asWebviewUri.
+// No `crossorigin`, so the webview CSP does not need a second origin.
 export default defineConfig({
   base: './',
   server: {
@@ -22,6 +23,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         demo: resolve(__dirname, 'demo.html'),
+        embed: resolve(__dirname, 'embed.html'),
       },
     },
   },
